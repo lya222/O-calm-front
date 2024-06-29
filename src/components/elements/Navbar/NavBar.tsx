@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 function NavBar() {
   return (
-    <Box sx={{ width: 500 }}>
+    <Box sx={{ p: 2, m: "auto" }}>
       <BottomNavigation showLabels>
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction label="Search" icon={<SearchIcon />} />
