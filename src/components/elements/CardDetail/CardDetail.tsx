@@ -5,12 +5,14 @@ import {
   Box,
   Button,
   CardMedia,
+  Checkbox,
   Chip,
   Stack,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Carousel from "react-material-ui-carousel";
+import { useState } from "react";
 
 function CardDetail() {
   const item = {
@@ -27,6 +29,16 @@ function CardDetail() {
       { id: 2, name: "montagne", color: "green" },
     ],
     images: ["/image/image.png", "/image/pokemon2.png"],
+  };
+
+  const [checkedItems, setCheckedItems] = useState(
+    new Array(item.route.length).fill(false)
+  );
+
+  const handleCheckBoxChange = (index: number) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
   };
 
   return (
@@ -70,9 +82,21 @@ function CardDetail() {
         </AccordionSummary>
         <AccordionDetails>
           {item.route.map((etape, i) => (
-            <Typography variant="h6">
-              {i} - {etape}
-            </Typography>
+            <div key={i}>
+              <Typography
+                variant="h6"
+                sx={{
+                  textDecoration: checkedItems[i] ? "line-through" : "none",
+                }}
+              >
+                <Checkbox
+                  checked={checkedItems[i]}
+                  onChange={() => handleCheckBoxChange(i)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />{" "}
+                {i} - {etape}
+              </Typography>
+            </div>
           ))}
         </AccordionDetails>
       </Accordion>
