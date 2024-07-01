@@ -10,18 +10,12 @@ import Homes from "./components/pages/Homes/Homes.tsx";
 import { Provider } from "react-redux";
 import store from "./store";
 import Header from "./components/layouts/Header/Header.tsx";
+import App from "./components/pages/App/App.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <CardPlace />
-    <CardDetail />
-    <Logout />
-    <Registration />
-    <NavBar /> */}
-      <Header />
-
-      <NavBar />
+      <App />
     </Provider>
   </React.StrictMode>
 );
