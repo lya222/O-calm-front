@@ -12,3 +12,10 @@ export interface Tag {
   name: string;
   color: string;
 }
+
+// export interface Jokes {
+//   icon_url: string;
+//   id: string;
+//   url:string;
+//   value:string;
+// }

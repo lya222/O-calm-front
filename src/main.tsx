@@ -8,7 +8,8 @@ import Logout from "./components/elements/Logout/Logout.tsx";
 import Registration from "./components/elements/Registration/Registration.tsx";
 import Homes from "./components/pages/Homes/Homes.tsx";
 import { Provider } from "react-redux";
-import store from "./store/selectors/index.ts";
+import store from "./store";
+import Header from "./components/layouts/Header/Header.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Logout />
     <Registration />
     <NavBar /> */}
-      <CardPlace />
+      <Header />
+
+      <NavBar />
     </Provider>
   </React.StrictMode>
 );

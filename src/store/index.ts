@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "../reducers";
+import placesReducer from "./reducers/placesReducer";
 
 const store = configureStore({
-  reducer,
+  reducer: { places: placesReducer },
 });
-
-export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export default store;

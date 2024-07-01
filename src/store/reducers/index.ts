@@ -1,8 +1,8 @@
-import placesReducer from "./places";
+import placesReducer from "./placesReducer";
 
-const reducer = {
+const rootReducer = {
   places: placesReducer,
   // user: userReducer,
 };
 
-export default reducer;
+export default rootReducer;

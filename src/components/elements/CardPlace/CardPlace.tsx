@@ -1,6 +1,17 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Carousel from "react-material-ui-carousel";
 import { useAppSelector } from "../../../hooks/redux";
+import { loadPlaces } from "../../../store/reducers/placesReducer";
 
 function CardPlace() {
   console.log("CardPlace component rendered");
@@ -9,26 +20,42 @@ function CardPlace() {
   //   description: "Ceci est la description de pokemon city",
   //   images: ["/image/image.png", "/image/pokemon2.png"],
   // };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadPlaces());
+  }, [dispatch]);
+
   const items = useAppSelector((state) => state.places.list);
-  const isLoading = useAppSelector(())
+  const isLoading = useAppSelector((state) => state.places.loading);
+  const error = useAppSelector((state) => state.places.error);
+
+  console.log("places", items);
+  console.log("isLoading", isLoading);
+  console.log("error", error);
+
   if (items.length === 0) {
+    console.log(isLoading);
     return <div>Aucun lieu trouvé</div>;
   }
-
-  console.log(items[0]);
   return (
     <>
-    {}
-      <div>{items[0].name}</div>
+      {/* {isLoading ? (
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+          <div>essai</div>
+        </Box>
+      ) : ( */}
       {items.map((item) => (
         <Card sx={{ maxWidth: 300, borderRadius: 5, padding: 5, m: "auto" }}>
           <Carousel>
-            {item.images.map((image, index) => (
+            {item.images.map((picture, index) => (
               <CardMedia
                 key={index}
                 component="img"
                 height="200"
-                image={image}
+                image={picture}
                 alt="photo lieu"
               />
             ))}
@@ -43,9 +70,13 @@ function CardPlace() {
             <Typography variant="body2" color="text.secondary">
               {item.description}
             </Typography>
+            <Button variant="contained" disableElevation>
+              Voir le site
+            </Button>
           </CardContent>
         </Card>
       ))}
+      {/* )} */}
     </>
   );
 }
