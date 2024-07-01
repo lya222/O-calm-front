@@ -4,11 +4,21 @@ import "./styles/index.scss";
 import CardPlace from "./components/elements/CardPlace/CardPlace.tsx";
 import NavBar from "./components/elements/Navbar/NavBar.tsx";
 import CardDetail from "./components/elements/CardDetail/CardDetail.tsx";
+import Logout from "./components/elements/Logout/Logout.tsx";
+import Registration from "./components/elements/Registration/Registration.tsx";
+import Homes from "./components/pages/Homes/Homes.tsx";
+import { Provider } from "react-redux";
+import store from "./store/selectors/index.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <CardPlace />
+    <Provider store={store}>
+      {/* <CardPlace />
     <CardDetail />
-    <NavBar />
+    <Logout />
+    <Registration />
+    <NavBar /> */}
+      <CardPlace />
+    </Provider>
   </React.StrictMode>
 );
