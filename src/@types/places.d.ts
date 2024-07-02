@@ -1,6 +1,7 @@
 export interface Places {
   id: number;
   name: string;
+  slug: string;
   description: string;
   images: string[];
   tag: Tag[];

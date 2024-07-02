@@ -6,6 +6,7 @@ import { loadPlaces } from "../../../store/reducers/placesReducer";
 import { useAppSelector } from "../../../hooks/redux";
 import { Outlet } from "react-router-dom";
 import Loading from "../../elements/Loading/Loading";
+import { Box } from "@mui/material";
 
 function Root() {
   const dispatch = useDispatch();
@@ -22,9 +23,18 @@ function Root() {
 
   return (
     <>
-      <Header />
-      {isLoading ? <Loading /> : <Outlet />}
-      <NavBar />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          margin: 0,
+          height: "100vh",
+        }}
+      >
+        <Header />
+        {isLoading ? <Loading /> : <Outlet />}
+        <NavBar />
+      </Box>
     </>
   );
 }

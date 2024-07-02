@@ -1,14 +1,13 @@
 import {
-  Box,
   Button,
   Card,
   CardContent,
   CardMedia,
-  CircularProgress,
   Typography,
 } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { Places } from "../../../@types/places";
+import { Link } from "react-router-dom";
 
 interface CardPlaceProp {
   place: Places;
@@ -16,11 +15,9 @@ interface CardPlaceProp {
 }
 
 function CardPlace({ place, index }: CardPlaceProp) {
+  console.log("state du la petite carte ", place);
   return (
-    <Card
-      sx={{ maxWidth: 300, borderRadius: 5, padding: 5, m: "auto" }}
-      key={index}
-    >
+    <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       <Carousel>
         {place.images.map((picture, index) => (
           <CardMedia
@@ -42,8 +39,8 @@ function CardPlace({ place, index }: CardPlaceProp) {
         <Typography variant="body2" color="text.secondary">
           {place.description}
         </Typography>
-        <Button variant="contained" disableElevation>
-          Voir le site
+        <Button component={Link} to={`/${place.slug}`} variant="contained">
+          VOir le site
         </Button>
       </CardContent>
     </Card>
