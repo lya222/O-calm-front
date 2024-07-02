@@ -1,16 +1,11 @@
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  Box,
-  Container,
-} from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SearchIcon from "@mui/icons-material/Search";
 
 function NavBar() {
   return (
-    <Container
+    <Box
       sx={{
         m: "auto",
         position: "fixed",
@@ -28,7 +23,7 @@ function NavBar() {
           icon={<ManageAccountsIcon />}
         />
       </BottomNavigation>
-    </Container>
+    </Box>
   );
 }
 

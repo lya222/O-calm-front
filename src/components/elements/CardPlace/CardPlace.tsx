@@ -47,8 +47,11 @@ function CardPlace() {
           <div>essai</div>
         </Box>
       ) : ( */}
-      {items.map((item) => (
-        <Card sx={{ maxWidth: 300, borderRadius: 5, padding: 5, m: "auto" }}>
+      {items.map((item, i) => (
+        <Card
+          sx={{ maxWidth: 300, borderRadius: 5, padding: 5, m: "auto" }}
+          key={i}
+        >
           <Carousel>
             {item.images.map((picture, index) => (
               <CardMedia
