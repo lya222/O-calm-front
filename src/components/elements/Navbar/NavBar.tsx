@@ -1,8 +1,8 @@
-import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
@@ -25,7 +25,7 @@ function NavBar() {
           <BottomNavigationAction label="Search" icon={<SearchIcon />} />
         </Link>
 
-        <Link to="">
+        <Link to="/login">
           <BottomNavigationAction
             label="ManageAccount"
             icon={<ManageAccountsIcon />}

@@ -1,7 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../features/user/userSlice';
-import { RootState, AppDispatch } from '../app/store';
+import { createUser } from '../../../store/reducers/userReducer';
+// import { RootState, AppDispatch } from '../app/store';
+import { User } from '../../../@types/user';
 import {
   TextField,
   Button,
@@ -9,16 +10,22 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material';
+import { AppDispatch, RootState } from '../../../store';
+import { useAppSelector } from '../../../hooks/redux';
 
-const RegisterForm: React.FC = () => {
+function RegisterForm() {
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const testMail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    pseudo: '',
     password: '',
+    email: '',
   });
 
   const dispatch = useDispatch<AppDispatch>();
-  const { status, error } = useSelector((state: RootState) => state.user);
+  // const { status, error } = useSelector((state: RootState) => state.data);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,28 +33,37 @@ const RegisterForm: React.FC = () => {
       ...prevData,
       [name]: value,
     }));
+    console.log('formdata', formData);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(registerUser({ userData: formData }));
+    console.log(e);
+    await dispatch(createUser(formData));
+  };
+
+  const emailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(e.target.value))
+      setEmailError('Adresse invalide');
+    else setEmailError('');
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Register
+        Enregistrez-vous
       </Typography>
       <TextField
         margin="normal"
         required
         fullWidth
-        id="name"
-        label="Name"
-        name="name"
-        autoComplete="name"
+        id="pseudo"
+        label="pseudo"
+        name="pseudo"
+        autoComplete="pseudo"
         autoFocus
-        value={formData.name}
+        // value={formData.pseudo}
         onChange={handleChange}
       />
       <TextField
@@ -58,8 +74,10 @@ const RegisterForm: React.FC = () => {
         label="Email"
         name="email"
         autoComplete="email"
-        value={formData.email}
-        onChange={handleChange}
+        // value={formData.email}
+        onChange={(handleChange, emailChange)}
+        error={emailError}
+        helperText={emailError}
       />
       <TextField
         margin="normal"
@@ -70,7 +88,7 @@ const RegisterForm: React.FC = () => {
         type="password"
         id="password"
         autoComplete="current-password"
-        value={formData.password}
+        // value={formData.password}
         onChange={handleChange}
       />
       <Button
@@ -81,15 +99,15 @@ const RegisterForm: React.FC = () => {
         sx={{ mt: 3, mb: 2 }}
         disabled={status === 'loading'}
       >
-        Register
+        Enregister
       </Button>
-      {status === 'loading' && <CircularProgress />}
-      {status === 'failed' && (
+      {/* {status === 'loading' && <CircularProgress />} */}
+      {/* {status === 'failed' && (
         <Typography color="error">Error: {error}</Typography>
-      )}
+      )} */}
     </Box>
   );
-};
+}
 
 export default RegisterForm;
 
