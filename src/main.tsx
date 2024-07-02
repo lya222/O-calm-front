@@ -10,14 +10,25 @@ import "./styles/index.scss";
 
 import { Provider } from "react-redux";
 import store from "./store";
-import Root from "./components/layouts/Root/Root.tsx";
+import Root from "./components/layouts/Root/index.tsx";
+import Home from "./components/pages/Home/Home.tsx";
+import Error from "./components/pages/Error/Error.tsx";
+import CardDetail from "./components/elements/CardDetail/CardDetail.tsx";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={<Root />}></Route>)
+  createRoutesFromElements(
+    <Route path="/" element={<Root />} errorElement={<Error />}>
+      <Route index element={<Home />} />
+      <Route path="/:slug" element={<CardDetail />} />
+      <Route path="/404" element={<Error />} />
+
+      <Route path="*" element={<Error />} />
+    </Route>
+  )
 );
 
 root.render(

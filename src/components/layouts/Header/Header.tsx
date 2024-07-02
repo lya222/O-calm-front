@@ -6,13 +6,14 @@ function Header() {
   return (
     <Box
       sx={{
+        // position: "fixed",
         height: "100px",
-        m: "auto",
-        width: "100%",
+        // m: "auto",
+        // width: "100%",
         backgroundImage: "url(../../../image/flowers-7790227_1280.jpg)",
-        position: "fixed",
-        top: "0",
-        zIndex: "tooltip",
+        // top: "0",
+
+        // zIndex: "tooltip",
       }}
     >
       <h1>O'CALM</h1>

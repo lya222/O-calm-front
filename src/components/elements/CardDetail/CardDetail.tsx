@@ -13,26 +13,21 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Carousel from "react-material-ui-carousel";
 import { useState } from "react";
+import { redirect, useParams } from "react-router-dom";
+import { useAppSelector } from "../../../hooks/redux";
+import { findPlace } from "../../../store/selectors/places";
+import { Places } from "../../../@types/places";
+import { Calculate } from "@mui/icons-material";
 
 function CardDetail() {
-  const item = {
-    nom: "Pokemon City",
-    description: "Ceci est la description de pokemon city",
-    route: [
-      "Prendre le bus 12",
-      "marcher 300 mètres en direction de la gare",
-      "reprendre le bus 12",
-      "Vous etes arrivé",
-    ],
-    tag: [
-      { id: 1, name: "mer", color: "red" },
-      { id: 2, name: "montagne", color: "green" },
-    ],
-    images: ["/image/image.png", "/image/pokemon2.png"],
-  };
+  console.log("La carte détail");
+  const { slug } = useParams();
+  const place: Places = useAppSelector((state) =>
+    findPlace(state.places.list, slug as string)
+  );
 
   const [checkedItems, setCheckedItems] = useState(
-    new Array(item.route.length).fill(false)
+    new Array(place.route.length).fill(false)
   );
 
   const handleCheckBoxChange = (index: number) => {
@@ -46,19 +41,21 @@ function CardDetail() {
       sx={{
         border: "2px solid grey",
         p: 2,
-        m: "auto",
+        overflowY: "auto",
+        height: "200px",
+        flexGrow: 1,
       }}
     >
       <Typography variant="h3" gutterBottom>
-        {item.nom}
+        {place.name}
       </Typography>
       <Stack direction="row" spacing={1}>
-        {item.tag.map((t) => (
+        {place.tag.map((t) => (
           <Chip label={t.name} sx={{ background: t.color, color: "white" }} />
         ))}
       </Stack>
       <Carousel>
-        {item.images.map((image, index) => (
+        {place.images.map((image, index) => (
           <CardMedia
             key={index}
             component="img"
@@ -69,7 +66,7 @@ function CardDetail() {
         ))}
       </Carousel>
       <Typography variant="h5" gutterBottom>
-        {item.description}
+        {place.description}
       </Typography>
 
       <Accordion>
@@ -81,7 +78,7 @@ function CardDetail() {
           Chemin a suivre
         </AccordionSummary>
         <AccordionDetails>
-          {item.route.map((etape, i) => (
+          {place.route.map((etape, i) => (
             <div key={i}>
               <Typography
                 variant="h6"
