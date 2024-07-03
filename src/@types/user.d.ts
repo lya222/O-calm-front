@@ -1,8 +1,8 @@
-export interface User {
+export interface User { 
     id: number;
-    firstName: string;
-    lastName: string;
+    pseudo: number;
     password: string;
     email: string;
   }
   
+  //Changer lastname en pseudo
