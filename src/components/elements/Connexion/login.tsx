@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../hooks/redux";
-import { login, updateEmail, updatePassword } from "../../../store/reducers/userReducer";
+import { login } from "../../../store/reducers/userReducer";
 import './style.scss'
 
 function Login() {
@@ -46,10 +46,7 @@ function Login() {
           type="email"
           name="email"
           value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-            dispatch(updateEmail(event.target.value));
-          }}
+          onChange={(event) => setEmail(event.target.value)}
           required
         />
         <br />
@@ -58,14 +55,11 @@ function Login() {
           type="password"
           name="password"
           value={password}
-          onChange={(event) => {
-            setPassword(event.target.value);
-            dispatch(updatePassword(event.target.value));
-          }}
+          onChange={(event) => setPassword(event.target.value)}
           required
         />
         <br />
-        {errorValue && <div style={{ color: 'red' }}>{errorValue}</div>}
+        {errorValue && <div style={{ color: 'ed' }}>{errorValue}</div>}
         <button type="submit">Se connecter</button>
       </form>
     </div>
