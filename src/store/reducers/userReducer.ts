@@ -22,6 +22,8 @@ const initialState: UserState = {
   pseudo: '',
 };
 
+
+//Recevoir les données 
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   console.log('asyncthunk fetchUser marche');
   const response = await axios.get<{ users: User[] }>(
@@ -32,20 +34,13 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   return users;
 });
 
-export const updateUser = createAsyncThunk('user/updateUser', async () => {
-  const response = await axios.put(`http://localhost:3001/login/`);
-  console.log('test de updateUser depuis la fonction asynctunk', response.data);
+//Création d'un nouvel utilisaeur 
+export const createUser = createAsyncThunk('user/createUserAsync', async (userData) => {
+  const response = await axios.post(`http://localhost:3001/login/register`, userData);
   return response.data;
 });
 
-export const createUser = createAsyncThunk(
-  'user/createUser',
-  async (userData) => {
-    const response = await axios.post(`http://localhost:3001/login/`, userData);
-    return response.data;
-  }
-);
-
+//Connexion d'un utilisateur 
 export const login = createAsyncThunk('user/login', async (credentials) => {
   const response = await axios.post(
     `http://localhost:3001/login/`,
@@ -54,38 +49,26 @@ export const login = createAsyncThunk('user/login', async (credentials) => {
   return response.data;
 });
 
-export const updateEmail = createAsyncThunk(
-  'user/updateEmail',
-  async (email) => {
-    const response = await axios.put(`http://localhost:3001/login/email`, {
-      email,
-    });
-    return response.data;
-  }
-);
 
-export const updatePassword = createAsyncThunk(
-  'user/updatePassword',
-  async (password) => {
-    const response = await axios.put(`http://localhost:3001/login/password`, {
-      password,
-    });
-    return response.data;
-  }
-);
+//Modification d'un utilisateur
+export const updateUser = createAsyncThunk('user/updateUserAsync', async (userData) => {
+  const response = await axios.put(`http://localhost:3001/login/`, userData);
+  return response.data;
+});
 
-export const findUser = createAsyncThunk(
-  'user/findUser',
-  async (searchPseudo: string) => {
-    const { data } = await axios.get(`${apiUrl}login`);
-    console.log('finduser ', data);
-    const result = data.includes((user: User) => user.pseudo === searchPseudo);
-    console.log('resultat, ', result);
-    return result;
-  }
-);
+//Modification du mail utilisateur
+export const updateEmail = createAsyncThunk('user/updateEmail', async (email) => {
+  const response = await axios.put(`http://localhost:3001/login/email`, { email });
+  return response.data;
+});
 
-const userReducer = createReducer(initialState, (builder) => {
+//Modification du password utilisateur
+export const updatePassword = createAsyncThunk('user/updatePassword', async (password) => {
+  const response = await axios.put(`http://localhost:3001/login/password`, { password });
+  return response.data;
+});
+
+export const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchUser.pending, (state) => {
       state.loading = true;
@@ -160,78 +143,3 @@ const userReducer = createReducer(initialState, (builder) => {
 
 export default userReducer;
 
-// import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-// import { User } from "../../@types/user";
-// import axios from "axios";
-
-// export interface UserState {
-//     data: User[],
-//     loading: boolean;
-//     error: string | null | undefined
-//   }
-
-//   const initialState: UserState = {
-//     data: [],
-//     loading: false,
-//     error: null,
-//   };
-
-// export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
-//   console.log('asyncthunk fetchUser marche');
-//   const response = await axios.get<{ users: User[] }>(`http://localhost:3001/login/`);
-//   console.log('test de fetchUser depuis la fonction asyncthunk', response.data);
-//   const users = response.data.users;
-//   return users;
-// });
-
-// export const updateUser = createAsyncThunk('user/updateUser', async () => {
-//   const response = await axios.put(`http://localhost:3001/login/`);
-//   console.log('test de updateUser depuis la fonction asynctunk', response.data)
-//   return response.data;
-// });
-
-// export const createUser = createAsyncThunk('user/createUser', async (userData) => {
-//   const response = await axios.post(apiUrl, userData);
-//   return response.data;
-// });
-
-// export const userReducer = createReducer(initialState, (builder) => {
-//   builder
-//     .addCase(fetchUser.pending, (state) => {
-//       state.loading = true;
-//     })
-//     .addCase(fetchUser.fulfilled, (state, action) => {
-//       state.data = action.payload;
-//       state.loading = false;
-//     })
-//     .addCase(fetchUser.rejected, (state, action) => {
-//       state.error = action.error.message;
-//       state.loading = false;
-//     })
-//     .addCase(updateUser.pending, (state) => {
-//       state.loading = true;
-//       state.error = null;
-//     })
-//     .addCase(updateUser.fulfilled, (state, action) => {
-//       state.data = action.payload;
-//       state.loading = false;
-//     })
-//     .addCase(updateUser.rejected, (state, action) => {
-//       state.error = action.error.message;
-//       state.loading = false;
-//     })
-//     .addCase(createUser.pending, (state) => {
-//       state.loading = true;
-//       state.error = null;
-//     })
-//     .addCase(createUser.fulfilled, (state, action) => {
-//       state.data = action.payload;
-//       state.loading = false;
-//     })
-//     .addCase(createUser.rejected, (state, action) => {
-//       state.error = action.error.message;
-//       state.loading = false;
-//     });
-// });
-
-// export default userReducer;
