@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../../hooks/redux";
-import { login } from "../../../store/reducers/userReducer";
-import './style.scss'
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/redux';
+import { login } from '../../../store/reducers/userReducer';
+import './style.scss';
 
 function Login() {
-  console.log('composant login ok')
+  console.log('composant login ok');
 
   const dispatch = useDispatch();
   const data = useAppSelector((state) => state.user.data);
-  const initialEmail = data[0]?.email || "";
-  const initialPassword = data[0]?.password || "";
+  const initialEmail = data[0]?.email || '';
+  const initialPassword = data[0]?.password || '';
   const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState(initialPassword);
   const [errorValue, setError] = useState(null);
@@ -42,7 +42,8 @@ function Login() {
       <h2>Connexion</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Adresse mail :</label>
-        <input className="email"
+        <input
+          className="email"
           type="email"
           name="email"
           value={email}
@@ -51,7 +52,8 @@ function Login() {
         />
         <br />
         <label htmlFor="password">Mot de passe :</label>
-        <input className="password"
+        <input
+          className="password"
           type="password"
           name="password"
           value={password}
