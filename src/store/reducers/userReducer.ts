@@ -1,6 +1,7 @@
 import {
   AsyncThunk,
   PayloadAction,
+  createAction,
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
@@ -29,9 +30,12 @@ const initialState: UserState = {
   pseudo: '',
 };
 
+export const updatePseudo = createAction<string>('user/updatePseudo');
+export const logout = createAction<User>('user/logout');
+
 //Recevoir les données
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
-  console.log('asyncthunk fetchUser marche');
+  // console.log('asyncthunk fetchUser marche');
   const response = await axios.get<{ users: User[] }>(
     `http://localhost:3001/login/`
   );
@@ -97,6 +101,12 @@ export const updatePassword = createAsyncThunk(
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(updatePseudo, (state, action) => {
+      state.pseudo = action.payload;
+    })
+    .addCase(logout, (state, action) => {
+      state.isLogged = false;
+    })
     .addCase(fetchUser.pending, (state) => {
       state.loading = true;
     })
@@ -138,10 +148,10 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(
       login.fulfilled,
-      (state: UserState, action: PayloadAction<User[]>) => {
-        state.data = action.payload;
+      (state: UserState, action: PayloadAction<User>) => {
         state.loading = false;
         state.isLogged = true;
+        state.pseudo = action.payload.pseudo;
       }
     )
     .addCase(login.rejected, (state, action) => {

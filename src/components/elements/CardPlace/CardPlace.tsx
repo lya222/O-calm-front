@@ -4,10 +4,10 @@ import {
   CardContent,
   CardMedia,
   Typography,
-} from "@mui/material";
-import Carousel from "react-material-ui-carousel";
-import { Places } from "../../../@types/places";
-import { Link } from "react-router-dom";
+} from '@mui/material';
+import Carousel from 'react-material-ui-carousel';
+import { Places } from '../../../@types/places';
+import { Link } from 'react-router-dom';
 
 interface CardPlaceProp {
   place: Places;
@@ -15,7 +15,7 @@ interface CardPlaceProp {
 }
 
 function CardPlace({ place, index }: CardPlaceProp) {
-  console.log("state du la petite carte ", place);
+  // console.log("state du la petite carte ", place);
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       <Carousel>
