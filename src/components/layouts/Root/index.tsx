@@ -30,10 +30,13 @@ function Root() {
           justifyContent: 'space-between',
           margin: 0,
           height: '100vh',
+          width: '100vw',
         }}
       >
         <Header />
-        <Container>{isLoading ? <Loading /> : <Outlet />}</Container>
+        <Container sx={{ overflowY: 'auto' }}>
+          {isLoading ? <Loading /> : <Outlet />}
+        </Container>
         <NavBar />
       </Box>
     </>

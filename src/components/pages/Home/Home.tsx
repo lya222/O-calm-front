@@ -8,7 +8,7 @@ function Home() {
   console.log('state du home', places);
 
   return (
-    <Box sx={{ overflowY: 'auto', flexGrow: 1 }}>
+    <Box>
       {places.map((place: Places, index: number) => {
         return <CardPlace key={index} place={place} index={index} />;
       })}

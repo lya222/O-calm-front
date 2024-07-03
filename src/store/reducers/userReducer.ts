@@ -31,7 +31,7 @@ const initialState: UserState = {
 };
 
 export const updatePseudo = createAction<string>('user/updatePseudo');
-export const logout = createAction<User>('user/logout');
+export const logout = createAction('user/logout');
 
 //Recevoir les données
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
@@ -104,7 +104,7 @@ export const userReducer = createReducer(initialState, (builder) => {
     .addCase(updatePseudo, (state, action) => {
       state.pseudo = action.payload;
     })
-    .addCase(logout, (state, action) => {
+    .addCase(logout, (state) => {
       state.isLogged = false;
     })
     .addCase(fetchUser.pending, (state) => {

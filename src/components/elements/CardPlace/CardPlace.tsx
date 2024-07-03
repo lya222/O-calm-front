@@ -8,6 +8,7 @@ import {
 import Carousel from 'react-material-ui-carousel';
 import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks/redux';
 
 interface CardPlaceProp {
   place: Places;
@@ -16,6 +17,7 @@ interface CardPlaceProp {
 
 function CardPlace({ place, index }: CardPlaceProp) {
   // console.log("state du la petite carte ", place);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       <Carousel>
@@ -39,9 +41,15 @@ function CardPlace({ place, index }: CardPlaceProp) {
         <Typography variant="body2" color="text.secondary">
           {place.description}
         </Typography>
-        <Button component={Link} to={`/${place.slug}`} variant="contained">
-          VOir le site
-        </Button>
+        {isLogged ? (
+          <Button component={Link} to={`/${place.slug}`} variant="contained">
+            VOir le site
+          </Button>
+        ) : (
+          <Button disabled variant="contained">
+            Connectez vous pour voir ce site
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

@@ -9,12 +9,7 @@ function Header() {
   return (
     <Box
       sx={{
-        // position: "fixed",
-        height: '100px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        // m: "auto",
-        // width: "100%",
+        minHeight: '75px',
         backgroundImage: 'url(../../../image/flowers-7790227_1280.jpg)',
       }}
     >
