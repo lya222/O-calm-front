@@ -48,7 +48,7 @@ export const createUser = createAsyncThunk(
   'user/createUserAsync',
   async (userData: User) => {
     const response = await axios.post(
-      `http://localhost:3001/login/register`,
+      `http://localhost:3001/register`,
       userData
     );
     return response.data;

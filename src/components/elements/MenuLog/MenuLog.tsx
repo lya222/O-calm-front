@@ -13,6 +13,7 @@ function MenuLog() {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/');
   };
 
   const handleProfile = () => {
