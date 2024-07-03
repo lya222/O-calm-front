@@ -1,14 +1,14 @@
-import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { User } from "../../@types/user";
-import { ICredentials } from "../../@types/Icredentials";
-import axios from "axios";
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { User } from '../../@types/user';
+import { ICredentials } from '../../@types/Icredentials';
+import axios from 'axios';
 
 export interface UserState {
-  data: User[],
+  data: User[];
   loading: boolean;
-  error: string | null | undefined
-  credentials: ICredentials,
-  pseudo: string
+  error: string | null | undefined;
+  credentials: ICredentials;
+  pseudo: string;
 }
 
 const initialState: UserState = {
@@ -16,17 +16,19 @@ const initialState: UserState = {
   loading: false,
   error: null,
   credentials: {
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   },
-  pseudo: ""
+  pseudo: '',
 };
 
 
 //Recevoir les données 
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   console.log('asyncthunk fetchUser marche');
-  const response = await axios.get<{ users: User[] }>(`http://localhost:3001/login/`);
+  const response = await axios.get<{ users: User[] }>(
+    `http://localhost:3001/login/`
+  );
   console.log('test de fetchUser depuis la fonction asyncthunk', response.data);
   const users = response.data.users;
   return users;
@@ -40,7 +42,10 @@ export const createUser = createAsyncThunk('user/createUserAsync', async (userDa
 
 //Connexion d'un utilisateur 
 export const login = createAsyncThunk('user/login', async (credentials) => {
-  const response = await axios.post(`http://localhost:3001/login/`, credentials);
+  const response = await axios.post(
+    `http://localhost:3001/login/`,
+    credentials
+  );
   return response.data;
 });
 
@@ -65,72 +70,72 @@ export const updatePassword = createAsyncThunk('user/updatePassword', async (pas
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
-   .addCase(fetchUser.pending, (state) => {
+    .addCase(fetchUser.pending, (state) => {
       state.loading = true;
     })
-   .addCase(fetchUser.fulfilled, (state, action) => {
+    .addCase(fetchUser.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
     })
-   .addCase(fetchUser.rejected, (state, action) => {
+    .addCase(fetchUser.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     })
-   .addCase(updateUser.pending, (state) => {
+    .addCase(updateUser.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-   .addCase(updateUser.fulfilled, (state, action) => {
+    .addCase(updateUser.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
     })
-   .addCase(updateUser.rejected, (state, action) => {
+    .addCase(updateUser.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     })
-   .addCase(createUser.pending, (state) => {
+    .addCase(createUser.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-   .addCase(createUser.fulfilled, (state, action) => {
+    .addCase(createUser.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
     })
-   .addCase(createUser.rejected, (state, action) => {
+    .addCase(createUser.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     })
-   .addCase(login.pending, (state) => {
+    .addCase(login.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-   .addCase(login.fulfilled, (state, action) => {
+    .addCase(login.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
     })
-   .addCase(login.rejected, (state, action) => {
+    .addCase(login.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     })
-   .addCase(updateEmail.pending, (state) => {
+    .addCase(updateEmail.pending, (state) => {
       state.loading = true;
     })
-   .addCase(updateEmail.fulfilled, (state, action) => {
+    .addCase(updateEmail.fulfilled, (state, action) => {
       state.data[0].email = action.payload;
       state.loading = false;
     })
-   .addCase(updateEmail.rejected, (state, action) => {
+    .addCase(updateEmail.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     })
-   .addCase(updatePassword.pending, (state) => {
+    .addCase(updatePassword.pending, (state) => {
       state.loading = true;
     })
-   .addCase(updatePassword.fulfilled, (state, action) => {
+    .addCase(updatePassword.fulfilled, (state, action) => {
       state.data[0].password = action.payload;
       state.loading = false;
     })
-   .addCase(updatePassword.rejected, (state, action) => {
+    .addCase(updatePassword.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
     });

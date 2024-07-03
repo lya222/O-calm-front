@@ -1,8 +1,9 @@
-import placesReducer from "./placesReducer";
+import placesReducer from './placesReducer';
+import userReducer from './userReducer';
 
 const rootReducer = {
   places: placesReducer,
-  // user: userReducer,
+  user: userReducer,
 };
 
 export default rootReducer;
