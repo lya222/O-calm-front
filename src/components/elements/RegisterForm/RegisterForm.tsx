@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createUser,
@@ -10,15 +10,13 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '../../../@types/user';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { AppDispatch, RootState } from '../../../store';
-import { redirect } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 
 function RegisterForm() {
   const [pseudoError, setPseudoError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const users = useAppSelector((state) => state.user.data);
-  console.log('formdata', users);
+
   const [formData, setFormData] = useState({
     pseudo: '',
     password: '',
@@ -27,7 +25,14 @@ function RegisterForm() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // const { status, error } = useSelector((state: RootState) => state.data);
+
+  useEffect(() => {
+    const fetch = async function () {
+      const users = await dispatch(fetchUser());
+      console.log('récuperation des users', users);
+    };
+    fetch();
+  }, []);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,7 +69,12 @@ function RegisterForm() {
     e.preventDefault();
 
     //pseudo deja pris ou non
-    const result = users.find((user) => user.pseudo === formData.pseudo);
+    // const users = await dispatch(fetchUser());
+
+    const result = users.payload.find(
+      (user) => user.pseudo === formData.pseudo
+    );
+
     console.log('finduser ', result);
     if (result) setPseudoError('Ce pseudo est déjâ pris');
     if (emailError === '' || pseudoError === '' || passwordError === '') {

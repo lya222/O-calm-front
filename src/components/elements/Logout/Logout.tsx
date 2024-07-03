@@ -1,18 +1,22 @@
 import { Box, Button, FormControl, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { User } from '../../../@types/user';
+import { ICredentials } from '../../../@types/Icredentials';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/reducers/userReducer';
 
 function Logout() {
   // const { register, handleSubmit, control } = useForm<User>();
   // const onSubmit: SubmitHandler<User> = (data) => {
   //   console.log(data);
   // };
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User>();
-  const onSubmit: SubmitHandler<User> = (data) => console.log(data, errors);
+  } = useForm<ICredentials>();
+  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
 
   return (
     <Box

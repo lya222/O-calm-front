@@ -1,9 +1,15 @@
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  AsyncThunk,
+  PayloadAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 import { User } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 
 export interface UserState {
+  isLogged: boolean;
   data: User[];
   loading: boolean;
   error: string | null | undefined;
@@ -12,6 +18,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  isLogged: false,
   data: [],
   loading: false,
   error: null,
@@ -22,51 +29,71 @@ const initialState: UserState = {
   pseudo: '',
 };
 
-
-//Recevoir les données 
+//Recevoir les données
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   console.log('asyncthunk fetchUser marche');
   const response = await axios.get<{ users: User[] }>(
     `http://localhost:3001/login/`
   );
   console.log('test de fetchUser depuis la fonction asyncthunk', response.data);
-  const users = response.data.users;
-  return users;
-});
-
-//Création d'un nouvel utilisaeur 
-export const createUser = createAsyncThunk('user/createUserAsync', async (userData) => {
-  const response = await axios.post(`http://localhost:3001/login/register`, userData);
   return response.data;
 });
 
-//Connexion d'un utilisateur 
-export const login = createAsyncThunk('user/login', async (credentials) => {
-  const response = await axios.post(
-    `http://localhost:3001/login/`,
-    credentials
-  );
-  return response.data;
-});
+//Création d'un nouvel utilisaeur
+export const createUser = createAsyncThunk(
+  'user/createUserAsync',
+  async (userData: User) => {
+    const response = await axios.post(
+      `http://localhost:3001/login/register`,
+      userData
+    );
+    return response.data;
+  }
+);
 
+//Connexion d'un utilisateur
+export const login = createAsyncThunk(
+  'user/login',
+  async (credentials: ICredentials) => {
+    const response = await axios.post(
+      `http://localhost:3001/login`,
+      credentials
+    );
+
+    return response.data;
+  }
+);
 
 //Modification d'un utilisateur
-export const updateUser = createAsyncThunk('user/updateUserAsync', async (userData) => {
-  const response = await axios.put(`http://localhost:3001/login/`, userData);
-  return response.data;
-});
+export const updateUser = createAsyncThunk(
+  'user/updateUserAsync',
+  async (userData: User) => {
+    const response = await axios.put(`http://localhost:3001/login/`, userData);
+    return response.data;
+  }
+);
 
 //Modification du mail utilisateur
-export const updateEmail = createAsyncThunk('user/updateEmail', async (email) => {
-  const response = await axios.put(`http://localhost:3001/login/email`, { email });
-  return response.data;
-});
+export const updateEmail = createAsyncThunk(
+  'user/updateEmail',
+  async (email: string) => {
+    const response = await axios.put(`http://localhost:3001/login/email`, {
+      email,
+    });
+    return response.data;
+  }
+);
 
 //Modification du password utilisateur
-export const updatePassword = createAsyncThunk('user/updatePassword', async (password) => {
-  const response = await axios.put(`http://localhost:3001/login/password`, { password });
-  return response.data;
-});
+export const updatePassword = createAsyncThunk(
+  'user/updatePassword',
+  async (password: string) => {
+    const response = await axios.put(`http://localhost:3001/login/password`, {
+      password,
+    });
+    return response.data;
+  }
+);
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -109,10 +136,14 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(login.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.loading = false;
-    })
+    .addCase(
+      login.fulfilled,
+      (state: UserState, action: PayloadAction<User[]>) => {
+        state.data = action.payload;
+        state.loading = false;
+        state.isLogged = true;
+      }
+    )
     .addCase(login.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
@@ -142,4 +173,3 @@ export const userReducer = createReducer(initialState, (builder) => {
 });
 
 export default userReducer;
-
