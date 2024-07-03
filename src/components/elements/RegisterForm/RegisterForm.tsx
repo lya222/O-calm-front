@@ -5,6 +5,7 @@ import {
   fetchUser,
   findUser,
 } from '../../../store/reducers/userReducer';
+import { useNavigate } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
 import { User } from '../../../@types/user';
 import { TextField, Button, Box, Typography } from '@mui/material';
@@ -25,6 +26,7 @@ function RegisterForm() {
   });
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   // const { status, error } = useSelector((state: RootState) => state.data);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,15 +62,15 @@ function RegisterForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // const searchUser = await dispatch(findUser(formData.pseudo));
-    // console.log('resultat du search user', searchUser);
+
+    //pseudo deja pris ou non
     const result = users.find((user) => user.pseudo === formData.pseudo);
     console.log('finduser ', result);
     if (result) setPseudoError('Ce pseudo est déjâ pris');
     if (emailError === '' || pseudoError === '' || passwordError === '') {
       console.log('vrai');
       await dispatch(createUser(formData));
-      redirect('/');
+      navigate('/');
     }
   };
 
