@@ -82,8 +82,18 @@ function RegisterForm() {
   // };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        width: 400,
+        maxWidth: '100%',
+        p: 2,
+        bgcolor: 'white',
+        color: 'black',
+      }}
+    >
+      <Typography variant="h5" component="h3" gutterBottom>
         Enregistrez-vous
       </Typography>
       <TextField

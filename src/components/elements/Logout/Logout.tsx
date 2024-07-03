@@ -21,8 +21,12 @@ function Logout() {
         maxWidth: '100%',
         p: 2,
         bgcolor: 'white',
+        color: 'black',
       }}
     >
+      <Typography variant="h5" component="h5" gutterBottom>
+        Connectez-vous
+      </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <TextField
           fullWidth
