@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import NavBar from '../../elements/Navbar/NavBar';
 import Header from '../Header/Header';
-import Login from '../../elements/Login/Login';
 import { useEffect } from 'react';
 import { loadPlaces } from '../../../store/reducers/placesReducer';
 import { useAppSelector } from '../../../hooks/redux';
@@ -23,7 +22,6 @@ function Root() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const pseudo = useAppSelector((state) => state.user.pseudo);
 
-  console.log('mes authentifications', auth.user);
   console.log('places', places);
   console.log('isLoading', isLoading);
   console.log('isLogged', isLogged);
