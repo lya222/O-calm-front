@@ -1,28 +1,52 @@
+import , { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ICredentials } from '../../../@types/Icredentials';
-import { useDispatch } from 'react-redux';
-import { login } from '../../../store/reducers/userReducer';
-import { useAppSelector } from '../../../hooks/redux';
+import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { User } from '../../../@types/user';
 
-function Login() {
-  // const { register, handleSubmit, control } = useForm<User>();
-  // const onSubmit: SubmitHandler<User> = (data) => {
-  //   console.log(data);
-  // };
-  const isLogged = useAppSelector((state) => state.user.isLogged);
-  const navigate = useNavigate();
-
-  if (isLogged) navigate('/');
-
-  const dispatch = useDispatch();
+const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICredentials>();
-  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
+  } = useForm<User>();
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<User> = async (data) => {
+    setStatus('loading');
+    setErrorMessage(null);
+    try {
+      const response = await axios.post('/api/login', {
+        email: data.pseudo, // Assuming 'pseudo' is used as email
+        password: data.password,
+      });
+
+      if (
+        signIn({
+          token: response.data.token,
+          expiresIn: response.data.expiresIn,
+          tokenType: 'Bearer',
+          authState: { email: response.data.email },
+        })
+      ) {
+        setStatus('idle'); // Remet l'état à idle après une connexion réussie
+        navigate('/');
+      } else {
+        setStatus('failed');
+        setErrorMessage('Authentication failed. Please try again.');
+      }
+    } catch (error) {
+      setStatus('failed');
+      setErrorMessage(
+        'Login error: ' + (error.response?.data?.message || error.message)
+      );
+    }
+  };
 
   return (
     <Box
@@ -41,17 +65,19 @@ function Login() {
         <TextField
           fullWidth
           label="pseudo"
-          type="pseudo"
-          {...register('pseudo', { required: true })}
+          type="text"
+          {...register('pseudo', { required: 'Pseudo is required' })}
+          error={!!errors.pseudo}
+          helperText={errors.pseudo ? errors.pseudo.message : ''}
         />
-
         <TextField
           fullWidth
           label="Password"
           type="password"
-          {...register('password', { required: true })}
+          {...register('password', { required: 'Password is required' })}
+          error={!!errors.password}
+          helperText={errors.password ? errors.password.message : ''}
         />
-
         <Button
           type="submit"
           fullWidth
@@ -60,11 +86,15 @@ function Login() {
           sx={{ mt: 3, mb: 2 }}
           disabled={status === 'loading'}
         >
-          Se connecter
+          Enregistrer
         </Button>
+        {status === 'loading' && <Typography>Loading...</Typography>}
+        {status === 'failed' && (
+          <Typography color="error">{errorMessage}</Typography>
+        )}
       </Box>
     </Box>
   );
-}
+};
 
 export default Login;
