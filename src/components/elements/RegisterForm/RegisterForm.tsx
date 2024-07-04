@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../../store/reducers/userReducer';
 import { Link } from 'react-router-dom';

@@ -6,6 +6,7 @@ import { User } from '../../../@types/user';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/reducers/userReducer';
 import { ICredentials } from '../../../@types/Icredentials';
+import { AppDispatch } from '../../../store';
 
 const Login = () => {
   const {
@@ -14,15 +15,16 @@ const Login = () => {
     formState: { errors },
   } = useForm<User>();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<ICredentials> = async (data) => {
     setStatus('loading');
     setErrorMessage(null);
     try {
       await dispatch(login(data as ICredentials));
+
       navigate('/');
     } catch (error) {
       setStatus('failed');

@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/redux';
 import { fetchUser } from '../../../store/reducers/userReducer';
 import './style.scss';
+import { AppDispatch } from '../../../store';
 
 function Login() {
   console.log('composant login ok');
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     console.log('dispatching fetchUser');

@@ -5,11 +5,29 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './style.scss';
 import Login from '../../elements/Login/Login';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { AppDispatch } from '../../../store';
 
 function Registration() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    dispatch(fetchUser());
+    const fetchData = async () => {
+      try {
+        const actionResult = await dispatch(fetchUser());
+        const users = unwrapResult(actionResult); // Extract the payload
+        console.log('Liste des utilisateurs', users);
+      } catch (error) {
+        console.error(
+          'Erreur lors de la récupération des utilisateurs:',
+          error
+        );
+      }
+    };
+
+    fetchData();
+
+    fetchData();
   }, [dispatch]);
 
   const [showLogin, setShowLogin] = useState(true);

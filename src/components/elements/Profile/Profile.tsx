@@ -4,14 +4,17 @@ import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/reducers/userReducer';
 import { useAppSelector } from '../../../hooks/redux';
+import { AppDispatch } from '../../../store';
+import { User } from '../../../@types/user';
 
 function Profile() {
   const pseudo = useAppSelector((state) => state.user.pseudo);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { register, handleSubmit } = useForm<ICredentials>();
-  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
+  const { register, handleSubmit } = useForm<User>();
+  const onSubmit: SubmitHandler<ICredentials> = (data) =>
+    dispatch(login(data as ICredentials));
 
   return (
     <Box

@@ -13,3 +13,9 @@ export interface UserState {
   credentials: ICredentials;
   pseudo: string;
 }
+
+export interface CreateUser {
+  pseudo: string;
+  password: string;
+  email: string;
+}
