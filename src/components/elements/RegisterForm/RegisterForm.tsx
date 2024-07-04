@@ -54,17 +54,13 @@ function RegisterForm() {
     }
     //Verification password
     if (name === 'password') {
-      if (
-        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(
-          formData.password
-        )
-      )
+      if (!/^([a-zA-Z0-9._-]+){8,}$/.test(formData.password))
         setPasswordError('mot de passe invalide');
       else setPasswordError('');
     }
     //Verification email
     if (name === 'email') {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      if (!/^[a-zA-Z0-9._-]+@[a-zA-Z.-]+.[a-zA-Z]{2,4}$/.test(formData.email))
         setEmailError('Adresse invalide');
       else setEmailError('');
     }
