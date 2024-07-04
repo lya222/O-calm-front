@@ -1,10 +1,11 @@
-import , { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useSignIn } from 'react-auth-kit';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User } from '../../../@types/user';
+import { SignInActionPayload } from '../../../@types/authkit';
 
 const Login = () => {
   const {
@@ -21,8 +22,9 @@ const Login = () => {
     setStatus('loading');
     setErrorMessage(null);
     try {
-      const response = await axios.post('/api/login', {
-        email: data.pseudo, // Assuming 'pseudo' is used as email
+      const response = await axios.post('http://localhost:3001/login', {
+        //changement de la propriété email en pseudo 04.07
+        pseudo: data.pseudo, // Assuming 'pseudo' is used as email
         password: data.password,
       });
 
@@ -31,10 +33,17 @@ const Login = () => {
           token: response.data.token,
           expiresIn: response.data.expiresIn,
           tokenType: 'Bearer',
+          auth: {
+            token: response.data.token,
+            type: 'Bearer',
+          },
           authState: { email: response.data.email },
-        })
+        } as SignInActionPayload<string>)
       ) {
-        setStatus('idle'); // Remet l'état à idle après une connexion réussie
+        setStatus('idle');
+        alert('connexion réussite');
+
+        // Remet l'état à idle après une connexion réussie
         navigate('/');
       } else {
         setStatus('failed');

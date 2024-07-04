@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import NavBar from '../../elements/Navbar/NavBar';
 import Header from '../Header/Header';
+import Login from '../../elements/Login/Login';
 import { useEffect } from 'react';
 import { loadPlaces } from '../../../store/reducers/placesReducer';
 import { useAppSelector } from '../../../hooks/redux';
@@ -34,9 +35,11 @@ function Root() {
         }}
       >
         <Header />
-        <Container sx={{ overflowY: 'auto' }}>
-          {isLoading ? <Loading /> : <Outlet />}
-        </Container>
+        <Login></Login>
+
+        {/* <Container sx={{ overflowY: 'auto' }}>
+          {isLoading ? <Loading /> : <Outlet />} */}
+        {/* </Container> */}
         <NavBar />
       </Box>
     </>

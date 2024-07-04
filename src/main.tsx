@@ -17,6 +17,8 @@ import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
+// Test du composant login 04.07.2024
+import Login from './components/elements/Login/Login.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -37,7 +39,11 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<Error />}>
       <Route index element={<Home />} />
-      <Route path="/login" element={<Registration />} />
+
+      {/* essaie du composant login 04.07.2024 */}
+      <Route path="/login" element={<Login />} />
+      
+      {/* <Route path="/login" element={<Registration />} /> */}
       <Route path="/:slug" element={<CardDetail />} />
       <Route path="/404" element={<Error />} />
 
