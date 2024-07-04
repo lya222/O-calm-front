@@ -22,13 +22,6 @@ function Registration() {
   };
 
   return (
-    // // <Box sx={{ overflowY: 'auto', height: '200px', flexGrow: 1 }}>
-    //   {/* <RegisterForm />
-    //   <Logout /> */}
-    //   {/* <Typography>{showLogin ? <Logout /> : <RegisterForm />}</Typography>
-    //   <IconButton onClick={handleToggle} aria-label="toggle">
-    //     {showLogin ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-    //   </IconButton> */}
     <Container component="main" className="container">
       <Container component="div" className="content">
         <Box className={`page ${showLogin ? 'visible' : 'hidden'}`}>
@@ -38,9 +31,9 @@ function Registration() {
           <Button variant="contained" color="success">
             {showLogin ? 'Pas encore de compte' : 'Déjà un compte'}
           </Button>
-          <Box className={`page ${showLogin ? 'hidden' : 'visible'}`}>
-            <RegisterForm />
-          </Box>
+        </Box>
+        <Box className={`page ${showLogin ? 'hidden' : 'visible'}`}>
+          <RegisterForm />
         </Box>
       </Container>
     </Container>

@@ -5,19 +5,13 @@ import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/reducers/userReducer';
 import { useAppSelector } from '../../../hooks/redux';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-function Logout() {
-  // const { register, handleSubmit, control } = useForm<User>();
-  // const onSubmit: SubmitHandler<User> = (data) => {
-  //   console.log(data);
-  // };
-  const isLogged = useAppSelector((state) => state.user.isLogged);
-  const navigate = useNavigate();
-
-  if (isLogged) navigate('/');
+function Profile() {
+  const pseudo = useAppSelector((state) => state.user.pseudo);
 
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -36,12 +30,12 @@ function Logout() {
       }}
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        Connectez-vous
+        Mon profil
       </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <TextField
           fullWidth
-          label="pseudo"
+          label={pseudo}
           type="pseudo"
           {...register('pseudo', { required: true })}
         />
@@ -61,11 +55,21 @@ function Logout() {
           sx={{ mt: 3, mb: 2 }}
           disabled={status === 'loading'}
         >
-          Se connecter
+          Modifier
+        </Button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="error"
+          sx={{ mt: 3, mb: 2 }}
+          disabled={status === 'loading'}
+        >
+          Supprimer le compte
         </Button>
       </Box>
     </Box>
   );
 }
 
-export default Logout;
+export default Profile;
