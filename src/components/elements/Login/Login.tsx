@@ -24,42 +24,56 @@ const Login = () => {
   const onSubmit: SubmitHandler<User> = async (data) => {
     setStatus('loading');
     setErrorMessage(null);
-    try {
-      // const response = await axios.post('http://localhost:3001/login', {
-      //   //changement de la propriété email en pseudo 04.07
-      //   pseudo: data.pseudo, // Assuming 'pseudo' is used as email
-      //   password: data.password,
-      // });
-      const response = await dispatch(login(data));
-      console.log('mes datas', response);
+    // // try {
+    // //   // const response = await axios.post('http://localhost:3001/login', {
+    // //   //   //changement de la propriété email en pseudo 04.07
+    // //   //   pseudo: data.pseudo, // Assuming 'pseudo' is used as email
+    // //   //   password: data.password,
+    // //   // });
 
-      if (
-        signIn({
-          token: response.payload.token,
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-          auth: {
-            token: response.payload.token,
-            type: 'Bearer',
-          },
-          authState: { email: response.payload.pseudo },
-        } as SignInActionPayload<string>)
-      ) {
-        setStatus('idle');
-        alert('connexion réussite');
+    // //   if (
+    // //     signIn({
+    // //       token: response.payload.token,
+    // //       expiresIn: 3600,
+    // //       tokenType: 'Bearer',
+    // //       auth: {
+    // //         token: response.payload.token,
+    // //         type: 'Bearer',
+    // //       },
+    // //       authState: { email: response.payload.pseudo },
+    // //     } as SignInActionPayload<string>)
+    // //   ) {
+    // //     setStatus('idle');
+    // //     alert('connexion réussite');
 
-        // Remet a la page home après une connexion réussie
-        navigate('/');
-      } else {
-        setStatus('failed');
-        setErrorMessage('Authentication failed. Please try again.');
-      }
-    } catch (error) {
-      setStatus('failed');
-      setErrorMessage(
-        'Login error: ' + (error.response?.data?.message || error.message)
-      );
-    }
+    // //     // Remet a la page home après une connexion réussie
+    // //     navigate('/');
+    // //   } else {
+    // //     setStatus('failed');
+    // //     setErrorMessage('Authentication failed. Please try again.');
+    // //   }
+    // // } catch (error) {
+    // //   setStatus('failed');
+    // //   setErrorMessage(
+    // //     'Login error: ' + (error.response?.data?.message || error.message)
+    // //   );
+    // // }
+    // if (
+    //   signIn({
+    //     token: 'dummy-token',
+    //     expiresIn: 3600,
+    //     tokenType: 'Bearer',
+    //     authState: data,
+    //   })
+    // ) {
+    //   console.log('tentative login');
+    //   dispatch(login(data));
+    // } else {
+    //   // Gérer l'échec de l'authentification
+    //   console.log('Authentication failed');
+    // }
+    await dispatch(login(data));
+    navigate('/');
   };
 
   return (

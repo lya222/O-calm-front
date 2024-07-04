@@ -8,9 +8,11 @@ import { useAppSelector } from '../../../hooks/redux';
 import { Outlet } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 function Root() {
   const dispatch = useDispatch();
+  const auth = useAuthUser();
 
   useEffect(() => {
     dispatch(loadPlaces());
@@ -18,9 +20,14 @@ function Root() {
 
   const places = useAppSelector((state) => state.places.list);
   const isLoading = useAppSelector((state) => state.places.loading);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const pseudo = useAppSelector((state) => state.user.pseudo);
 
+  console.log('mes authentifications', auth.user);
   console.log('places', places);
   console.log('isLoading', isLoading);
+  console.log('isLogged', isLogged);
+  console.log('Le pseudo', pseudo);
 
   return (
     <>
