@@ -7,11 +7,10 @@ import { useAppSelector } from '../../../hooks/redux';
 import { Outlet } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { AppDispatch } from '../../../store';
 
 function Root() {
-  const dispatch = useDispatch();
-  const auth = useAuthUser();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(loadPlaces());

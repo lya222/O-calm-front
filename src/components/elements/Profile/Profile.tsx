@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
@@ -10,11 +10,7 @@ function Profile() {
 
   const dispatch = useDispatch();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ICredentials>();
+  const { register, handleSubmit } = useForm<ICredentials>();
   const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
 
   return (

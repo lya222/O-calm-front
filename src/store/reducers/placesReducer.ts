@@ -1,14 +1,8 @@
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
-import { Places } from '../../@types/places';
+import { Reducer, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { Places, PlacesState } from '../../@types/places';
 // import data from "../../data.json";
 import axios from 'axios';
-import data from '../../data.json';
-
-interface PlacesState {
-  list: Places[];
-  loading: boolean;
-  error: string | undefined | null;
-}
+import { AsyncThunkConfig } from '../../@types/types';
 
 export const initialState: PlacesState = {
   list: [],
@@ -16,11 +10,14 @@ export const initialState: PlacesState = {
   error: null,
 };
 
-export const loadPlaces = createAsyncThunk('places/loadPlaces', async () => {
-  const list = await axios.get<Places[]>('http://localhost:3001/places');
+export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
+  'places/loadPlaces',
+  async () => {
+    const list = await axios.get<Places[]>('http://localhost:3001/places');
 
-  return list.data;
-});
+    return list.data;
+  }
+);
 
 // const fetchJoke = async () => {
 //   try {
@@ -33,19 +30,22 @@ export const loadPlaces = createAsyncThunk('places/loadPlaces', async () => {
 
 //   );
 
-const placesReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(loadPlaces.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(loadPlaces.rejected, (state, action) => {
-      state.error = action.error.message;
-      state.loading = false;
-    })
-    .addCase(loadPlaces.fulfilled, (state, action) => {
-      state.list = action.payload;
-      state.loading = false;
-    });
-});
+const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
+  initialState,
+  (builder) => {
+    builder
+      .addCase(loadPlaces.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadPlaces.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(loadPlaces.fulfilled, (state, action) => {
+        state.list = action.payload;
+        state.loading = false;
+      });
+  }
+);
 
 export default placesReducer;

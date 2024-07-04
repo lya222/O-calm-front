@@ -4,3 +4,12 @@ export interface User {
   password: string;
   email: string;
 }
+
+export interface UserState {
+  isLogged: boolean;
+  data: User[];
+  loading: boolean;
+  error: string | null | undefined;
+  credentials: ICredentials;
+  pseudo: string;
+}

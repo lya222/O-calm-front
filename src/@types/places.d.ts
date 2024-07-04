@@ -14,9 +14,8 @@ export interface Tag {
   color: string;
 }
 
-// export interface Jokes {
-//   icon_url: string;
-//   id: string;
-//   url:string;
-//   value:string;
-// }
+export interface PlacesState {
+  list: Places[];
+  loading: boolean;
+  error: string | undefined | null;
+}

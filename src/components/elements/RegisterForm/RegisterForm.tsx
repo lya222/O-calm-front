@@ -1,12 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import { createUser } from '../../../store/reducers/userReducer';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
-import { User } from '../../../@types/user';
 import { TextField, Button, Box, Typography, Modal } from '@mui/material';
 import { AppDispatch } from '../../../store';
-import { useAppSelector } from '../../../hooks/redux';
 
 const style = {
   position: 'absolute',

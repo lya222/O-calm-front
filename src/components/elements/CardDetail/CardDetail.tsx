@@ -13,17 +13,20 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Carousel from 'react-material-ui-carousel';
 import { useState } from 'react';
-import { redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
-import { Calculate } from '@mui/icons-material';
 
 function CardDetail() {
-  const { slug } = useParams();
-  const place: Places = useAppSelector((state) =>
+  const { slug } = useParams<{ slug: string }>();
+  const place: Places | undefined = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
   );
+  if (!place) {
+    // Gérer le cas où place est undefined
+    return <div>Place not found</div>;
+  }
 
   const [checkedItems, setCheckedItems] = useState(
     new Array(place.route.length).fill(false)
