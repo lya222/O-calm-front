@@ -35,11 +35,10 @@ function Root() {
         }}
       >
         <Header />
-        
 
         <Container sx={{ overflowY: 'auto' }}>
-          {isLoading ? <Loading /> : <Outlet />} */}
-         </Container>
+          {isLoading ? <Loading /> : <Outlet />}
+        </Container>
         <NavBar />
       </Box>
     </>

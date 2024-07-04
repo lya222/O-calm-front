@@ -48,7 +48,11 @@ function CardDetail() {
       </Typography>
       <Stack direction="row" spacing={1}>
         {place.tag.map((t) => (
-          <Chip label={t.name} sx={{ background: t.color, color: 'white' }} />
+          <Chip
+            key={t.id}
+            label={t.name}
+            sx={{ background: t.color, color: 'white' }}
+          />
         ))}
       </Stack>
       <Carousel>

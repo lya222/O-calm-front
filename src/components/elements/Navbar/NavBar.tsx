@@ -8,7 +8,6 @@ import MenuLog from '../MenuLog/MenuLog';
 
 function NavBar() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
-  console.log('je suis connecter', isLogged);
   return (
     <Box
       sx={

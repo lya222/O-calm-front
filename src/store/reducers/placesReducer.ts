@@ -36,7 +36,6 @@ export const loadPlaces = createAsyncThunk('places/loadPlaces', async () => {
 const placesReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loadPlaces.pending, (state) => {
-      console.log('builder');
       state.loading = true;
     })
     .addCase(loadPlaces.rejected, (state, action) => {
@@ -44,8 +43,6 @@ const placesReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(loadPlaces.fulfilled, (state, action) => {
-      console.log('le builder');
-      console.log(action.payload);
       state.list = action.payload;
       state.loading = false;
     });

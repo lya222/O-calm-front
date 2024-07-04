@@ -5,7 +5,6 @@ import { Places } from '../../../@types/places';
 
 function Home() {
   const places = useAppSelector((state) => state.places.list);
-  console.log('state du home', places);
 
   return (
     <Box>
