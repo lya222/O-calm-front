@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import './styles/index.scss';
+import { AuthProvider } from 'react-auth-kit';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -36,7 +37,14 @@ const router = createBrowserRouter(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthProvider
+        authType={'localstorage'} // Ou 'sessionstorage' selon vos besoins
+        authName={'_auth'}
+        cookieDomain={window.location.hostname}
+        cookieSecure={window.location.protocol === 'https:'}
+      >
+        <RouterProvider router={router} />
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );
