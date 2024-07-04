@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User } from '../../../@types/user';
 import { SignInActionPayload } from '../../../@types/authkit';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/reducers/userReducer';
 
 const Login = () => {
   const {
@@ -15,6 +17,7 @@ const Login = () => {
   } = useForm<User>();
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -22,28 +25,30 @@ const Login = () => {
     setStatus('loading');
     setErrorMessage(null);
     try {
-      const response = await axios.post('http://localhost:3001/login', {
-        //changement de la propriété email en pseudo 04.07
-        pseudo: data.pseudo, // Assuming 'pseudo' is used as email
-        password: data.password,
-      });
+      // const response = await axios.post('http://localhost:3001/login', {
+      //   //changement de la propriété email en pseudo 04.07
+      //   pseudo: data.pseudo, // Assuming 'pseudo' is used as email
+      //   password: data.password,
+      // });
+      const response = await dispatch(login(data));
+      console.log('mes datas', response);
 
       if (
         signIn({
-          token: response.data.token,
-          expiresIn: response.data.expiresIn,
+          token: response.payload.token,
+          expiresIn: 3600,
           tokenType: 'Bearer',
           auth: {
-            token: response.data.token,
+            token: response.payload.token,
             type: 'Bearer',
           },
-          authState: { email: response.data.email },
+          authState: { email: response.payload.pseudo },
         } as SignInActionPayload<string>)
       ) {
         setStatus('idle');
         alert('connexion réussite');
 
-        // Remet l'état à idle après une connexion réussie
+        // Remet a la page home après une connexion réussie
         navigate('/');
       } else {
         setStatus('failed');

@@ -16,7 +16,6 @@ import Root from './components/layouts/Root/index.tsx';
 import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
-import Registration from './components/pages/Registration/Registration.tsx';
 // Test du composant login 04.07.2024
 import Login from './components/elements/Login/Login.tsx';
 
@@ -42,7 +41,7 @@ const router = createBrowserRouter(
 
       {/* essaie du composant login 04.07.2024 */}
       <Route path="/login" element={<Login />} />
-      
+
       {/* <Route path="/login" element={<Registration />} /> */}
       <Route path="/:slug" element={<CardDetail />} />
       <Route path="/404" element={<Error />} />
@@ -55,7 +54,7 @@ const router = createBrowserRouter(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AuthProvider store={authStore} fallbackPath="/">
+      <AuthProvider store={authStore}>
         <RouterProvider router={router} />
       </AuthProvider>
     </Provider>

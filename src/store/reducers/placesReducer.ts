@@ -1,8 +1,8 @@
-import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { Places } from "../../@types/places";
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { Places } from '../../@types/places';
 // import data from "../../data.json";
-import axios from "axios";
-import data from "../../data.json";
+import axios from 'axios';
+import data from '../../data.json';
 
 interface PlacesState {
   list: Places[];
@@ -16,9 +16,8 @@ export const initialState: PlacesState = {
   error: null,
 };
 
-export const loadPlaces = createAsyncThunk("places/loadPlaces", async () => {
-  console.log("hey");
-  const list = await axios.get<Places[]>("http://localhost:3001/places");
+export const loadPlaces = createAsyncThunk('places/loadPlaces', async () => {
+  const list = await axios.get<Places[]>('http://localhost:3001/places');
 
   return list.data;
 });
@@ -37,7 +36,7 @@ export const loadPlaces = createAsyncThunk("places/loadPlaces", async () => {
 const placesReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loadPlaces.pending, (state) => {
-      console.log("builder");
+      console.log('builder');
       state.loading = true;
     })
     .addCase(loadPlaces.rejected, (state, action) => {
@@ -45,7 +44,7 @@ const placesReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(loadPlaces.fulfilled, (state, action) => {
-      console.log("le builder");
+      console.log('le builder');
       console.log(action.payload);
       state.list = action.payload;
       state.loading = false;

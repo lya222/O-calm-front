@@ -1,18 +1,21 @@
 import { Box, Button, FormControl, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { User } from '../../../@types/user';
+import { ICredentials } from '../../../@types/Icredentials';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/reducers/userReducer';
+import { useAppSelector } from '../../../hooks/redux';
 
-function Logout() {
-  // const { register, handleSubmit, control } = useForm<User>();
-  // const onSubmit: SubmitHandler<User> = (data) => {
-  //   console.log(data);
-  // };
+function Profile() {
+  const pseudo = useAppSelector((state) => state.user.pseudo);
+
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User>();
-  const onSubmit: SubmitHandler<User> = (data) => console.log(data, errors);
+  } = useForm<ICredentials>();
+  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
 
   return (
     <Box
@@ -25,12 +28,12 @@ function Logout() {
       }}
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        Connectez-vous
+        Mon profil
       </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <TextField
           fullWidth
-          label="pseudo"
+          label={pseudo}
           type="pseudo"
           {...register('pseudo', { required: true })}
         />
@@ -50,11 +53,21 @@ function Logout() {
           sx={{ mt: 3, mb: 2 }}
           disabled={status === 'loading'}
         >
-          Enregister
+          Modifier
+        </Button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="error"
+          sx={{ mt: 3, mb: 2 }}
+          disabled={status === 'loading'}
+        >
+          Supprimer le compte
         </Button>
       </Box>
     </Box>
   );
 }
 
-export default Logout;
+export default Profile;

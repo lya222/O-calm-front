@@ -35,11 +35,11 @@ function Root() {
         }}
       >
         <Header />
-        <Login></Login>
+        
 
-        {/* <Container sx={{ overflowY: 'auto' }}>
+        <Container sx={{ overflowY: 'auto' }}>
           {isLoading ? <Loading /> : <Outlet />} */}
-        {/* </Container> */}
+         </Container>
         <NavBar />
       </Box>
     </>

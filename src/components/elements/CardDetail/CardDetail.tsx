@@ -20,7 +20,6 @@ import { Places } from '../../../@types/places';
 import { Calculate } from '@mui/icons-material';
 
 function CardDetail() {
-  console.log('La carte détail');
   const { slug } = useParams();
   const place: Places = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
