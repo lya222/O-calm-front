@@ -7,6 +7,8 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import './styles/index.scss';
+import AuthProvider from 'react-auth-kit';
+import createStore from 'react-auth-kit/createStore';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -15,18 +17,27 @@ import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
-import Profile from './components/elements/Profile/Profile.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+interface IUserData {
+  name: string;
+  uuid: string;
+}
+
+const authStore = createStore<IUserData>({
+  authName: '_auth',
+  authType: 'cookie',
+  cookieDomain: window.location.hostname,
+  cookieSecure: window.location.protocol === 'https:',
+});
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<Error />}>
       <Route index element={<Home />} />
       <Route path="/login" element={<Registration />} />
-      <Route path="/profile" element={<Profile />} />
       <Route path="/:slug" element={<CardDetail />} />
       <Route path="/404" element={<Error />} />
 
@@ -38,7 +49,9 @@ const router = createBrowserRouter(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthProvider store={authStore} fallbackPath="/">
+        <RouterProvider router={router} />
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );

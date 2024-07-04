@@ -1,23 +1,18 @@
 import { Box, Button, FormControl, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { User } from '../../../@types/user';
-import { ICredentials } from '../../../@types/Icredentials';
-import { useDispatch } from 'react-redux';
-import { login } from '../../../store/reducers/userReducer';
-import { useAppSelector } from '../../../hooks/redux';
-import { useEffect } from 'react';
 
-function Profile() {
-  const pseudo = useAppSelector((state) => state.user.pseudo);
-
-  const dispatch = useDispatch();
-
+function Logout() {
+  // const { register, handleSubmit, control } = useForm<User>();
+  // const onSubmit: SubmitHandler<User> = (data) => {
+  //   console.log(data);
+  // };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICredentials>();
-  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
+  } = useForm<User>();
+  const onSubmit: SubmitHandler<User> = (data) => console.log(data, errors);
 
   return (
     <Box
@@ -30,12 +25,12 @@ function Profile() {
       }}
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        Mon profil
+        Connectez-vous
       </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <TextField
           fullWidth
-          label={pseudo}
+          label="pseudo"
           type="pseudo"
           {...register('pseudo', { required: true })}
         />
@@ -55,21 +50,11 @@ function Profile() {
           sx={{ mt: 3, mb: 2 }}
           disabled={status === 'loading'}
         >
-          Modifier
-        </Button>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="error"
-          sx={{ mt: 3, mb: 2 }}
-          disabled={status === 'loading'}
-        >
-          Supprimer le compte
+          Enregister
         </Button>
       </Box>
     </Box>
   );
 }
 
-export default Profile;
+export default Logout;
