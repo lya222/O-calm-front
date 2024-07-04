@@ -9,18 +9,18 @@ import {
   Chip,
   Stack,
   Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Carousel from "react-material-ui-carousel";
-import { useState } from "react";
-import { redirect, useParams } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/redux";
-import { findPlace } from "../../../store/selectors/places";
-import { Places } from "../../../@types/places";
-import { Calculate } from "@mui/icons-material";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Carousel from 'react-material-ui-carousel';
+import { useState } from 'react';
+import { redirect, useParams } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks/redux';
+import { findPlace } from '../../../store/selectors/places';
+import { Places } from '../../../@types/places';
+import { Calculate } from '@mui/icons-material';
 
 function CardDetail() {
-  console.log("La carte détail");
+  console.log('La carte détail');
   const { slug } = useParams();
   const place: Places = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
@@ -39,11 +39,9 @@ function CardDetail() {
   return (
     <Box
       sx={{
-        border: "2px solid grey",
+        border: '2px solid grey',
         p: 2,
-        overflowY: "auto",
-        height: "200px",
-        flexGrow: 1,
+        overflowY: 'auto',
       }}
     >
       <Typography variant="h3" gutterBottom>
@@ -51,7 +49,7 @@ function CardDetail() {
       </Typography>
       <Stack direction="row" spacing={1}>
         {place.tag.map((t) => (
-          <Chip label={t.name} sx={{ background: t.color, color: "white" }} />
+          <Chip label={t.name} sx={{ background: t.color, color: 'white' }} />
         ))}
       </Stack>
       <Carousel>
@@ -83,14 +81,14 @@ function CardDetail() {
               <Typography
                 variant="h6"
                 sx={{
-                  textDecoration: checkedItems[i] ? "line-through" : "none",
+                  textDecoration: checkedItems[i] ? 'line-through' : 'none',
                 }}
               >
                 <Checkbox
                   checked={checkedItems[i]}
                   onChange={() => handleCheckBoxChange(i)}
-                  inputProps={{ "aria-label": "controlled" }}
-                />{" "}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />{' '}
                 {i} - {etape}
               </Typography>
             </div>

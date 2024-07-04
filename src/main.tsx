@@ -16,6 +16,7 @@ import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
+import Profile from './components/elements/Profile/Profile.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Root />} errorElement={<Error />}>
       <Route index element={<Home />} />
       <Route path="/login" element={<Registration />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/:slug" element={<CardDetail />} />
       <Route path="/404" element={<Error />} />
 

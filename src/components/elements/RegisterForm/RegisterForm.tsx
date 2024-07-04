@@ -1,33 +1,43 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createUser,
-  fetchUser,
-  findUser,
-} from '../../../store/reducers/userReducer';
-import { useNavigate } from 'react-router-dom';
+import { createUser } from '../../../store/reducers/userReducer';
+import { Link, useNavigate } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
 import { User } from '../../../@types/user';
-import { TextField, Button, Box, Typography } from '@mui/material';
-import { AppDispatch, RootState } from '../../../store';
-import { redirect } from 'react-router-dom';
+import { TextField, Button, Box, Typography, Modal } from '@mui/material';
+import { AppDispatch } from '../../../store';
 import { useAppSelector } from '../../../hooks/redux';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function RegisterForm() {
   const [pseudoError, setPseudoError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const users = useAppSelector((state) => state.user.data);
-  console.log('formdata', users);
+
   const [formData, setFormData] = useState({
     pseudo: '',
     password: '',
     email: '',
   });
 
+  const [open, setOpen] = useState(false);
+
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  // const { status, error } = useSelector((state: RootState) => state.data);
+
+  // useEffect(() => {
+  //   fetchPseudos();
+  // }, []);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,25 +74,31 @@ function RegisterForm() {
     e.preventDefault();
 
     //pseudo deja pris ou non
-    const result = users.find((user) => user.pseudo === formData.pseudo);
-    console.log('finduser ', result);
-    if (result) setPseudoError('Ce pseudo est déjâ pris');
+    // const users = await dispatch(fetchUser());
+
+    // const result = users.payload.find(
+    //   (user) => user.pseudo === formData.pseudo
+    // );
+
+    // if (result) setPseudoError('Ce pseudo est déjâ pris');
     if (emailError === '' || pseudoError === '' || passwordError === '') {
-      console.log('vrai');
       await dispatch(createUser(formData));
-      navigate('/');
+      setOpen(true);
     }
   };
 
-  // const emailChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  //   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(e.target.value))
-  //     setEmailError('Adresse invalide');
-  //   else setEmailError('');
-  // };
-
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        width: 400,
+        maxWidth: '100%',
+        p: 2,
+        bgcolor: 'white',
+        color: 'black',
+      }}
+    >
       <Typography variant="h4" component="h1" gutterBottom>
         Enregistrez-vous
       </Typography>
@@ -135,36 +151,35 @@ function RegisterForm() {
       >
         Enregister
       </Button>
-      {/* {status === 'loading' && <CircularProgress />} */}
-      {/* {status === 'failed' && (
-        <Typography color="error">Error: {error}</Typography>
-      )} */}
+
+      <Modal
+        open={open}
+        // onClose={!open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            color="black"
+          >
+            Bravo vous êtes inscrit
+          </Typography>
+          <Link
+            id="modal-modal-description"
+            to="/"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Retour a l'accueil
+          </Link>
+        </Box>
+      </Modal>
     </Box>
   );
 }
 
 export default RegisterForm;
-
-// import { Box, FormControl, TextField } from "@mui/material";
-
-// function Registration() {
-//   return (
-//     <Box
-//       sx={{
-//         width: 400,
-//         maxWidth: "100%",
-//         p: 2,
-//         bgcolor: "white",
-//       }}
-//     >
-//       <FormControl fullWidth>
-//         <TextField fullWidth label="Nom" id="firstname" />
-//         <TextField fullWidth label="Prénom" id="lastname" />
-//         <TextField fullWidth label="Email" id="email" />
-//         <TextField fullWidth label="Mot de passe" id="password" />
-//       </FormControl>
-//     </Box>
-//   );
-// }
-
-// export default Registration;
