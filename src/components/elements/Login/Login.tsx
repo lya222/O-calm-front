@@ -1,49 +1,69 @@
-import { useEffect } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
+import { login } from '../../../store/reducers/userReducer';
 import { useAppSelector } from '../../../hooks/redux';
-import { fetchUser } from '../../../store/reducers/userReducer';
-import './style.scss';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  console.log('composant login ok');
+  // const { register, handleSubmit, control } = useForm<User>();
+  // const onSubmit: SubmitHandler<User> = (data) => {
+  //   console.log(data);
+  // };
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const navigate = useNavigate();
+
+  if (isLogged) navigate('/');
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log('dispatching fetchUser');
-    dispatch(fetchUser());
-  }, [dispatch]);
-
-  const data = useAppSelector((state) => state.user.data);
-  const isLoading = useAppSelector((state) => state.user.loading);
-  const error = useAppSelector((state) => state.user.error);
-  console.log('console log de data apres state:', data);
-
-  if (isLoading) {
-    return <div>Chargement...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!Array.isArray(data)) {
-    return <div>Data n'est pas un tableau</div>;
-  }
-
-  if (data.length === 0) {
-    return <div>Aucun utilisateur trouvé</div>;
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ICredentials>();
+  const onSubmit: SubmitHandler<ICredentials> = (data) => dispatch(login(data));
 
   return (
-    <div className="Data">
-      <ul className="LiData">
-        {data.map((user) => (
-          <li key={user.id}>{user.pseudo}</li>
-        ))}
-        <li> TEST</li>
-      </ul>
-    </div>
+    <Box
+      sx={{
+        width: 400,
+        maxWidth: '100%',
+        p: 2,
+        bgcolor: 'white',
+        color: 'black',
+      }}
+    >
+      <Typography variant="h5" component="h5" gutterBottom>
+        Connectez-vous
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+        <TextField
+          fullWidth
+          label="pseudo"
+          type="pseudo"
+          {...register('pseudo', { required: true })}
+        />
+
+        <TextField
+          fullWidth
+          label="Password"
+          type="password"
+          {...register('password', { required: true })}
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: 3, mb: 2 }}
+          disabled={status === 'loading'}
+        >
+          Se connecter
+        </Button>
+      </Box>
+    </Box>
   );
 }
 
