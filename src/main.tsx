@@ -17,7 +17,6 @@ import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 // Test du composant login 04.07.2024
-import Login from './components/elements/Login/Login.tsx';
 import Profile from './components/elements/Profile/Profile.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
 
