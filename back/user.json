@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "firstname": "Alice",
+    "lastname": "Smith",
+    "password": "1234",
+    "email": "alice.smith@example.com"
+  },
+  {
+    "id": 2,
+    "firstname": "Bob",
+    "lastname": "Johnson",
+    "password": "1234",
+    "email": "bob.johnson@example.com"
+  },
+  {
+    "id": 3,
+    "firstname": "Charlie",
+    "lastname": "Brown",
+    "password": "1234",
+    "email": "charlie.brown@example.com"
+  },
+  {
+    "id": 4,
+    "firstname": "David",
+    "lastname": "Davis",
+    "password": "1234",
+    "email": "david.davis@example.com"
+  },
+  {
+    "id": 5,
+    "firstname": "Eric",
+    "lastname": "Smith",
+    "password": "1234",
+    "email": "eric.smith@example.com"
+  },
+  {
+    "id": 6,
+    "firstname": "Aurelie",
+    "lastname": "Miller",
+    "password": "1234",
+    "email": "aurelie.miller@example.com"
+  },
+  {
+    "id": 7,
+    "firstname": "Gabriel",
+    "lastname": "Green",
+    "password": "1234",
+    "email": "gabriel.green@example.com"
+  },
+  {
+    "id": 8,
+    "firstname": "Heidi",
+    "lastname": "Ross",
+    "password": "1234",
+    "email": "heidi.ross@example.com"
+  },
+  {
+    "id": 9,
+    "firstname": "Isabella",
+    "lastname": "Scott",
+    "password": "1234",
+    "email": "isabella.scott@example.com"
+  },
+  {
+    "id": 10,
+    "firstname": "Jacob",
+    "lastname": "White",
+    "password": "1234",
+    "email": "jacob.white@example.com"
+  }
+]
