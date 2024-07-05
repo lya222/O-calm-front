@@ -10,6 +10,8 @@ import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
+const url = import.meta.env.VITE_API_URL;
+
 const initialState: UserState = {
   isLogged: false,
   data: [],
@@ -30,7 +32,7 @@ export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   'user/fetchUser',
   async () => {
     // console.log('asyncthunk fetchUser marche');
-    const response = await axios.get<User[]>(`http://localhost:3001/login/`);
+    const response = await axios.get<User[]>(`${url}login/`);
     console.log(
       'test de fetchUser depuis la fonction asyncthunk',
       response.data
@@ -45,10 +47,7 @@ export const createUser = createAsyncThunk<
   CreateUser,
   AsyncThunkConfig
 >('user/createUserAsync', async (userData: CreateUser) => {
-  const response = await axios.post<User>(
-    `http://localhost:3001/register`,
-    userData
-  );
+  const response = await axios.post<User>(`${url}register`, userData);
   return response.data;
 });
 
@@ -56,10 +55,7 @@ export const createUser = createAsyncThunk<
 export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
-    const response = await axios.post(
-      `http://localhost:3001/login`,
-      credentials
-    );
+    const response = await axios.post(`${url}login`, credentials);
 
     return response.data;
   }
@@ -71,7 +67,7 @@ export type LoginThunk = typeof login;
 export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateUserAsync',
   async (userData: string) => {
-    const response = await axios.put(`http://localhost:3001/login/`, userData);
+    const response = await axios.put(`${url}login/`, userData);
     return response.data;
   }
 );
@@ -80,7 +76,7 @@ export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
 export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateEmail',
   async (email: string) => {
-    const response = await axios.put(`http://localhost:3001/login/email`, {
+    const response = await axios.put(`${url}login/email`, {
       email,
     });
     return response.data;
@@ -91,7 +87,7 @@ export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
 export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   'user/updatePassword',
   async (password: User) => {
-    const response = await axios.put(`http://localhost:3001/login/password`, {
+    const response = await axios.put(`${url}login/password`, {
       password,
     });
     return response.data;

@@ -32,6 +32,9 @@ importers:
       axios:
         specifier: ^1.7.2
         version: 1.7.2
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       material-ui-popup-state:
         specifier: ^5.1.2
         version: 5.1.2(@mui/material@5.15.20(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -68,7 +71,7 @@ importers:
         version: 7.14.1(eslint@8.57.0)(typescript@5.5.2)
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
-        version: 3.7.0(@swc/helpers@0.5.5)(vite@5.3.1(sass@1.77.6))
+        version: 3.7.0(@swc/helpers@0.5.5)(vite@5.3.3(sass@1.77.6))
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -88,8 +91,11 @@ importers:
         specifier: ^5.2.2
         version: 5.5.2
       vite:
-        specifier: ^5.3.1
-        version: 5.3.1(sass@1.77.6)
+        specifier: ^5.3.3
+        version: 5.3.3(sass@1.77.6)
+      vite-plugin-env-compatible:
+        specifier: ^2.0.1
+        version: 2.0.1
 
 packages:
 
@@ -1023,6 +1029,17 @@ packages:
   dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
 
+  dotenv-expand@5.1.0:
+    resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
+
+  dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
+
+  dotenv@8.2.0:
+    resolution: {integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==}
+    engines: {node: '>=8'}
+
   error-ex@1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
 
@@ -1459,8 +1476,8 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.4.38:
-    resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
+  postcss@8.4.39:
+    resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -1719,8 +1736,11 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
-  vite@5.3.1:
-    resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
+  vite-plugin-env-compatible@2.0.1:
+    resolution: {integrity: sha512-DRrOZTg/W44ojVQQfGSMPEgYQGzp5TeIpt9cpaK35hTOC/b2D7Ffl8/RIgK8vQ0mlnDIUgETcA173bnMEkyzdw==}
+
+  vite@5.3.3:
+    resolution: {integrity: sha512-NPQdeCU0Dv2z5fu+ULotpuq5yfCS1BzKUIPhNbP3YBfAMGJXbt2nS+sbTFu+qchaqWTD+H3JK++nRwr6XIcp6A==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -2475,10 +2495,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.5)(vite@5.3.1(sass@1.77.6))':
+  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.5)(vite@5.3.3(sass@1.77.6))':
     dependencies:
       '@swc/core': 1.6.5(@swc/helpers@0.5.5)
-      vite: 5.3.1(sass@1.77.6)
+      vite: 5.3.3(sass@1.77.6)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -2645,6 +2665,12 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
       csstype: 3.1.3
+
+  dotenv-expand@5.1.0: {}
+
+  dotenv@16.4.5: {}
+
+  dotenv@8.2.0: {}
 
   error-ex@1.3.2:
     dependencies:
@@ -3135,7 +3161,7 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  postcss@8.4.38:
+  postcss@8.4.39:
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.0.1
@@ -3370,10 +3396,15 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  vite@5.3.1(sass@1.77.6):
+  vite-plugin-env-compatible@2.0.1:
+    dependencies:
+      dotenv: 8.2.0
+      dotenv-expand: 5.1.0
+
+  vite@5.3.3(sass@1.77.6):
     dependencies:
       esbuild: 0.21.5
-      postcss: 8.4.38
+      postcss: 8.4.39
       rollup: 4.18.0
     optionalDependencies:
       fsevents: 2.3.3
