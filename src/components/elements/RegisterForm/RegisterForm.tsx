@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
 import { TextField, Button, Box, Typography, Modal } from '@mui/material';
 import { AppDispatch } from '../../../store';
+import { CreateUser } from '../../../@types/user';
 
 const style = {
   position: 'absolute',
@@ -76,7 +77,7 @@ function RegisterForm() {
 
     // if (result) setPseudoError('Ce pseudo est déjâ pris');
     if (emailError === '' || pseudoError === '' || passwordError === '') {
-      await dispatch(createUser(formData));
+      await dispatch(createUser(formData as CreateUser));
       setOpen(true);
     }
   };
