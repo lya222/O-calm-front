@@ -2,7 +2,11 @@ import { Reducer, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import { Places, PlacesState } from '../../@types/places';
 // import data from "../../data.json";
 import axios from 'axios';
+// import 'dotenv/config';
 import { AsyncThunkConfig } from '../../@types/types';
+
+const url = import.meta.env.VITE_API_URL;
+console.log('MON URL ', import.meta.env.VITE_API_URL);
 
 export const initialState: PlacesState = {
   list: [],
@@ -13,7 +17,7 @@ export const initialState: PlacesState = {
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
-    const list = await axios.get<Places[]>('http://localhost:3001/places');
+    const list = await axios.get<Places[]>(`${url}places`);
 
     return list.data;
   }
