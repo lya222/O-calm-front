@@ -1,12 +1,9 @@
 import { Reducer, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import { Places, PlacesState } from '../../@types/places';
-// import data from "../../data.json";
 import axios from 'axios';
-// import 'dotenv/config';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = import.meta.env.VITE_API_URL;
-console.log('MON URL ', import.meta.env.VITE_API_URL);
+const url = 'http://localhost:3001/';
 
 export const initialState: PlacesState = {
   list: [],

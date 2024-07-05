@@ -10,7 +10,7 @@ import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = import.meta.env.VITE_API_URL;
+const url = 'http://localhost:3001/';
 
 const initialState: UserState = {
   isLogged: false,
