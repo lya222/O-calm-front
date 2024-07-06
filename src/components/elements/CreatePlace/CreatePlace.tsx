@@ -7,6 +7,7 @@ import {
   FormGroup,
   FormLabel,
   TextField,
+  Typography,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IFormInputPlace } from '../../../@types/places';
@@ -54,6 +55,9 @@ function CreatePlace() {
         color: 'black',
       }}
     >
+      <Typography variant="h5" component="h5" gutterBottom>
+        Ajouter un nouveau lieu
+      </Typography>
       <TextField
         fullWidth
         label="Entrer le nom du lieu"
