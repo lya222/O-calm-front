@@ -13,14 +13,19 @@ import { IFormInputPlace } from '../../../@types/places';
 import { useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
-const GenderEnum = ['female', 'male', 'other'];
+import { useAppSelector } from '../../../hooks/redux';
+import { sortTag } from '../../../store/selectors/places';
 
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [count, setCount] = useState(1);
 
+  const places = useAppSelector((state) => state.places.list);
+
+  const tags: string[] = sortTag(places);
+
+  console.log('recherche des tags : ', tags);
   const addRoute = () => {
     setListRoute((prev) => [...prev, { id: count }]);
     setCount((prev) => prev + 1);
@@ -72,8 +77,9 @@ function CreatePlace() {
           <FormLabel component="legend">
             Sélectionner le type de votre lieu
           </FormLabel>
-          {GenderEnum.map((tag) => (
+          {tags.map((tag: string, index) => (
             <FormControlLabel
+              key={index}
               value={tag}
               control={<Checkbox />}
               {...register('tag')}
