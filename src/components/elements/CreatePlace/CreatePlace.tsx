@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -9,6 +10,9 @@ import {
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Tag } from '../../../@types/places';
+import { useState } from 'react';
+import InputRoute from './InputRoute/InputRoute';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const GenderEnum = ['female', 'male', 'other'];
 interface Places {
@@ -31,8 +35,16 @@ interface IFormInput {
 }
 
 function CreatePlace() {
+  const [count, setCount] = useState(1);
+
   const { register, handleSubmit } = useForm<IFormInput>();
+  const [listRoute, setListRoute] = useState([
+    <InputRoute register={register} count={count} />,
+  ]);
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+
+  const routeList = () => {};
+
   return (
     <Box
       component="form"
@@ -78,6 +90,30 @@ function CreatePlace() {
               ))}
             </FormGroup>
           </FormControl>
+          <FormLabel component="legend">
+            Entrer les étapes a suivre pour acceder au lieu
+          </FormLabel>
+          {/* <FormControlLabel
+            value={countPlace}
+            label={countPlace}
+            labelPlacement="start"
+            control={
+              <TextField
+                fullWidth
+                multiline
+                label="Entrer la description du lieu"
+                type="text"
+                {...register('description', {
+                  required: 'Il faut drécrire le lieu',
+                })}
+              />
+            }
+          > */}
+          {listRoute}
+          <Button>
+            <AddCircleOutlineIcon />
+          </Button>
+          {/* </FormControlLabel> */}
         </Box>
       </Box>
     </Box>
