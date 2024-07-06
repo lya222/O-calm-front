@@ -19,3 +19,12 @@ export interface PlacesState {
   loading: boolean;
   error: string | undefined | null;
 }
+
+export interface IFormInputPlace {
+  name: string;
+  slug: string;
+  description: string;
+  images: string[];
+  tag: Tag[];
+  route: string[];
+}

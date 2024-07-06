@@ -9,46 +9,39 @@ import {
   TextField,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Tag } from '../../../@types/places';
+import { IFormInputPlace } from '../../../@types/places';
 import { useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const GenderEnum = ['female', 'male', 'other'];
-interface Places {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  images: string[];
-  tag: Tag[];
-  route: string[];
-}
-
-interface IFormInput {
-  name: string;
-  slug: string;
-  description: string;
-  images: string[];
-  tag: Tag[];
-  route: string[];
-}
 
 function CreatePlace() {
+  const { register, handleSubmit } = useForm<IFormInputPlace>();
+  const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [count, setCount] = useState(1);
 
-  const { register, handleSubmit } = useForm<IFormInput>();
-  const [listRoute, setListRoute] = useState([
-    <InputRoute register={register} count={count} />,
-  ]);
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const addRoute = () => {
+    setListRoute((prev) => [...prev, { id: count }]);
+    setCount((prev) => prev + 1);
+  };
 
-  const routeList = () => {};
+  const deleteRoute = (index: number) => {
+    setListRoute((prev) => prev.filter((route) => route.id !== index));
+  };
+
+  const onSubmit: SubmitHandler<IFormInputPlace> = (data) => {
+    console.log('Le resultat de ma création', data);
+  };
+
+  console.log('le register', listRoute);
 
   return (
     <Box
       component="form"
+      onSubmit={handleSubmit(onSubmit)}
       sx={{
+        mt: 3,
         width: 400,
         maxWidth: '100%',
         p: 2,
@@ -56,68 +49,90 @@ function CreatePlace() {
         color: 'black',
       }}
     >
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-          <TextField
-            fullWidth
-            label="Entrer le nom du lieu"
-            type="text"
-            {...register('name', {
-              required: 'Le nom du lieu est obligatoire',
-            })}
-          />
-          <TextField
-            fullWidth
-            multiline
-            label="Entrer la description du lieu"
-            type="text"
-            {...register('description', {
-              required: 'Il faut drécrire le lieu',
-            })}
-          />
-          <FormControl component="fieldset">
-            <FormGroup aria-label="position" row>
-              <FormLabel component="legend">
-                Sélectionner le type de votre lieu
-              </FormLabel>
-              {GenderEnum.map((gender) => (
-                <FormControlLabel
-                  value="start"
-                  control={<Checkbox />}
-                  label={gender}
-                  labelPlacement="start"
-                />
-              ))}
-            </FormGroup>
-          </FormControl>
+      <TextField
+        fullWidth
+        label="Entrer le nom du lieu"
+        type="text"
+        {...register('name', {
+          required: 'Le nom du lieu est obligatoire',
+        })}
+      />
+      <TextField
+        fullWidth
+        multiline
+        label="Entrer la description du lieu"
+        type="text"
+        {...register('description', {
+          required: 'Il faut drécrire le lieu',
+        })}
+      />
+
+      <FormControl component="fieldset">
+        <FormGroup aria-label="position" row>
           <FormLabel component="legend">
-            Entrer les étapes a suivre pour acceder au lieu
+            Sélectionner le type de votre lieu
           </FormLabel>
-          {/* <FormControlLabel
-            value={countPlace}
-            label={countPlace}
-            labelPlacement="start"
-            control={
-              <TextField
-                fullWidth
-                multiline
-                label="Entrer la description du lieu"
-                type="text"
-                {...register('description', {
-                  required: 'Il faut drécrire le lieu',
-                })}
-              />
-            }
-          > */}
-          {listRoute}
-          <Button>
-            <AddCircleOutlineIcon />
-          </Button>
-          {/* </FormControlLabel> */}
-        </Box>
-      </Box>
+          {GenderEnum.map((tag) => (
+            <FormControlLabel
+              value={tag}
+              control={<Checkbox />}
+              {...register('tag')}
+              label={tag}
+              labelPlacement="start"
+            />
+          ))}
+        </FormGroup>
+      </FormControl>
+
+      <FormControl component="fieldset">
+        <FormLabel component="legend">
+          Entrer les étapes a suivre pour acceder au lieu
+        </FormLabel>
+        {listRoute.map((route, index) => (
+          <InputRoute
+            key={route.id}
+            register={register}
+            index={index}
+            handleRemove={() => deleteRoute(route.id)}
+          />
+        ))}
+        <Button onClick={addRoute}>
+          <AddCircleOutlineIcon />
+        </Button>
+      </FormControl>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Enregistrer
+      </Button>
     </Box>
   );
 }
 
 export default CreatePlace;
+
+{
+  /* <FormControlLabel
+value={countPlace}
+label={countPlace}
+labelPlacement="start"
+control={
+  <TextField
+  fullWidth
+  multiline
+  label="Entrer la description du lieu"
+  type="text"
+  {...register('description', {
+    required: 'Il faut drécrire le lieu',
+    })}
+    />
+    }
+    > */
+}
+{
+  /* </FormControlLabel> */
+}

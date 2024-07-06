@@ -1,23 +1,33 @@
-import { FormControlLabel, TextField } from '@mui/material';
+import { Box, FormControlLabel, IconButton, TextField } from '@mui/material';
+import { IFormInputPlace } from '../../../../@types/places';
+import { UseFormRegister } from 'react-hook-form';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function InputRoute({ register, count }) {
+type IInputRoute = {
+  register: UseFormRegister<IFormInputPlace>;
+  index: number;
+  handleRemove: () => void;
+};
+
+function InputRoute({ register, index, handleRemove }: IInputRoute) {
+  const textInput = `Etape ${index + 1}`;
+
   return (
-    <FormControlLabel
-      value={count}
-      label={count}
-      labelPlacement="start"
-      control={
-        <TextField
-          fullWidth
-          multiline
-          label="Entrer la description du lieu"
-          type="text"
-          {...register('description', {
-            required: 'Il faut drécrire le lieu',
-          })}
-        />
-      }
-    ></FormControlLabel>
+    <Box sx={{ display: 'flex' }}>
+      <FormControlLabel
+        control={<TextField />}
+        {...register(`route.${index}`)}
+        label={textInput}
+        labelPlacement="start"
+      />
+      {index != 0 ? (
+        <IconButton onClick={handleRemove} aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      ) : (
+        ''
+      )}
+    </Box>
   );
 }
 
