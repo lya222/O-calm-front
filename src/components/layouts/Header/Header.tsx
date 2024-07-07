@@ -5,16 +5,14 @@ function Header() {
   return (
     <Box
       sx={{
-        minHeight: '560px',
-        backgroundImage: 'url(../../../image/flowers-7790227_1280.jpg)',
-        backgroundSize: 'cover',
+        minHeight: '100px',
+        backgroundImage: 'url(../../../image/headermobile.png)',
+        backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'static',
       }}
-    >
-      <p>O'CALM</p>
-    </Box>
+    ></Box>
   );
 }
 

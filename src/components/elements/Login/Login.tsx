@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../../@types/user';
@@ -7,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../../store/reducers/userReducer';
 import { ICredentials } from '../../../@types/Icredentials';
 import { AppDispatch } from '../../../store';
+import '../../../assets/fonts/fonts.css';
 
 const Login = () => {
   const {
@@ -31,6 +33,13 @@ const Login = () => {
     }
   };
 
+  const useStyles = makeStyles({
+    root: {
+      fontFamily: 'Bion, Arial, sans-serif',
+    },
+  });
+  const classes = useStyles();
+
   return (
     <Box
       sx={{
@@ -39,19 +48,32 @@ const Login = () => {
         p: 2,
         bgcolor: 'white',
         color: 'black',
+        fontFamily: 'Bion',
+        borderRadius: '8px',
       }}
     >
-      <Typography variant="h5" component="h5" gutterBottom>
+      <Typography
+        variant="h5"
+        component="h5"
+        gutterBottom
+        sx={{ fontFamily: 'Bion, Arial, sans-serif' }}
+      >
         Connectez-vous
       </Typography>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ mt: 3, fontFamily: 'Bion' }}
+      >
         <TextField
           fullWidth
-          label="pseudo"
+          label="Pseudo"
           type="text"
           {...register('pseudo', { required: 'Pseudo is required' })}
           error={!!errors.pseudo}
           helperText={errors.pseudo ? errors.pseudo.message : ''}
+          sx={{ fontFamily: 'Bion, Arial, sans-serif' }}
+          className={classes.root}
         />
         <TextField
           fullWidth
@@ -60,13 +82,14 @@ const Login = () => {
           {...register('password', { required: 'Password is required' })}
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : ''}
+          className={classes.root}
         />
         <Button
           type="submit"
           fullWidth
           variant="contained"
           color="primary"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
           disabled={status === 'loading'}
         >
           Enregistrer

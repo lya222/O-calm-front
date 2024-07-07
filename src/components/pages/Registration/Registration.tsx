@@ -7,6 +7,7 @@ import './style.scss';
 import Login from '../../elements/Login/Login';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AppDispatch } from '../../../store';
+import '../../../assets/fonts/fonts.css';
 
 function Registration() {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,8 +44,18 @@ function Registration() {
           <Login /> {/* Utiliser le composant Logout ici */}
         </Box>
         <Box className={`toggle-bar`} onClick={handleToggle}>
-          <Button variant="contained" color="success">
-            {showLogin ? 'Pas encore de compte' : 'Déjà un compte'}
+          <Button
+            variant="contained"
+            color="success"
+            sx={{
+              fontFamily: 'Bion',
+              bgcolor: '#567d4e', // Exemple de couleur verte
+              '&:hover': {
+                bgcolor: '#8aa167', // Exemple de couleur verte plus foncée au survol
+              },
+            }}
+          >
+            {showLogin ? 'Créer mon compte' : 'Déjà un compte'}
           </Button>
         </Box>
         <Box className={`page ${showLogin ? 'hidden' : 'visible'}`}>
