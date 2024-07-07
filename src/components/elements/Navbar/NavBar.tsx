@@ -20,12 +20,16 @@ function NavBar() {
         }
       }
     >
-      <BottomNavigation showLabels>
+      <BottomNavigation>
         <Link to="/">
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+          <BottomNavigationAction label="Home" icon={<HomeIcon />} showLabel />
         </Link>
         <Link to="/404">
-          <BottomNavigationAction label="Search" icon={<SearchIcon />} />
+          <BottomNavigationAction
+            label="Search"
+            icon={<SearchIcon />}
+            showLabel
+          />
         </Link>
         {isLogged ? (
           <MenuLog />

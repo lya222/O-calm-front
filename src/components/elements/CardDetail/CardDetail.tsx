@@ -23,14 +23,14 @@ function CardDetail() {
   const place: Places | undefined = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
   );
+
+  const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
   if (!place) {
     // Gérer le cas où place est undefined
     return <div>Place not found</div>;
+  } else {
+    setCheckedItems(new Array(place.route.length).fill(false));
   }
-
-  const [checkedItems, setCheckedItems] = useState(
-    new Array(place.route.length).fill(false)
-  );
 
   const handleCheckBoxChange = (index: number) => {
     const newCheckedItems = [...checkedItems];

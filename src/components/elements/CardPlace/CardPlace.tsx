@@ -22,13 +22,7 @@ function CardPlace({ place, index }: CardPlaceProp) {
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       <Carousel>
         {place.images.map((picture, index) => (
-          <CardMedia
-            key={index}
-            component="img"
-            height="200"
-            image={picture}
-            alt="photo lieu"
-          />
+          <CardMedia key={index} component="img" height="200" image={picture} />
         ))}
       </Carousel>
       <CardContent>
