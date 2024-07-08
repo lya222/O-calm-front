@@ -27,7 +27,7 @@ function CardDetail() {
 
   useEffect(() => {
     if (place) {
-      setCheckedItems(new Array(place.route.length).fill(false));
+      setCheckedItems(new Array(place.journey.length).fill(false));
     }
   }, [place]);
   if (!place) {
@@ -53,16 +53,16 @@ function CardDetail() {
         {place.name}
       </Typography>
       <Stack direction="row" spacing={1}>
-        {place.tag.map((t) => (
+        {/* {place.tag.map((t) => (
           <Chip
             key={t.id}
             label={t.name}
             sx={{ background: t.color, color: 'white' }}
           />
-        ))}
+        ))} */}
       </Stack>
       <Carousel>
-        {place.images.map((image, index) => (
+        {place.picture.map((image, index) => (
           <CardMedia
             key={index}
             component="img"
@@ -85,7 +85,7 @@ function CardDetail() {
           Chemin a suivre
         </AccordionSummary>
         <AccordionDetails>
-          {place.route.map((etape, i) => (
+          {/* {place.journey.map((etape, i) => (
             <div key={i}>
               <Typography
                 variant="h6"
@@ -101,7 +101,7 @@ function CardDetail() {
                 {i} - {etape}
               </Typography>
             </div>
-          ))}
+          ))} */}
         </AccordionDetails>
       </Accordion>
 

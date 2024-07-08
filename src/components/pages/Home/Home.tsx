@@ -5,7 +5,14 @@ import { Box } from '@mui/material';
 import { Places } from '../../../@types/places';
 
 function Home() {
-  const places = useAppSelector((state) => state.places.list);
+  interface PlacesState {
+    data: Places[];
+  }
+  const places: PlacesState = useAppSelector((state) => state.places.list);
+  console.log('recuperation des mes endroits', places);
+  places.map((place) => {
+    console.log('liste des endroits', place);
+  });
 
   return (
     <Box>
