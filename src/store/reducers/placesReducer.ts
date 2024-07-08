@@ -1,4 +1,9 @@
-import { Reducer, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  Reducer,
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 import { Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
@@ -9,12 +14,13 @@ export const initialState: PlacesState = {
   list: [],
   loading: true,
   error: null,
+  search: '',
 };
 
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
-    const response = await axios.get<{ data: Places[] }>(`${url}place`);
+    const response = await axios.get<{ data: Places[] }>(`${url}places`);
     const list = Object.values(response.data)[0];
     return list;
   }
@@ -31,6 +37,8 @@ export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
 
 //   );
 
+export const searchPlace = createAction<string>('places/searchPlace');
+
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
   (builder) => {
@@ -45,6 +53,9 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       .addCase(loadPlaces.fulfilled, (state, action) => {
         state.list = action.payload;
         state.loading = false;
+      })
+      .addCase(searchPlace, (state, action) => {
+        state.search = action.payload;
       });
   }
 );
