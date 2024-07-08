@@ -8,7 +8,7 @@ import { Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = 'http://165.22.25.11:4000/';
+const url = import.meta.env.VITE_API_URL;
 
 export const initialState: PlacesState = {
   list: [],
