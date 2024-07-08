@@ -5,7 +5,19 @@ import { Box } from '@mui/material';
 import { Places } from '../../../@types/places';
 
 function Home() {
-  const places = useAppSelector((state) => state.places.list);
+  const takePlaces = useAppSelector((state) => state.places.list);
+  const search = useAppSelector((state) => state.places.search);
+  let places: Places[] = takePlaces;
+
+  if (search != '') {
+    const newArray = takePlaces.filter((place) =>
+      place.name.toLocaleLowerCase().includes(search.toLowerCase())
+    );
+    console.log('mon nouveau tableau', newArray);
+    places = newArray;
+  }
+
+  console.log('resultat de ma recherche', takePlaces);
 
   return (
     <Box>

@@ -19,6 +19,7 @@ export interface PlacesState {
   list: Places[];
   loading: boolean;
   error: string | undefined | null;
+  search: string;
 }
 
 export interface IFormInputPlace {
