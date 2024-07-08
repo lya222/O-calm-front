@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../../store/reducers/userReducer';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
 import { TextField, Button, Box, Typography, Modal } from '@mui/material';
 import { AppDispatch } from '../../../store';
