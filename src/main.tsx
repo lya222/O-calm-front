@@ -46,8 +46,8 @@ const router = createBrowserRouter(
 
       {/* <Route path="/login" element={<Registration />} /> */}
       <Route path="/profile" element={<Profile />} />
-      <Route path="/createplace" element={<CreatePlace />} />
       <Route path="/:slug" element={<CardDetail />} />
+      <Route path="/createplace" element={<CreatePlace />} />
       <Route path="/404" element={<Error />} />
 
       <Route path="*" element={<Error />} />
