@@ -10,7 +10,7 @@ import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = 'http://localhost:3001/';
+const url = 'http://165.22.25.11:4000/';
 
 const initialState: UserState = {
   isLogged: false,
@@ -32,11 +32,8 @@ export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   'user/fetchUser',
   async () => {
     // console.log('asyncthunk fetchUser marche');
-    const response = await axios.get<User[]>(`${url}login/`);
-    console.log(
-      'test de fetchUser depuis la fonction asyncthunk',
-      response.data
-    );
+    const response = await axios.get<User[]>(`${url}user`);
+
     return response.data;
   }
 );
@@ -46,8 +43,9 @@ export const createUser = createAsyncThunk<
   CreateUser,
   CreateUser,
   AsyncThunkConfig
->('user/createUserAsync', async (userData: CreateUser) => {
-  const response = await axios.post<User>(`${url}register`, userData);
+>('user/createUserAsync', async (userData) => {
+  const response = await axios.post<CreateUser>(`${url}register`, userData);
+  console.log("renvoie apres l'enregistrement", response.data);
   return response.data;
 });
 
@@ -132,8 +130,14 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.error = null;
       })
       .addCase(createUser.fulfilled, (state, action) => {
-        state.data.push(action.payload as User);
+        const newUser: ICredentials = {
+          email: action.payload.email,
+          password: action.payload.password,
+        };
+        state.pseudo = action.payload.username;
+        state.credentials = newUser;
         state.loading = false;
+        state.isLogged = true;
       })
       .addCase(createUser.rejected, (state, action) => {
         state.error = action.error.message;
@@ -148,7 +152,7 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         (state: UserState, action: PayloadAction<User>) => {
           state.loading = false;
           state.isLogged = true;
-          state.pseudo = action.payload.pseudo;
+          state.pseudo = action.payload.username;
         }
       )
       .addCase(login.rejected, (state, action) => {

@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
@@ -21,9 +15,9 @@ function CardPlace({ place, index }: CardPlaceProp) {
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       <Carousel>
-        {place.images.map((picture, index) => (
+        {/* {place.picture.map((picture, index) => (
           <CardMedia key={index} component="img" height="200" image={picture} />
-        ))}
+        ))} */}
       </Carousel>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

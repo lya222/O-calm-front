@@ -1,11 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../../store/reducers/userReducer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { RootState, AppDispatch } from '../app/store';
 import { TextField, Button, Box, Typography, Modal } from '@mui/material';
 import { AppDispatch } from '../../../store';
-import { CreateUser } from '../../../@types/user';
 
 const style = {
   position: 'absolute',
@@ -23,20 +22,18 @@ function RegisterForm() {
   const [pseudoError, setPseudoError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    pseudo: '',
-    password: '',
+    username: '',
     email: '',
+    password: '',
+    passwordConfirm: '',
   });
 
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-
-  // useEffect(() => {
-  //   fetchPseudos();
-  // }, []);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,8 +43,8 @@ function RegisterForm() {
     }));
 
     //Verification pseudo
-    if (name === 'pseudo') {
-      if (!/^.{2,}$/.test(formData.pseudo))
+    if (name === 'username') {
+      if (!/^.{2,}$/.test(formData.username))
         setPseudoError('Le pseudo doit contenir 2 caracteres au moins');
       else setPseudoError('');
     }
@@ -67,7 +64,6 @@ function RegisterForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     //pseudo deja pris ou non
     // const users = await dispatch(fetchUser());
 
@@ -77,8 +73,13 @@ function RegisterForm() {
 
     // if (result) setPseudoError('Ce pseudo est déjâ pris');
     if (emailError === '' || pseudoError === '' || passwordError === '') {
-      await dispatch(createUser(formData as CreateUser));
-      setOpen(true);
+      try {
+        const result = await dispatch(createUser(formData));
+        console.log('le resultat de mon enregistrement', result);
+        navigate('/');
+      } catch (error) {
+        console.log("Erreur sur l'envoie du formulaire");
+      }
     }
   };
 
@@ -101,10 +102,10 @@ function RegisterForm() {
         margin="normal"
         required
         fullWidth
-        id="pseudo"
-        label="pseudo"
-        name="pseudo"
-        autoComplete="pseudo"
+        id="username"
+        label="username"
+        name="username"
+        autoComplete="username"
         autoFocus
         // value={formData.pseudo}
         onChange={handleChange}
@@ -133,6 +134,17 @@ function RegisterForm() {
         type="password"
         id="password"
         autoComplete="current-password"
+        // value={formData.password}
+        onChange={handleChange}
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        name="passwordConfirm"
+        label="passwordConfirm"
+        type="passwordConfirm"
+        id="passwordConfirm"
         // value={formData.password}
         onChange={handleChange}
       />

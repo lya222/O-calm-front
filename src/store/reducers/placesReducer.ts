@@ -3,7 +3,7 @@ import { Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = 'http://localhost:3001/';
+const url = 'http://165.22.25.11:4000/';
 
 export const initialState: PlacesState = {
   list: [],
@@ -14,9 +14,9 @@ export const initialState: PlacesState = {
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
-    const list = await axios.get<Places[]>(`${url}places`);
-
-    return list.data;
+    const response = await axios.get<{ data: Places[] }>(`${url}place`);
+    const list = Object.values(response.data)[0];
+    return list;
   }
 );
 

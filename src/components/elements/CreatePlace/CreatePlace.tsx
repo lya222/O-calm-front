@@ -14,17 +14,19 @@ import { IFormInputPlace } from '../../../@types/places';
 import { useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useAppSelector } from '../../../hooks/redux';
-import { sortTag } from '../../../store/selectors/places';
+// import { useAppSelector } from '../../../hooks/redux';
+// import { sortTag } from '../../../store/selectors/places';
+
+const tags = ['mer', 'montagne'];
 
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [count, setCount] = useState(1);
 
-  const places = useAppSelector((state) => state.places.list);
+  // const places = useAppSelector((state) => state.places.list);
 
-  const tags: string[] = sortTag(places);
+  // const tags: string[] = sortTag(places);
 
   console.log('recherche des tags : ', tags);
   const addRoute = () => {
