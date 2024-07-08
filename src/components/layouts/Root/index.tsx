@@ -16,15 +16,15 @@ function Root() {
     dispatch(loadPlaces());
   }, [dispatch]);
 
-  const places = useAppSelector((state) => state.places.list);
+  // const places = useAppSelector((state) => state.places.list);
   const isLoading = useAppSelector((state) => state.places.loading);
-  const isLogged = useAppSelector((state) => state.user.isLogged);
-  const pseudo = useAppSelector((state) => state.user.pseudo);
+  // const isLogged = useAppSelector((state) => state.user.isLogged);
+  // const pseudo = useAppSelector((state) => state.user.pseudo);
 
-  console.log('places', places);
-  console.log('isLoading', isLoading);
-  console.log('isLogged', isLogged);
-  console.log('Le pseudo', pseudo);
+  // console.log('places', places);
+  // console.log('isLoading', isLoading);
+  // console.log('isLogged', isLogged);
+  // console.log('Le pseudo', pseudo);
 
   return (
     <>

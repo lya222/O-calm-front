@@ -17,7 +17,6 @@ function Registration() {
       try {
         const actionResult = await dispatch(fetchUser());
         const users = unwrapResult(actionResult); // Extract the payload
-        console.log('Liste des utilisateurs', users);
       } catch (error) {
         console.error(
           'Erreur lors de la récupération des utilisateurs:',

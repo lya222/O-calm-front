@@ -1,6 +1,6 @@
 export interface User {
   id: number;
-  pseudo: string;
+  username: string;
   password: string;
   email: string;
 }
@@ -15,7 +15,9 @@ export interface UserState {
 }
 
 export interface CreateUser {
-  pseudo: string;
-  password: string;
+  username: string;
   email: string;
+  password: string;
+  passwordConfirm: string;
+  id?: string;
 }

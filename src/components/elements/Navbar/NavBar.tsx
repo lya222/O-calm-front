@@ -22,14 +22,10 @@ function NavBar() {
     >
       <BottomNavigation>
         <Link to="/">
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} showLabel />
+          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         </Link>
         <Link to="/404">
-          <BottomNavigationAction
-            label="Search"
-            icon={<SearchIcon />}
-            showLabel
-          />
+          <BottomNavigationAction label="Search" icon={<SearchIcon />} />
         </Link>
         {isLogged ? (
           <MenuLog />
