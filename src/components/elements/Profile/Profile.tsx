@@ -34,7 +34,7 @@ function Profile() {
           fullWidth
           label={pseudo}
           type="pseudo"
-          {...register('pseudo', { required: true })}
+          {...register('username', { required: true })}
         />
 
         <TextField

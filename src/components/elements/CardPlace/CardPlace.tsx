@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
