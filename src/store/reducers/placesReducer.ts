@@ -1,22 +1,28 @@
-import { Reducer, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  Reducer,
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 import { Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
-const url = 'http://localhost:3001/';
+const url = 'http://165.22.25.11:4000/';
 
 export const initialState: PlacesState = {
   list: [],
   loading: true,
   error: null,
+  search: '',
 };
 
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
-    const list = await axios.get<Places[]>(`${url}places`);
-
-    return list.data;
+    const response = await axios.get<{ data: Places[] }>(`${url}places`);
+    const list = Object.values(response.data)[0];
+    return list;
   }
 );
 
@@ -30,6 +36,8 @@ export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
 //   setJoke("An error occured, seems it's not time to laught ... ");
 
 //   );
+
+export const searchPlace = createAction<string>('places/searchPlace');
 
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
@@ -45,6 +53,9 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       .addCase(loadPlaces.fulfilled, (state, action) => {
         state.list = action.payload;
         state.loading = false;
+      })
+      .addCase(searchPlace, (state, action) => {
+        state.search = action.payload;
       });
   }
 );

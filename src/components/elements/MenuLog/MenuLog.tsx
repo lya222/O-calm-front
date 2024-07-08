@@ -20,6 +20,10 @@ function MenuLog() {
     navigate('/profile');
   };
 
+  const handleCreatePlace = () => {
+    navigate('/createplace');
+  };
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
@@ -39,6 +43,9 @@ function MenuLog() {
             }}
           >
             <MenuItem onClick={handleProfile}>Profile</MenuItem>
+            <MenuItem onClick={handleCreatePlace}>
+              Ajouter un nouveau lieu
+            </MenuItem>
             <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
           </Menu>
         </>

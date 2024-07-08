@@ -19,6 +19,7 @@
     "@types/react-redux": "^7.1.33",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
+    "framer-motion": "^11.2.13",
     "material-ui-popup-state": "^5.1.2",
     "react": "^18.3.1",
     "react-auth-kit": "^3.1.3",

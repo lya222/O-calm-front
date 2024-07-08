@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'anurati';
+  src: url('./Anurati-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'bion';
+  src: url('./bion-book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+input::placeholder {
+  font-family: 'Bion', Arial, sans-serif;
+}

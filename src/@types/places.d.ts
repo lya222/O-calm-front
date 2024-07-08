@@ -1,11 +1,12 @@
 export interface Places {
   id: number;
   name: string;
+  gpsLocation: string;
+  userId: number;
+  journey: string;
   slug: string;
   description: string;
-  images: string[];
-  tag: Tag[];
-  route: string[];
+  picture: string[];
 }
 
 export interface Tag {
@@ -18,4 +19,14 @@ export interface PlacesState {
   list: Places[];
   loading: boolean;
   error: string | undefined | null;
+  search: string;
+}
+
+export interface IFormInputPlace {
+  name: string;
+  slug: string;
+  description: string;
+  images: string[];
+  tag: Tag[];
+  route: string[];
 }
