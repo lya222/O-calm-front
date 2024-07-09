@@ -1,29 +1,51 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormLabel,
   TextField,
   Typography,
+  styled,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICreatePlace, IFormInputPlace } from '../../../@types/places';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
-import { createPlace } from '../../../store/reducers/placesReducer';
+import {
+  createPlace,
+  uploadPicture,
+} from '../../../store/reducers/placesReducer';
 import { useNavigate } from 'react-router-dom';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { IPictureDownload } from '../../../@types/Files';
+import CheckIcon from '@mui/icons-material/Check';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
 
 const tags = ['mer', 'montagne'];
 
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
+  const [pictures, setPictures] = useState<IPictureDownload>();
+  const picture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
@@ -43,8 +65,26 @@ function CreatePlace() {
     setListRoute((prev) => prev.filter((route) => route.id !== index));
   };
 
+  const uploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault;
+    if (e.target.files) {
+      console.log('mon image', e.target.files[0]);
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      formData.append('upload_preset', 'mr31295!');
+      const response = await dispatch(uploadPicture(formData));
+      console.log("ma réponse a l'envoie de l'image", response);
+      if (uploadPicture.fulfilled.match(response)) {
+        setPictures(picture);
+      } else {
+        console.error("Erreur lors du téléchargement de l'image", response);
+      }
+    }
+  };
+
   const onSubmit: SubmitHandler<ICreatePlace> = async (data) => {
     data.user_id = idUser;
+    data.picture[0] = picture.url;
     console.log('Le resultat de ma création', data);
     try {
       const response = await dispatch(createPlace(data as ICreatePlace));
@@ -123,6 +163,22 @@ function CreatePlace() {
           <AddCircleOutlineIcon />
         </Button>
       </FormControl>
+      <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        {...register('picture')}
+        tabIndex={-1}
+        startIcon={<CloudUploadIcon />}
+      >
+        Télécharger une image
+        <VisuallyHiddenInput type="file" onChange={uploadImage} />
+      </Button>
+      <Typography>
+        {picture.name}.{picture.extension}
+        {picture.isloading ? <CircularProgress /> : ''}
+        {picture.isDownload ? <CheckIcon /> : ''}
+      </Typography>
       <Button
         type="submit"
         fullWidth
