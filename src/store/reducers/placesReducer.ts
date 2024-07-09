@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
-import { Places, PlacesState } from '../../@types/places';
+import { ICreatePlace, Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
@@ -25,6 +25,20 @@ export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
     return list;
   }
 );
+
+//Création d'un nouvelau lieu
+export const createPlace = createAsyncThunk<
+  ICreatePlace,
+  ICreatePlace,
+  AsyncThunkConfig
+>('place/createPlace', async (placeData) => {
+  const response = await axios.post<ICreatePlace>(`${url}places`, placeData);
+  console.log(
+    "renvoie apres l'enregistrement d'un nouveau lieu",
+    response.data
+  );
+  return response.data;
+});
 
 // const fetchJoke = async () => {
 //   try {
@@ -56,6 +70,16 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       })
       .addCase(searchPlace, (state, action) => {
         state.search = action.payload;
+      })
+      .addCase(createPlace.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createPlace.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.error.message;
+      })
+      .addCase(createPlace.fulfilled, (state) => {
+        state.loading = false;
       });
   }
 );

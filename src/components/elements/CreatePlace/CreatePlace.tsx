@@ -1,19 +1,21 @@
 import {
   Box,
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   FormLabel,
   TextField,
   Typography,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IFormInputPlace } from '../../../@types/places';
+import { ICreatePlace, IFormInputPlace } from '../../../@types/places';
 import { useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useAppSelector } from '../../../hooks/redux';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store';
+import { createPlace } from '../../../store/reducers/placesReducer';
+import { useNavigate } from 'react-router-dom';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
 
@@ -23,6 +25,9 @@ function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [count, setCount] = useState(1);
+  const idUser = useAppSelector((state) => state.user.id);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   // const places = useAppSelector((state) => state.places.list);
 
@@ -38,11 +43,17 @@ function CreatePlace() {
     setListRoute((prev) => prev.filter((route) => route.id !== index));
   };
 
-  const onSubmit: SubmitHandler<IFormInputPlace> = (data) => {
+  const onSubmit: SubmitHandler<ICreatePlace> = async (data) => {
+    data.user_id = idUser;
     console.log('Le resultat de ma création', data);
+    try {
+      const response = await dispatch(createPlace(data as ICreatePlace));
+      console.log("création d'un lieu réussi", response);
+      navigate('/');
+    } catch (error) {
+      console.log("erreur sur la création d'un lieu", error);
+    }
   };
-
-  console.log('le register', listRoute);
 
   return (
     <Box
@@ -78,7 +89,7 @@ function CreatePlace() {
         })}
       />
 
-      <FormControl component="fieldset">
+      {/* <FormControl component="fieldset">
         <FormGroup aria-label="position" row>
           <FormLabel component="legend">
             Sélectionner le type de votre lieu
@@ -94,18 +105,18 @@ function CreatePlace() {
             />
           ))}
         </FormGroup>
-      </FormControl>
+      </FormControl> */}
 
       <FormControl component="fieldset">
         <FormLabel component="legend">
           Entrer les étapes a suivre pour acceder au lieu
         </FormLabel>
-        {listRoute.map((route, index) => (
+        {listRoute.map((journey, index) => (
           <InputRoute
-            key={route.id}
+            key={journey.id}
             register={register}
             index={index}
-            handleRemove={() => deleteRoute(route.id)}
+            handleRemove={() => deleteRoute(journey.id)}
           />
         ))}
         <Button onClick={addRoute}>
