@@ -28,7 +28,15 @@ function MenuLog() {
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <>
-          <Button variant="contained" {...bindTrigger(popupState)}>
+          <Button
+            variant="contained"
+            sx={{
+              justifyContent: 'space-around',
+              marginLeft: '38px',
+              marginRight: '38px',
+            }}
+            {...bindTrigger(popupState)}
+          >
             <ManageAccountsIcon />
           </Button>
           <Menu

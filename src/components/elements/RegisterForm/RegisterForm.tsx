@@ -7,9 +7,8 @@ import { TextField, Button, Box, Typography, Modal } from '@mui/material';
 import { AppDispatch } from '../../../store';
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
+  position: 'relative',
+  marginTop: '-50px', // Utilisation de marginTop
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',

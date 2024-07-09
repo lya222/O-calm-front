@@ -36,9 +36,13 @@ function NavBar() {
         {isLogged ? (
           <MenuLog />
         ) : (
-          <Link to="/login">
-            <AccountCircleIcon color="action" fontSize="large" />
-          </Link>
+          <BottomNavigationAction
+            component={Link}
+            to="/login"
+            label="Account"
+            icon={<AccountCircleIcon sx={{ fontSize: '2rem' }} />}
+            showLabel={true}
+          />
         )}
       </BottomNavigation>
     </Box>
