@@ -13,17 +13,15 @@ function NavBar() {
   };
   return (
     <Box
-      sx={
-        {
-          // position: "fixed",
-          // bottom: "0",
-          // height: "50px",
-          // width: "100%",
-          // zIndex: "tooltip",
-        }
-      }
+      sx={{
+        position: 'fixed',
+
+        bottom: 0,
+        width: '100%',
+        zIndex: 1000,
+      }}
     >
-      <BottomNavigation>
+      <BottomNavigation sx={{ display: 'flex', justifyContent: 'center' }}>
         <Link to="/">
           <BottomNavigationAction
             label="Home"
