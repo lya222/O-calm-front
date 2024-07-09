@@ -21,10 +21,19 @@ function CardPlace({ place, index }: CardPlaceProp) {
         ))} */}
       </Carousel>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography
+          gutterBottom
+          variant="h5"
+          sx={{ fontFamily: 'Bion' }}
+          component="div"
+        >
           {place.name}
         </Typography>
-        <Typography variant="h6" color="text.primary">
+        <Typography
+          variant="h6"
+          sx={{ fontFamily: 'Bion' }}
+          color="text.primary"
+        >
           Description du lieu
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -35,7 +44,7 @@ function CardPlace({ place, index }: CardPlaceProp) {
             VOir le site
           </Button>
         ) : (
-          <Button disabled variant="contained">
+          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }}>
             Connectez vous pour voir ce site
           </Button>
         )}
