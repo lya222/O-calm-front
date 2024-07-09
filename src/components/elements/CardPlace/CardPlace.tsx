@@ -3,6 +3,7 @@ import Carousel from 'react-material-ui-carousel';
 import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
+import '../../../assets/fonts/fonts.css';
 
 interface CardPlaceProp {
   place: Places;
