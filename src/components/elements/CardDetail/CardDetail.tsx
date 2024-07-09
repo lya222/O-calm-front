@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
+import '../../../assets/fonts/fonts.css';
 
 function CardDetail() {
   const { slug } = useParams<{ slug: string }>();
