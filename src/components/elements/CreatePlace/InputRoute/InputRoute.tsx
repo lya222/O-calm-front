@@ -16,7 +16,7 @@ function InputRoute({ register, index, handleRemove }: IInputRoute) {
     <Box sx={{ display: 'flex' }}>
       <FormControlLabel
         control={<TextField />}
-        {...register(`route.${index}`)}
+        {...register(`journey.${index}`)}
         label={textInput}
         labelPlacement="start"
       />

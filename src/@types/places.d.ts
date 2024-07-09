@@ -2,8 +2,8 @@ export interface Places {
   id: number;
   name: string;
   gpsLocation: string;
-  userId: number;
-  journey: string;
+  user_id: number;
+  journey: string[];
   slug: string;
   description: string;
   picture: string[];
@@ -27,6 +27,14 @@ export interface IFormInputPlace {
   slug: string;
   description: string;
   images: string[];
-  tag: Tag[];
-  route: string[];
+  // tag: Tag[];
+  journey: string[];
+  user_id: number;
+}
+
+export interface ICreatePlace {
+  name: string;
+  journey: string[];
+  description: string;
+  user_id: number;
 }

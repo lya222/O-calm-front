@@ -22,6 +22,7 @@ const initialState: UserState = {
     password: '',
   },
   pseudo: '',
+  id: 0,
 };
 
 export const updatePseudo = createAction<string>('user/updatePseudo');
@@ -54,7 +55,7 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
-
+    console.log('recuperation du login', response.data);
     return response.data;
   }
 );
@@ -137,7 +138,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.pseudo = action.payload.username;
         state.credentials = newUser;
         state.loading = false;
-        state.isLogged = true;
       })
       .addCase(createUser.rejected, (state, action) => {
         state.error = action.error.message;
@@ -153,6 +153,7 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
           state.loading = false;
           state.isLogged = true;
           state.pseudo = action.payload.username;
+          state.id = action.payload.id;
         }
       )
       .addCase(login.rejected, (state, action) => {
