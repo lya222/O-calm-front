@@ -60,17 +60,21 @@ function CardDetail() {
           />
         ))} */}
       </Stack>
-      <Carousel>
-        {place.picture.map((image, index) => (
-          <CardMedia
-            key={index}
-            component="img"
-            height="200"
-            image={image}
-            alt="photo lieu"
-          />
-        ))}
-      </Carousel>
+      {place.picture ? (
+        <Carousel>
+          {place.picture.map((image, index) => (
+            <CardMedia
+              key={index}
+              component="img"
+              height="200"
+              image={image}
+              alt="photo lieu"
+            />
+          ))}
+        </Carousel>
+      ) : (
+        ''
+      )}
       <Typography variant="h5" gutterBottom>
         {place.description}
       </Typography>

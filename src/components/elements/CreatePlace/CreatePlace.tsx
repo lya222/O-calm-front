@@ -22,8 +22,9 @@ import {
 } from '../../../store/reducers/placesReducer';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { IPictureDownload } from '../../../@types/Files';
+// import { IPictureDownload } from '../../../@types/Files';
 import CheckIcon from '@mui/icons-material/Check';
+import { createSlug } from '../../../store/selectors/places';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
 
@@ -44,7 +45,7 @@ const VisuallyHiddenInput = styled('input')({
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
-  const [pictures, setPictures] = useState<IPictureDownload>();
+  const [pictures, setPictures] = useState<string[]>([]);
   const picture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
@@ -75,7 +76,7 @@ function CreatePlace() {
       const response = await dispatch(uploadPicture(formData));
       console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {
-        setPictures(picture);
+        setPictures((prev) => [...prev, picture.url]);
       } else {
         console.error("Erreur lors du téléchargement de l'image", response);
       }
@@ -84,7 +85,8 @@ function CreatePlace() {
 
   const onSubmit: SubmitHandler<ICreatePlace> = async (data) => {
     data.user_id = idUser;
-    data.picture[0] = picture.url;
+    pictures.map((pict) => [...data.picture, pict]);
+    data.slug = createSlug(data.name);
     console.log('Le resultat de ma création', data);
     try {
       const response = await dispatch(createPlace(data as ICreatePlace));

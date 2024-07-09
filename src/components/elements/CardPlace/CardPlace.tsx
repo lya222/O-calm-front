@@ -1,4 +1,10 @@
-import { Button, Card, CardContent, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
@@ -15,11 +21,21 @@ function CardPlace({ place, index }: CardPlaceProp) {
   const isLogged = useAppSelector((state) => state.user.isLogged);
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
-      <Carousel>
-        {/* {place.picture.map((picture, index) => (
-          <CardMedia key={index} component="img" height="200" image={picture} />
-        ))} */}
-      </Carousel>
+      {!place.picture || !Array.isArray(place.picture) ? (
+        <CardMedia />
+      ) : (
+        <Carousel>
+          {place.picture.map((picture, index) => (
+            <CardMedia
+              key={index}
+              component="img"
+              height="200"
+              src={picture[index]}
+            />
+          ))}
+        </Carousel>
+      )}
+
       <CardContent>
         <Typography
           gutterBottom
