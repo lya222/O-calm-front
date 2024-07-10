@@ -29,7 +29,7 @@ export interface IFormInputPlace {
   name: string;
   slug: string;
   description: string;
-  picture: string;
+  picture: string[];
   // tag: Tag[];
   journey: string[];
   user_id: number;
@@ -40,6 +40,6 @@ export interface ICreatePlace {
   journey: string[];
   description: string;
   user_id: number;
-  picture: string;
+  picture: string[];
   slug: string;
 }

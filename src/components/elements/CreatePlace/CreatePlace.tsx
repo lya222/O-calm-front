@@ -47,7 +47,7 @@ function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [pictures, setPictures] = useState<IPictureDownload[]>([]);
-  const picture = useAppSelector((state) => state.places.picture);
+  const statePicture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
@@ -77,8 +77,17 @@ function CreatePlace() {
       const response = await dispatch(uploadPicture(formData));
       console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {
-        setPictures((prev) => [...prev, picture]);
-        console.log('mon fichier de photo', pictures);
+        setPictures((prev) => [
+          ...prev,
+          {
+            url: statePicture.url,
+            name: statePicture.name,
+            extension: statePicture.extension,
+            isDownload: statePicture.isDownload,
+            isloading: statePicture.isloading,
+          },
+        ]);
+        console.log('mon state de photo', statePicture);
       } else {
         console.error("Erreur lors du téléchargement de l'image", response);
       }
@@ -87,7 +96,7 @@ function CreatePlace() {
 
   const onSubmit: SubmitHandler<ICreatePlace> = async (data) => {
     data.user_id = idUser;
-    pictures.map((pict) => [...data.picture, pict]);
+    data.picture = pictures.map((pict) => pict.url);
     data.slug = createSlug(data.name);
     console.log('Le resultat de ma création', data);
     try {
@@ -99,7 +108,6 @@ function CreatePlace() {
     }
   };
   useEffect(() => {
-    // Cela s'exécutera à chaque fois que l'état `pictures` change
     console.log('mon fichier de photo', pictures);
   }, [pictures]);
 
@@ -181,16 +189,15 @@ function CreatePlace() {
         Télécharger une image
         <VisuallyHiddenInput type="file" onChange={uploadImage} />
       </Button>
-      <>
-        {' '}
-        {pictures.map((itemPicture, index) => {
-          <Typography key={index}>
-            {itemPicture.name}.{itemPicture.extension}
-            {itemPicture.isloading ? <CircularProgress /> : ''}
-            {itemPicture.isDownload ? <CheckIcon /> : ''}
-          </Typography>;
-        })}
-      </>
+
+      {pictures.map((itemPicture, index) => (
+        <Typography key={index}>
+          {itemPicture.name}.{itemPicture.extension}
+          {itemPicture.isloading ? <CircularProgress /> : ''}
+          {itemPicture.isDownload ? <CheckIcon /> : ''}
+        </Typography>
+      ))}
+
       <Button
         type="submit"
         fullWidth

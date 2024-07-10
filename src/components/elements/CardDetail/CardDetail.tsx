@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   CardMedia,
+  Checkbox,
   Stack,
   Typography,
 } from '@mui/material';
@@ -16,29 +17,30 @@ import { useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
 import '../../../assets/fonts/fonts.css';
+import { useEffect, useState } from 'react';
 
 function CardDetail() {
   const { slug } = useParams<{ slug: string }>();
   const place: Places | undefined = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
   );
-  // const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
+  const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 
-  // useEffect(() => {
-  //   if (place) {
-  //     setCheckedItems(new Array(place.journey.length).fill(false));
-  //   }
-  // }, [place]);
+  useEffect(() => {
+    if (place) {
+      setCheckedItems(new Array(place.journey.length).fill(false));
+    }
+  }, [place]);
   if (!place) {
     // Gérer le cas où place est undefined
     return <div>Place not found</div>;
   }
 
-  // const handleCheckBoxChange = (index: number) => {
-  //   const newCheckedItems = [...checkedItems];
-  //   newCheckedItems[index] = !newCheckedItems[index];
-  //   setCheckedItems(newCheckedItems);
-  // };
+  const handleCheckBoxChange = (index: number) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
+  };
 
   return (
     <Box
@@ -88,7 +90,7 @@ function CardDetail() {
           Chemin a suivre
         </AccordionSummary>
         <AccordionDetails>
-          {/* {place.journey.map((etape, i) => (
+          {place.journey.map((etape, i) => (
             <div key={i}>
               <Typography
                 variant="h6"
@@ -104,7 +106,7 @@ function CardDetail() {
                 {i} - {etape}
               </Typography>
             </div>
-          ))} */}
+          ))}
         </AccordionDetails>
       </Accordion>
 
