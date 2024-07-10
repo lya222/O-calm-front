@@ -1,1 +1,2 @@
-BASE_URL="your adress bdd"
+VITE_API_URL='http://165.22.25.11:4000/'
+VITE_API_URL_PICTURE='https://api.cloudinary.com/v1_1/deihndpsd/image/upload'
