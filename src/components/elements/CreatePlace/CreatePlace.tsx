@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICreatePlace, IFormInputPlace } from '../../../@types/places';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
@@ -25,6 +25,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // import { IPictureDownload } from '../../../@types/Files';
 import CheckIcon from '@mui/icons-material/Check';
 import { createSlug } from '../../../store/selectors/places';
+import { IPictureDownload } from '../../../@types/Files';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
 
@@ -45,7 +46,7 @@ const VisuallyHiddenInput = styled('input')({
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
-  const [pictures, setPictures] = useState<string[]>([]);
+  const [pictures, setPictures] = useState<IPictureDownload[]>([]);
   const picture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
@@ -76,7 +77,8 @@ function CreatePlace() {
       const response = await dispatch(uploadPicture(formData));
       console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {
-        setPictures((prev) => [...prev, picture.url]);
+        setPictures((prev) => [...prev, picture]);
+        console.log('mon fichier de photo', pictures);
       } else {
         console.error("Erreur lors du téléchargement de l'image", response);
       }
@@ -96,6 +98,10 @@ function CreatePlace() {
       console.log("erreur sur la création d'un lieu", error);
     }
   };
+  useEffect(() => {
+    // Cela s'exécutera à chaque fois que l'état `pictures` change
+    console.log('mon fichier de photo', pictures);
+  }, [pictures]);
 
   return (
     <Box
@@ -130,7 +136,6 @@ function CreatePlace() {
           required: 'Il faut drécrire le lieu',
         })}
       />
-
       {/* <FormControl component="fieldset">
         <FormGroup aria-label="position" row>
           <FormLabel component="legend">
@@ -148,7 +153,6 @@ function CreatePlace() {
           ))}
         </FormGroup>
       </FormControl> */}
-
       <FormControl component="fieldset">
         <FormLabel component="legend">
           Entrer les étapes a suivre pour acceder au lieu
@@ -165,6 +169,7 @@ function CreatePlace() {
           <AddCircleOutlineIcon />
         </Button>
       </FormControl>
+
       <Button
         component="label"
         role={undefined}
@@ -176,11 +181,16 @@ function CreatePlace() {
         Télécharger une image
         <VisuallyHiddenInput type="file" onChange={uploadImage} />
       </Button>
-      <Typography>
-        {picture.name}.{picture.extension}
-        {picture.isloading ? <CircularProgress /> : ''}
-        {picture.isDownload ? <CheckIcon /> : ''}
-      </Typography>
+      <>
+        {' '}
+        {pictures.map((itemPicture, index) => {
+          <Typography key={index}>
+            {itemPicture.name}.{itemPicture.extension}
+            {itemPicture.isloading ? <CircularProgress /> : ''}
+            {itemPicture.isDownload ? <CheckIcon /> : ''}
+          </Typography>;
+        })}
+      </>
       <Button
         type="submit"
         fullWidth
@@ -195,25 +205,3 @@ function CreatePlace() {
 }
 
 export default CreatePlace;
-
-{
-  /* <FormControlLabel
-value={countPlace}
-label={countPlace}
-labelPlacement="start"
-control={
-  <TextField
-  fullWidth
-  multiline
-  label="Entrer la description du lieu"
-  type="text"
-  {...register('description', {
-    required: 'Il faut drécrire le lieu',
-    })}
-    />
-    }
-    > */
-}
-{
-  /* </FormControlLabel> */
-}

@@ -51,7 +51,7 @@ export const createPlace = createAsyncThunk<
 interface UploadResponse {
   url: string;
   original_filename: string;
-  extension: string;
+  original_extension: string;
 }
 
 export const uploadPicture = createAsyncThunk<
@@ -109,7 +109,7 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
         state.picture.isloading = false;
         state.picture.url = action.payload.url;
         state.picture.name = action.payload.original_filename;
-        state.picture.extension = action.payload.extension;
+        state.picture.extension = action.payload.original_extension;
       })
       .addCase(uploadPicture.pending, (state) => {
         state.picture.isloading = true;
