@@ -9,6 +9,7 @@ import { CreateUser, User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
+import { decryptToken } from '../selectors/users';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -55,7 +56,9 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
-    console.log('recuperation du login', response.data);
+    console.log('recuperation du login', response.data.token);
+    await decryptToken(response.data.token);
+
     return response.data;
   }
 );
