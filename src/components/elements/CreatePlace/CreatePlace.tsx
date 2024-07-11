@@ -77,14 +77,15 @@ function CreatePlace() {
       const response = await dispatch(uploadPicture(formData));
       console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {
+        const newPicture = response.payload;
         setPictures((prev) => [
           ...prev,
           {
-            url: statePicture.url,
-            name: statePicture.name,
-            extension: statePicture.extension,
-            isDownload: statePicture.isDownload,
-            isloading: statePicture.isloading,
+            url: newPicture.url,
+            name: newPicture.original_filename,
+            extension: newPicture.original_extension,
+            isDownload: true,
+            isloading: false,
           },
         ]);
         console.log('mon state de photo', statePicture);
@@ -117,6 +118,7 @@ function CreatePlace() {
       onSubmit={handleSubmit(onSubmit)}
       sx={{
         mt: 3,
+        mb: 5,
         width: 400,
         maxWidth: '100%',
         p: 2,
