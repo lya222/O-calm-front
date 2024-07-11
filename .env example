@@ -1,2 +1,4 @@
 VITE_API_URL='http://165.22.25.11:4000/'
 VITE_API_URL_PICTURE='https://api.cloudinary.com/v1_1/deihndpsd/image/upload'
+VITE_API_SECRETKEYTOKEN='51643d1229b9a2ec61faa0b2d77210'
+VITE_API_UPLOAD_PRESET='mr31295!'

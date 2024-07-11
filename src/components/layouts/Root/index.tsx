@@ -17,8 +17,8 @@ function Root() {
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {
       const restoreCookies = async () => {
-        console.log('lecture du cookies', Cookies.get('token'));
-        await dispatch(reconnect());
+        const token = Cookies.get('token');
+        await dispatch(reconnect(token as string));
       };
       restoreCookies();
     }

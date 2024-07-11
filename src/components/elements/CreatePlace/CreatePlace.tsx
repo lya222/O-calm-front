@@ -73,7 +73,7 @@ function CreatePlace() {
       console.log('mon image', e.target.files[0]);
       const formData = new FormData();
       formData.append('file', e.target.files[0]);
-      formData.append('upload_preset', 'mr31295!');
+      formData.append('upload_preset', import.meta.env.VITE_API_UPLOAD_PRESET);
       const response = await dispatch(uploadPicture(formData));
       console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {

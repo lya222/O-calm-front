@@ -2,7 +2,7 @@ import * as jose from 'jose';
 
 export const verifyAndDecodeToken = async (token: string) => {
   try {
-    const secretKey = '51643d1229b9a2ec61faa0b2d77210';
+    const secretKey = import.meta.env.VITE_API_SECRETKEYTOKEN;
     const secret = new TextEncoder().encode(secretKey);
 
     const { payload, protectedHeader } = await jose.jwtVerify(token, secret, {
