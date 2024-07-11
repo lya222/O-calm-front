@@ -8,9 +8,21 @@ import { Outlet } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
 import { AppDispatch } from '../../../store';
+import Cookies from 'js-cookie';
+import { reconnect } from '../../../store/reducers/userReducer';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (Cookies.get('token')?.length != 0) {
+      const restoreCookies = async () => {
+        const token = Cookies.get('token');
+        await dispatch(reconnect(token as string));
+      };
+      restoreCookies();
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(loadPlaces());
@@ -20,11 +32,13 @@ function Root() {
   const isLoading = useAppSelector((state) => state.places.loading);
   // const isLogged = useAppSelector((state) => state.user.isLogged);
   const pseudo = useAppSelector((state) => state.user.pseudo);
+  const id = useAppSelector((state) => state.user.id);
 
   // console.log('places', places);
   // console.log('isLoading', isLoading);
   // console.log('isLogged', isLogged);
   console.log('Le pseudo', pseudo);
+  console.log('Le id', id);
 
   return (
     <>

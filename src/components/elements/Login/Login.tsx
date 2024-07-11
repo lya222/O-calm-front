@@ -31,7 +31,13 @@ const Login = () => {
     setStatus('loading');
     setErrorMessage(null);
     try {
-      await dispatch(login(data as ICredentials));
+      const response = await dispatch(login(data as ICredentials));
+      console.log('verification de ma reponse', response);
+      if (login.fulfilled.match(response)) {
+        console.log('le login marche', response.payload.id);
+      } else {
+        console.log('le login ne marche pas');
+      }
 
       navigate('/');
     } catch (error) {

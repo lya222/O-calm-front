@@ -9,6 +9,9 @@ import { CreateUser, User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
+import { verifyAndDecodeToken } from '../selectors/users';
+import Cookies from 'js-cookie';
+import { JWTPayload } from 'jose';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -55,12 +58,38 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
-    console.log('recuperation du login', response.data);
+    console.log('recuperation du login', response.data.token);
+
+    await verifyAndDecodeToken(response.data.token)
+      .then((payload) => {
+        console.log('Decoded Payload:', payload);
+        response.data.id = payload.userFound;
+        Cookies.set('token', `${response.data.token}`, { expires: 365 });
+      })
+      .catch((error) => {
+        console.error('Failed to decode token:', error);
+      });
+    console.log('ma response avec le tokenid', response.data);
+
     return response.data;
   }
 );
 
 export type LoginThunk = typeof login;
+
+interface DecodedToken extends JWTPayload {
+  userFound: number;
+}
+
+export const reconnect = createAsyncThunk<
+  DecodedToken,
+  string,
+  AsyncThunkConfig
+>('user/reconnect', async (token: string) => {
+  const response = await verifyAndDecodeToken(token);
+  console.log('ma response avec le tokenid', response);
+  return response as DecodedToken;
+});
 
 //Modification d'un utilisateur
 export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
@@ -152,11 +181,27 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         (state: UserState, action: PayloadAction<User>) => {
           state.loading = false;
           state.isLogged = true;
-          state.pseudo = action.payload.username;
           state.id = action.payload.id;
         }
       )
       .addCase(login.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(reconnect.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        reconnect.fulfilled,
+        (state: UserState, action: PayloadAction<DecodedToken>) => {
+          console.log('action sur mon reconnect', action.payload);
+          state.loading = false;
+          state.isLogged = true;
+          state.id = action.payload.userFound;
+        }
+      )
+      .addCase(reconnect.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
       });
