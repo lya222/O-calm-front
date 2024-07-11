@@ -1,6 +1,7 @@
 import {
   PayloadAction,
   Reducer,
+  UnknownAction,
   createAction,
   createAsyncThunk,
   createReducer,
@@ -11,6 +12,7 @@ import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 import { verifyAndDecodeToken } from '../selectors/users';
 import Cookies from 'js-cookie';
+import { ICookies } from '../../@types/authkit';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -63,7 +65,7 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
       .then((payload) => {
         console.log('Decoded Payload:', payload);
         response.data.id = payload.userFound;
-        Cookies.set('token', `${payload.token}`);
+        Cookies.set('token', `${response.data.token}`, { expires: 365 });
       })
       .catch((error) => {
         console.error('Failed to decode token:', error);
@@ -75,6 +77,25 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
 );
 
 export type LoginThunk = typeof login;
+
+export const reconnect = createAsyncThunk<ICookies, string, AsyncThunkConfig>(
+  'user/reconnect',
+  async () => {
+    const token = Cookies.get('token');
+    const response = await verifyAndDecodeToken(token as string)
+      .then((payload) => {
+        console.log('response de ma verif de token pour reconnect', token);
+        // response. = payload.userFound;
+        console.log('Decoded Payload:', payload);
+        Cookies.set('token', `${token}`, { expires: 365 });
+      })
+      .catch((error) => {
+        console.error('Failed to decode token:', error);
+      });
+    console.log('ma response avec le tokenid', response);
+    return response;
+  }
+);
 
 //Modification d'un utilisateur
 export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
@@ -170,6 +191,23 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         }
       )
       .addCase(login.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(reconnect.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        reconnect.fulfilled,
+        (state: UserState, action: PayloadAction<ICookies>) => {
+          console.log('action sur mon reconnect', action.payload);
+          state.loading = false;
+          state.isLogged = true;
+          state.id = action.payload.userFound;
+        }
+      )
+      .addCase(reconnect.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
       });

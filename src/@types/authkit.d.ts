@@ -10,3 +10,8 @@ export interface SignInActionPayload<T> {
     email: T;
   };
 }
+
+export interface ICookies {
+  token: string;
+  userFound: number;
+}

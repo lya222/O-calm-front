@@ -8,9 +8,21 @@ import { Outlet } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
 import { AppDispatch } from '../../../store';
+import Cookies from 'js-cookie';
+import { reconnect } from '../../../store/reducers/userReducer';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (Cookies.get('token')?.length != 0) {
+      const restoreCookies = async () => {
+        console.log('lecture du cookies', Cookies.get('token'));
+        await dispatch(reconnect());
+      };
+      restoreCookies();
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(loadPlaces());
