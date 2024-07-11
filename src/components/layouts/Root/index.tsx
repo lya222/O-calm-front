@@ -20,11 +20,13 @@ function Root() {
   const isLoading = useAppSelector((state) => state.places.loading);
   // const isLogged = useAppSelector((state) => state.user.isLogged);
   const pseudo = useAppSelector((state) => state.user.pseudo);
+  const id = useAppSelector((state) => state.user.id);
 
   // console.log('places', places);
   // console.log('isLoading', isLoading);
   // console.log('isLogged', isLogged);
   console.log('Le pseudo', pseudo);
+  console.log('Le id', id);
 
   return (
     <>

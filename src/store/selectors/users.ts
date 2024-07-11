@@ -1,19 +1,21 @@
 import * as jose from 'jose';
 
-export const decryptToken = async (data: string) => {
+export const verifyAndDecodeToken = async (token: string) => {
   try {
-    const secretKey = '51643d1229b9a2ec61faa0b2d77210'; // Your base64url-encoded key
-    const secret = jose.base64url.decode(secretKey);
-    const jwt = data;
+    const secretKey = '51643d1229b9a2ec61faa0b2d77210';
+    const secret = new TextEncoder().encode(secretKey);
 
-    const { payload, protectedHeader } = await jose.jwtVerify(jwt, secret);
+    const { payload, protectedHeader } = await jose.jwtVerify(token, secret, {
+      algorithms: ['HS256'],
+    });
 
-    console.log('Verification successful');
+    console.log('Vérification réussi');
     console.log('Protected Header:', protectedHeader);
     console.log('Payload:', payload);
 
-    return payload; // Return the payload if needed
+    return payload;
   } catch (error) {
-    console.error('Error verifying token:', error);
+    console.error('Erreur sur la verification du token:', error);
+    throw error;
   }
 };

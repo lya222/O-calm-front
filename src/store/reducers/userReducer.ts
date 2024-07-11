@@ -9,7 +9,8 @@ import { CreateUser, User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
-import { decryptToken } from '../selectors/users';
+import { verifyAndDecodeToken } from '../selectors/users';
+import Cookies from 'js-cookie';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -57,7 +58,17 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
     console.log('recuperation du login', response.data.token);
-    await decryptToken(response.data.token);
+
+    await verifyAndDecodeToken(response.data.token)
+      .then((payload) => {
+        console.log('Decoded Payload:', payload);
+        response.data.id = payload.userFound;
+        Cookies.set('token', `${payload.token}`);
+      })
+      .catch((error) => {
+        console.error('Failed to decode token:', error);
+      });
+    console.log('ma response avec le tokenid', response.data);
 
     return response.data;
   }
@@ -155,7 +166,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         (state: UserState, action: PayloadAction<User>) => {
           state.loading = false;
           state.isLogged = true;
-          state.pseudo = action.payload.username;
           state.id = action.payload.id;
         }
       )
