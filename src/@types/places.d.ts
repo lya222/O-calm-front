@@ -1,9 +1,11 @@
+import { IPictureDownload } from './Files';
+
 export interface Places {
   id: number;
   name: string;
   gpsLocation: string;
-  userId: number;
-  journey: string;
+  user_id: number;
+  journey: string[];
   slug: string;
   description: string;
   picture: string[];
@@ -20,13 +22,24 @@ export interface PlacesState {
   loading: boolean;
   error: string | undefined | null;
   search: string;
+  picture: IPictureDownload;
 }
 
 export interface IFormInputPlace {
   name: string;
   slug: string;
   description: string;
-  images: string[];
-  tag: Tag[];
-  route: string[];
+  picture: string[];
+  // tag: Tag[];
+  journey: string[];
+  user_id: number;
+}
+
+export interface ICreatePlace {
+  name: string;
+  journey: string[];
+  description: string;
+  user_id: number;
+  picture: string[];
+  slug: string;
 }

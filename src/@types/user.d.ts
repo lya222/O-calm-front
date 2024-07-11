@@ -12,6 +12,7 @@ export interface UserState {
   error: string | null | undefined;
   credentials: ICredentials;
   pseudo: string;
+  id: number;
 }
 
 export interface CreateUser {

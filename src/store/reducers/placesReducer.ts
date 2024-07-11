@@ -4,17 +4,25 @@ import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
-import { Places, PlacesState } from '../../@types/places';
+import { ICreatePlace, Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 
 const url = import.meta.env.VITE_API_URL;
+const urlPicture = import.meta.env.VITE_API_URL_PICTURE;
 
 export const initialState: PlacesState = {
   list: [],
   loading: true,
   error: null,
   search: '',
+  picture: {
+    url: '',
+    name: '',
+    extension: '',
+    isloading: false,
+    isDownload: false,
+  },
 };
 
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
@@ -25,6 +33,35 @@ export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
     return list;
   }
 );
+
+//Création d'un nouvelau lieu
+export const createPlace = createAsyncThunk<
+  ICreatePlace,
+  ICreatePlace,
+  AsyncThunkConfig
+>('place/createPlace', async (placeData) => {
+  const response = await axios.post<ICreatePlace>(`${url}places`, placeData);
+  console.log(
+    "renvoie apres l'enregistrement d'un nouveau lieu",
+    response.data
+  );
+  return response.data;
+});
+
+interface UploadResponse {
+  url: string;
+  original_filename: string;
+  original_extension: string;
+}
+
+export const uploadPicture = createAsyncThunk<
+  UploadResponse,
+  FormData,
+  AsyncThunkConfig
+>('place/uploadImage', async (formdata) => {
+  const response = await axios.post(urlPicture, formdata);
+  return response.data;
+});
 
 // const fetchJoke = async () => {
 //   try {
@@ -56,6 +93,29 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       })
       .addCase(searchPlace, (state, action) => {
         state.search = action.payload;
+      })
+      .addCase(createPlace.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createPlace.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.error.message;
+      })
+      .addCase(createPlace.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(uploadPicture.fulfilled, (state, action) => {
+        state.picture.isDownload = true;
+        state.picture.isloading = false;
+        state.picture.url = action.payload.url;
+        state.picture.name = action.payload.original_filename;
+        state.picture.extension = action.payload.original_extension;
+      })
+      .addCase(uploadPicture.pending, (state) => {
+        state.picture.isloading = true;
+      })
+      .addCase(uploadPicture.rejected, (state) => {
+        state.picture.isloading = false;
       });
   }
 );

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAppSelector } from '../../../hooks/redux';
 import { Box } from '@mui/material';
 import { Places } from '../../../@types/places';
+import '../../../assets/fonts/fonts.css';
 
 function Home() {
   const takePlaces = useAppSelector((state) => state.places.list);

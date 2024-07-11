@@ -61,6 +61,7 @@ function Registration() {
         <Box className={`page ${showLogin ? 'hidden' : 'visible'}`}>
           <RegisterForm />
         </Box>
+        <Box sx={{ height: '80px' }} />
       </Container>
     </Container>
   );
