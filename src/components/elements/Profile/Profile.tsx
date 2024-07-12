@@ -1,4 +1,12 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  // IconButton,
+  // InputAdornment,
+  // OutlinedInput,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
@@ -12,6 +20,7 @@ import { AppDispatch } from '../../../store';
 import { User } from '../../../@types/user';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import CreateIcon from '@mui/icons-material/Create';
 
 function Profile() {
   const userState = useAppSelector((state) => state.user);
@@ -58,7 +67,15 @@ function Profile() {
           fullWidth
           label={userState.pseudo}
           type="pseudo"
-          {...register('username', { required: true })}
+          //pour mettre licone du petit stylo
+          // {...register('username', { required: true })}
+          // endAdornment={
+          //   <InputAdornment position="end">
+          //     <IconButton edge="end" aria-label="button change username">
+          //       <CreateIcon />
+          //     </IconButton>
+          //   </InputAdornment>
+          // }
         />
         <TextField
           fullWidth

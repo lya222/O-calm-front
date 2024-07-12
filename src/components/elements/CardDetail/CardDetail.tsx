@@ -12,15 +12,19 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Carousel from 'react-material-ui-carousel';
 // import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
 import '../../../assets/fonts/fonts.css';
 import { useEffect, useState } from 'react';
+import { deletePlace } from '../../../store/reducers/placesReducer';
 
 function CardDetail() {
+  const dispatch = useAppDispatch();
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const iduser: number = useAppSelector((state) => state.user.id);
   const place: Places | undefined = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
   );
@@ -42,11 +46,20 @@ function CardDetail() {
     setCheckedItems(newCheckedItems);
   };
 
+  const handleDeletePlace = async () => {
+    const response = await dispatch(deletePlace(place.id));
+    if (deletePlace.fulfilled.match(response)) {
+      alert('Le lieu a bien était suprimer');
+      navigate('/');
+    }
+  };
+
   return (
     <Box
       sx={{
         border: '2px solid grey',
         p: 2,
+        mb: 10,
         overflowY: 'auto',
       }}
     >
@@ -111,10 +124,20 @@ function CardDetail() {
       </Accordion>
 
       <Stack direction="row" spacing={4} justifyContent="center">
-        <Button color="success">Modifier</Button>
-        <Button variant="outlined" color="error">
-          Supprimer
-        </Button>
+        {iduser === place.user_id ? (
+          <>
+            <Button color="success">Modifier</Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={handleDeletePlace}
+            >
+              Supprimer
+            </Button>
+          </>
+        ) : (
+          ''
+        )}
       </Stack>
     </Box>
   );

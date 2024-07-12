@@ -1,15 +1,21 @@
 import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import MenuLog from '../MenuLog/MenuLog';
 import SearchBar from '../SearchBar/SearchBar';
+import { useDispatch } from 'react-redux';
+import { searchPlace } from '../../../store/reducers/placesReducer';
 
 function NavBar() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const displaySearchBar = () => {
-    return <SearchBar />;
+    dispatch(searchPlace(''));
+    navigate('/');
+    // return <SearchBar />;
   };
   return (
     <Box

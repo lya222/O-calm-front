@@ -63,6 +63,17 @@ export const uploadPicture = createAsyncThunk<
   return response.data;
 });
 
+//Pour supprimer une route
+export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
+  'place/deletePlace',
+  async (idUser: number) => {
+    console.log('je suis dans le reducer de deletePlace');
+    const response = await axios.delete(`${url}places/${idUser}`);
+    console.log('reponse du deletePlace', response.data);
+    return response.data;
+  }
+);
+
 export const searchPlace = createAction<string>('places/searchPlace');
 
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
@@ -107,6 +118,15 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       })
       .addCase(uploadPicture.rejected, (state) => {
         state.picture.isloading = false;
+      })
+      .addCase(deletePlace.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(deletePlace.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deletePlace.rejected, (state) => {
+        state.loading = false;
       });
   }
 );
