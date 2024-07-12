@@ -5,7 +5,7 @@ import './Loader.scss';
 export function Loader() {
   const Loaders = 4; 
 
-  const loaderStyle = {
+  const loaderStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column', 
     alignItems: 'center',
