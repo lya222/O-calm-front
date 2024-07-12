@@ -1,20 +1,17 @@
-
 import React from 'react';
 import './Loader.scss';
 
 export function Loader() {
-  const Loaders = 4; 
+  const Loaders = 4;
 
-  const loaderStyle = {
+  const loaderStyle: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'column', 
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-around',
     height: '100svh',
     marginTop: '300px',
-    
   };
-
 
   return (
     <div className="ContainerLoader" style={loaderStyle}>
@@ -32,4 +29,3 @@ export function Loader() {
     </div>
   );
 }
-
