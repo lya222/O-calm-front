@@ -7,6 +7,7 @@ import MenuLog from '../MenuLog/MenuLog';
 import SearchBar from '../SearchBar/SearchBar';
 import { useDispatch } from 'react-redux';
 import { searchPlace } from '../../../store/reducers/placesReducer';
+import MapIcon from '@mui/icons-material/Map';
 
 function NavBar() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
@@ -17,11 +18,15 @@ function NavBar() {
     navigate('/');
     // return <SearchBar />;
   };
+  const displayMaps = () => {
+    navigate('/maps');
+  };
   return (
     <Box
       sx={{
         position: 'fixed',
-
+        display: 'flex',
+        justifyContent: 'center',
         bottom: 0,
         width: '100%',
         zIndex: 1000,
@@ -35,8 +40,15 @@ function NavBar() {
             onClick={displaySearchBar}
           />
         </Link>
-        <SearchBar />
 
+        <SearchBar />
+        <Link to="/maps">
+          <BottomNavigationAction
+            label="Maps"
+            icon={<MapIcon />}
+            onClick={displayMaps}
+          />
+        </Link>
         {isLogged ? (
           <MenuLog />
         ) : (

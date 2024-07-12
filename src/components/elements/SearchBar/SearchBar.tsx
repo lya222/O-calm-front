@@ -108,7 +108,6 @@ function SearchBar() {
               />
             </Search>
           </Menu>
-          <BottomNavigationAction />
         </>
       )}
     </PopupState>
