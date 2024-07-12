@@ -20,7 +20,7 @@ import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 import Profile from './components/elements/Profile/Profile.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
 import CreatePlace from './components/elements/CreatePlace/CreatePlace.tsx';
-import Maps from './components/elements/Maps/Maps.tsx';
+import PlaceOnMaps from './components/elements/PlaceOnMaps/PlaceOnMaps.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -49,7 +49,7 @@ const router = createBrowserRouter(
       <Route path="/profile" element={<Profile />} />
       <Route path="/:slug" element={<CardDetail />} />
       <Route path="/createplace" element={<CreatePlace />} />
-      <Route path="/maps" element={<Maps />} />
+      <Route path="/maps" element={<PlaceOnMaps />} />
       <Route path="/404" element={<Error />} />
 
       <Route path="*" element={<Error />} />
