@@ -4,6 +4,7 @@ import {
   CircularProgress,
   FormControl,
   FormLabel,
+  Modal,
   TextField,
   Typography,
   styled,
@@ -26,10 +27,12 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CheckIcon from '@mui/icons-material/Check';
 import { createSlug } from '../../../store/selectors/places';
 import { IPictureDownload } from '../../../@types/Files';
+import PlaceOnMaps from '../PlaceOnMaps/PlaceOnMaps';
+import { Iposition } from '../../../@types/Map';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
 
-const tags = ['mer', 'montagne'];
+// const tags = ['mer', 'montagne'];
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -43,6 +46,19 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+const styleModal = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  color: 'black',
+};
+
 function CreatePlace() {
   const { register, handleSubmit } = useForm<IFormInputPlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
@@ -53,11 +69,20 @@ function CreatePlace() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  //Function for modal map
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [position, setPosition] = useState<Iposition>();
+  console.log('ma position pour le lieu', position);
+
+  //Propriété en standby pour les tags
   // const places = useAppSelector((state) => state.places.list);
 
   // const tags: string[] = sortTag(places);
 
-  console.log('recherche des tags : ', tags);
+  // console.log('recherche des tags : ', tags);
   const addRoute = () => {
     setListRoute((prev) => [...prev, { id: count }]);
     setCount((prev) => prev + 1);
@@ -180,6 +205,20 @@ function CreatePlace() {
         </Button>
       </FormControl>
 
+      {/* Modal for open map */}
+      <Button onClick={handleOpen}>Sélectionner le lieu sur la carte</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModal}>
+          <PlaceOnMaps setPosition={setPosition} handleClose={handleClose} />
+        </Box>
+      </Modal>
+
+      {/* Button for upload a pictures */}
       <Button
         component="label"
         role={undefined}
@@ -191,7 +230,6 @@ function CreatePlace() {
         Télécharger une image
         <VisuallyHiddenInput type="file" onChange={uploadImage} />
       </Button>
-
       {pictures.map((itemPicture, index) => (
         <Typography key={index}>
           {itemPicture.name}.{itemPicture.extension}
@@ -199,7 +237,6 @@ function CreatePlace() {
           {itemPicture.isDownload ? <CheckIcon /> : ''}
         </Typography>
       ))}
-
       <Button
         type="submit"
         fullWidth

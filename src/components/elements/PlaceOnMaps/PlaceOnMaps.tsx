@@ -9,12 +9,21 @@ import {
 import { useState } from 'react';
 import { Iposition } from '../../../@types/Map';
 
-function PlaceOnMaps() {
-  const position = { lat: 45, lng: 5 };
+type PlaceOnMapsProps = {
+  setPosition: (position: Iposition) => void;
+  handleClose: () => void;
+};
+
+function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
+  const positionMap = { lat: 45, lng: 5 };
   const [positionPlace, setPositionPlace] = useState<Iposition>();
+  const [isdisable, setIsDisable] = useState(true);
   const handleposition = (e: MapMouseEvent) => {
     console.log('ma position', e.detail.latLng);
-    if (e.detail.latLng) setPositionPlace(e.detail.latLng);
+    if (e.detail.latLng) {
+      setPositionPlace(e.detail.latLng);
+      setIsDisable(false);
+    }
   };
 
   // const [markerRef, marker] = useMarkerRef();
@@ -26,7 +35,10 @@ function PlaceOnMaps() {
 
   //   // do something with marker instance here
   // }, [marker]);
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (positionPlace) setPosition(positionPlace);
+    handleClose();
+  };
 
   return (
     <Box
@@ -44,7 +56,11 @@ function PlaceOnMaps() {
       onSubmit={handleSubmit}
     >
       <APIProvider apiKey={'AIzaSyCHGir6dmR_WAy9A4aehjFV32OiGY4aDKw'}>
-        <Map defaultCenter={position} defaultZoom={5} onClick={handleposition}>
+        <Map
+          defaultCenter={positionMap}
+          defaultZoom={5}
+          onClick={handleposition}
+        >
           <Marker position={positionPlace} />
         </Map>
       </APIProvider>
@@ -53,6 +69,7 @@ function PlaceOnMaps() {
         fullWidth
         variant="contained"
         color="primary"
+        disabled={isdisable}
         sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
       >
         Valider la position de mon lieu
