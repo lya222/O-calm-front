@@ -9,7 +9,7 @@ const placeData = {
 };
 
 const response = async () => {
-  const response = await axios.delete(`http://165.22.25.11:4000/user/2 `);
+  const response = await axios.delete(`http://165.22.25.11:4000/places/12 `);
   console.log(
     "renvoie apres l'enregistrement d'un nouveau lieu",
     response.data

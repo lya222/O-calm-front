@@ -75,6 +75,7 @@ function RegisterForm() {
       try {
         const result = await dispatch(createUser(formData));
         console.log('le resultat de mon enregistrement', result);
+        alert('Bravo vous etes enregistré. Connectez-vous');
         navigate('/');
       } catch (error) {
         console.log("Erreur sur l'envoie du formulaire");
@@ -142,7 +143,7 @@ function RegisterForm() {
         fullWidth
         name="passwordConfirm"
         label="passwordConfirm"
-        type="passwordConfirm"
+        type="password"
         id="passwordConfirm"
         // value={formData.password}
         onChange={handleChange}
