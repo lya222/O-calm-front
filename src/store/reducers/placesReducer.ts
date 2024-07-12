@@ -13,7 +13,7 @@ const urlPicture = import.meta.env.VITE_API_URL_PICTURE;
 
 export const initialState: PlacesState = {
   list: [],
-  loading: true,
+  loading: false,
   error: null,
   search: '',
   picture: {
