@@ -63,17 +63,6 @@ export const uploadPicture = createAsyncThunk<
   return response.data;
 });
 
-// const fetchJoke = async () => {
-//   try {
-//   const response = await axios.get(
-//   'https://api. chucknorris. io/jokes/random'
-
-//   setJoke( response.data.value) ;
-//   } catch (e) {
-//   setJoke("An error occured, seems it's not time to laught ... ");
-
-//   );
-
 export const searchPlace = createAction<string>('places/searchPlace');
 
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
@@ -112,7 +101,9 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
         state.picture.extension = action.payload.original_extension;
       })
       .addCase(uploadPicture.pending, (state) => {
+        state.picture.isDownload = false;
         state.picture.isloading = true;
+        state.picture.name = "Téléchargement de l'image";
       })
       .addCase(uploadPicture.rejected, (state) => {
         state.picture.isloading = false;

@@ -7,7 +7,7 @@ import {
   styled,
 } from '@mui/material';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { searchPlace } from '../../../store/reducers/placesReducer';
 import { useDispatch } from 'react-redux';
 
@@ -58,16 +58,22 @@ function SearchBar() {
   const dispatch = useDispatch();
 
   //permet de récupérer la chaine de charactere qu'on veut chercher
-  let newValue = '';
-  const handlesearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (search !== '') {
+      dispatch(searchPlace(search));
+    }
+  }, [search, dispatch]);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let newValue = search;
     if (e.key === 'Backspace') {
-      const stringLenght = search.length - 1;
-      newValue = search.substring(0, stringLenght);
+      newValue = search.substring(0, search.length - 1);
+    } else if (e.key === 'Enter') {
+      console.log('ok');
     } else {
       newValue = search.concat(e.key);
     }
     setSearch(newValue);
-    dispatch(searchPlace(search));
   };
 
   return (
@@ -98,7 +104,7 @@ function SearchBar() {
                 value={search}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'Searchstyle' }}
-                onKeyDown={handlesearch}
+                onKeyDown={handleSearch}
               />
             </Search>
           </Menu>
