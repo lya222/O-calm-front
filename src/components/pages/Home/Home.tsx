@@ -4,10 +4,13 @@ import { useAppSelector } from '../../../hooks/redux';
 import { Box } from '@mui/material';
 import { Places } from '../../../@types/places';
 import '../../../assets/fonts/fonts.css';
+import { Loader } from '../../elements/Loader/Loader';
+import '../../elements/Loader/Loader.scss';
 
 function Home() {
   const takePlaces = useAppSelector((state) => state.places.list);
   const search = useAppSelector((state) => state.places.search);
+  const loading = useAppSelector((state) => state.places.loading)
   let places: Places[] = takePlaces;
 
   if (search != '') {
@@ -19,6 +22,10 @@ function Home() {
   }
 
   console.log('resultat de ma recherche', takePlaces);
+
+    if (loading) {
+      return <Loader/>;
+    }
 
   return (
     <Box>
