@@ -36,6 +36,7 @@ const Login = () => {
       if (login.fulfilled.match(response)) {
         console.log('le login marche', response.payload.id);
       } else {
+        setErrorMessage("L'email ou le mot de passe ne correspondent pas");
         console.log('le login ne marche pas');
       }
 
@@ -74,7 +75,10 @@ const Login = () => {
           fullWidth
           label="email"
           type="text"
-          {...register('email', { required: 'email est requis' })}
+          {...register('email', {
+            required: 'email valide est requis',
+            pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z.-]+.[a-zA-Z]{2,4}$/i,
+          })}
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : ''}
           sx={{ fontFamily: 'Bion, Arial, sans-serif' }}
@@ -82,12 +86,15 @@ const Login = () => {
           InputProps={{
             autoComplete: 'email',
           }}
+          spellCheck="false"
         />
         <TextField
           fullWidth
           label="Password"
           type="password"
-          {...register('password', { required: 'Password is required' })}
+          {...register('password', {
+            required: 'Password is required',
+          })}
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : ''}
           className={classes.root}

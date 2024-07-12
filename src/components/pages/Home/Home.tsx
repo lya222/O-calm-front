@@ -1,7 +1,7 @@
 import CardPlace from '../../elements/CardPlace/CardPlace';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../../../hooks/redux';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Places } from '../../../@types/places';
 import '../../../assets/fonts/fonts.css';
 import { Loader } from '../../elements/Loader/Loader';
@@ -10,7 +10,9 @@ import '../../elements/Loader/Loader.scss';
 function Home() {
   const takePlaces = useAppSelector((state) => state.places.list);
   const search = useAppSelector((state) => state.places.search);
-  const loading = useAppSelector((state) => state.places.loading)
+  const loading = useAppSelector((state) => state.places.loading);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+
   let places: Places[] = takePlaces;
 
   if (search != '') {
@@ -23,12 +25,34 @@ function Home() {
 
   console.log('resultat de ma recherche', takePlaces);
 
-    if (loading) {
-      return <Loader/>;
-    }
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box>
+      {isLogged ? (
+        ''
+      ) : (
+        <>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontFamily: 'Bion', textAlign: 'center' }}
+          >
+            Bienvenue sur le site O'calm.
+          </Typography>
+          <Typography gutterBottom sx={{ fontFamily: 'Bion' }}>
+            {' '}
+            Ici, vous pourrez trouver des lieux reposants à côté de chez vous.
+          </Typography>
+          <Typography gutterBottom sx={{ fontFamily: 'Bion' }}>
+            {' '}
+            Partagez vos endroits et découvrez les sites proposés par la
+            communauté en vous connectant.
+          </Typography>
+        </>
+      )}
       {places.map((place: Places, index: number) => {
         return (
           <motion.div

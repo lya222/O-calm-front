@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import { useEffect } from 'react';
 import { loadPlaces } from '../../../store/reducers/placesReducer';
 import { useAppSelector } from '../../../hooks/redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
 import { AppDispatch } from '../../../store';
@@ -13,6 +13,7 @@ import { reconnect } from '../../../store/reducers/userReducer';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
 
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {
@@ -22,11 +23,11 @@ function Root() {
       };
       restoreCookies();
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadPlaces());
-  }, [dispatch]);
+  }, [dispatch, location]);
 
   // const places = useAppSelector((state) => state.places.list);
   const isLoading = useAppSelector((state) => state.places.loading);
@@ -54,7 +55,14 @@ function Root() {
       >
         <Header />
 
-        <Container sx={{ overflowY: 'auto' }}>
+        <Container
+          sx={{
+            overflowY: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
+        >
           {isLoading ? <Loading /> : <Outlet />}
         </Container>
         <NavBar />
