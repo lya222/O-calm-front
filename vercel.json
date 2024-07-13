@@ -1,5 +1,13 @@
 {
-  "headers": {
-    "Access-Control-Allow-Origin": "https://www.o-calm.fr/"
-  }
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://www.o-calm.fr/"
+        }
+      ]
+    }
+  ]
 }
