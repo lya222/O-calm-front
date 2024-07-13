@@ -57,6 +57,9 @@ function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
 
+  //Variable d'etat pour la searchBar
+  const [isSearchOpen, setIsSearchOpen] = useState(true);
+
   //permet de récupérer la chaine de charactere qu'on veut chercher
   useEffect(() => {
     if (search !== '') {
@@ -64,17 +67,45 @@ function SearchBar() {
     }
   }, [search, dispatch]);
 
+  // Fonction pour activer la SearchBar lors du click
+  const handleToggleSearch = () => {
+    setIsSearchOpen(true)
+
+  }
+
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    let newValue = search;
-    if (e.key === 'Backspace') {
-      newValue = search.substring(0, search.length - 1);
-    } else if (e.key === 'Enter') {
-      console.log('ok');
-    } else {
-      newValue = search.concat(e.key);
-    }
-    setSearch(newValue);
+    //
+    
+  const eventKey = {
+    Tab: e.key === "Tab",
+    Shift: e.key === "Shift", 
+    Control: e.key === "Control",
+    Alt: e.key === "Alt",
+    Meta: e.key === "Meta",
+    Maj: e.key === "CapsLock"
   };
+
+  
+
+  let newValue = search;
+  if (e.key === 'Backspace') {
+    newValue = search.substring(0, search.length - 1);
+  } else if (e.key === 'Enter') {
+    console.log('ok');
+    //Desactivation de la searchbar
+    setIsSearchOpen(false);
+
+    //SUppression des bugs
+  } else if (Object.values(eventKey).some(Boolean)) {
+    console.log("voici la touche maj", eventKey);
+    setSearch(newValue);
+    
+  } else {
+    newValue = search.concat(e.key);
+
+  }
+  setSearch(newValue);
+};
 
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
@@ -82,9 +113,13 @@ function SearchBar() {
         <>
           <BottomNavigationAction
             label="Search"
-            icon={<SearchIcon />}
+            icon={<SearchIcon 
+            onClick={handleToggleSearch}/>}
             {...bindTrigger(popupState)}
           />
+          {/* Desactivation de la searchbar  */}
+          
+          {isSearchOpen  ?
           <Menu
             {...bindMenu(popupState)}
             anchorOrigin={{
@@ -96,6 +131,7 @@ function SearchBar() {
               horizontal: 'center',
             }}
           >
+            
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -105,11 +141,13 @@ function SearchBar() {
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'Searchstyle' }}
                 onKeyDown={handleSearch}
+
               />
             </Search>
           </Menu>
         </>
       )}
+      {/*  */}
     </PopupState>
   );
 }
