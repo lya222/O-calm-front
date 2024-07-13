@@ -3,7 +3,8 @@ import { IPictureDownload } from './Files';
 export interface Places {
   id: number;
   name: string;
-  gpsLocation: string;
+  gps_location_latitude: string;
+  gps_location_longitude: string;
   user_id: number;
   journey: string[];
   slug: string;
@@ -42,4 +43,6 @@ export interface ICreatePlace {
   user_id: number;
   picture: string[];
   slug: string;
+  gps_location_latitude: number;
+  gps_location_longitude: number;
 }

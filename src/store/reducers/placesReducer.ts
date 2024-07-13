@@ -49,7 +49,7 @@ export const createPlace = createAsyncThunk<
 });
 
 interface UploadResponse {
-  url: string;
+  secure_url: string;
   original_filename: string;
   original_extension: string;
 }
@@ -107,7 +107,7 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
       .addCase(uploadPicture.fulfilled, (state, action) => {
         state.picture.isDownload = true;
         state.picture.isloading = false;
-        state.picture.url = action.payload.url;
+        state.picture.url = action.payload.secure_url;
         state.picture.name = action.payload.original_filename;
         state.picture.extension = action.payload.original_extension;
       })

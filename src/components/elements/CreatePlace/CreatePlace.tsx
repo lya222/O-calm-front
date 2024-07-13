@@ -10,8 +10,8 @@ import {
   styled,
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ICreatePlace, IFormInputPlace } from '../../../@types/places';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ICreatePlace } from '../../../@types/places';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
@@ -60,7 +60,7 @@ const styleModal = {
 };
 
 function CreatePlace() {
-  const { register, handleSubmit } = useForm<IFormInputPlace>();
+  const { register, handleSubmit } = useForm<ICreatePlace>();
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [pictures, setPictures] = useState<IPictureDownload[]>([]);
   const statePicture = useAppSelector((state) => state.places.picture);
@@ -72,7 +72,13 @@ function CreatePlace() {
   //Function for modal map
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  // FUnction for close modal and stop propagation
+  const handleClose = (event: SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setOpen(false);
+  };
 
   const [position, setPosition] = useState<Iposition>();
   console.log('ma position pour le lieu', position);
@@ -106,7 +112,7 @@ function CreatePlace() {
         setPictures((prev) => [
           ...prev,
           {
-            url: newPicture.url,
+            url: newPicture.secure_url,
             name: newPicture.original_filename,
             extension: newPicture.original_extension,
             isDownload: true,
@@ -124,6 +130,12 @@ function CreatePlace() {
     data.user_id = idUser;
     data.picture = pictures.map((pict) => pict.url);
     data.slug = createSlug(data.name);
+    if (position) {
+      console.log("ma position pour l'envoi", position);
+      data.gps_location_latitude = position?.lat;
+      data.gps_location_longitude = position?.lng;
+    }
+
     console.log('Le resultat de ma création', data);
     try {
       const response = await dispatch(createPlace(data as ICreatePlace));
@@ -209,11 +221,25 @@ function CreatePlace() {
       <Button onClick={handleOpen}>Sélectionner le lieu sur la carte</Button>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={(
+          event: SyntheticEvent,
+          reason: 'backdropClick' | 'escapeKeyDown'
+        ) => {
+          if (reason !== 'backdropClick') {
+            handleClose(event);
+          }
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={styleModal}>
+        <Box
+          sx={styleModal}
+          component="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
           <PlaceOnMaps setPosition={setPosition} handleClose={handleClose} />
         </Box>
       </Modal>
