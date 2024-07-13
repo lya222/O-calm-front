@@ -4,6 +4,7 @@ import { Map, APIProvider, Marker } from '@vis.gl/react-google-maps';
 
 function PlaceOnMaps() {
   const positionMap = { lat: 45, lng: 5 };
+  const apikey = import.meta.env.VITE_API_MAP_KEY;
 
   // const [markerRef, marker] = useMarkerRef();
 
@@ -28,7 +29,7 @@ function PlaceOnMaps() {
         color: 'black',
       }}
     >
-      <APIProvider apiKey={'AIzaSyCHGir6dmR_WAy9A4aehjFV32OiGY4aDKw'}>
+      <APIProvider apiKey={apikey}>
         <Map defaultCenter={positionMap} defaultZoom={5}>
           <Marker position={positionMap} />
         </Map>
