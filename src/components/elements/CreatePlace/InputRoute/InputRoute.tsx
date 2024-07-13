@@ -1,10 +1,10 @@
 import { Box, FormControlLabel, IconButton, TextField } from '@mui/material';
-import { IFormInputPlace } from '../../../../@types/places';
+import { ICreatePlace } from '../../../../@types/places';
 import { UseFormRegister } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type IInputRoute = {
-  register: UseFormRegister<IFormInputPlace>;
+  register: UseFormRegister<ICreatePlace>;
   index: number;
   handleRemove: () => void;
 };
