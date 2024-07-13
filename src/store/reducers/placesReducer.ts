@@ -13,7 +13,7 @@ const urlPicture = import.meta.env.VITE_API_URL_PICTURE;
 
 export const initialState: PlacesState = {
   list: [],
-  loading: true,
+  loading: false,
   error: null,
   search: '',
   picture: {
@@ -63,16 +63,16 @@ export const uploadPicture = createAsyncThunk<
   return response.data;
 });
 
-// const fetchJoke = async () => {
-//   try {
-//   const response = await axios.get(
-//   'https://api. chucknorris. io/jokes/random'
-
-//   setJoke( response.data.value) ;
-//   } catch (e) {
-//   setJoke("An error occured, seems it's not time to laught ... ");
-
-//   );
+//Pour supprimer une route
+export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
+  'place/deletePlace',
+  async (idUser: number) => {
+    console.log('je suis dans le reducer de deletePlace');
+    const response = await axios.delete(`${url}places/${idUser}`);
+    console.log('reponse du deletePlace', response.data);
+    return response.data;
+  }
+);
 
 export const searchPlace = createAction<string>('places/searchPlace');
 
@@ -112,10 +112,21 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
         state.picture.extension = action.payload.original_extension;
       })
       .addCase(uploadPicture.pending, (state) => {
+        state.picture.isDownload = false;
         state.picture.isloading = true;
+        state.picture.name = "Téléchargement de l'image";
       })
       .addCase(uploadPicture.rejected, (state) => {
         state.picture.isloading = false;
+      })
+      .addCase(deletePlace.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(deletePlace.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deletePlace.rejected, (state) => {
+        state.loading = false;
       });
   }
 );

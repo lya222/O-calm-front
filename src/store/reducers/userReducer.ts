@@ -9,6 +9,9 @@ import { CreateUser, User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
+import { verifyAndDecodeToken } from '../selectors/users';
+import Cookies from 'js-cookie';
+import { JWTPayload } from 'jose';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -32,7 +35,6 @@ export const logout = createAction('user/logout');
 export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   'user/fetchUser',
   async () => {
-    // console.log('asyncthunk fetchUser marche');
     const response = await axios.get<User[]>(`${url}user`);
 
     return response.data;
@@ -55,12 +57,46 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
-    console.log('recuperation du login', response.data);
+    console.log('recuperation du login', response.data.token);
+
+    await verifyAndDecodeToken(response.data.token)
+      .then((payload) => {
+        console.log('Decoded Payload:', payload);
+        response.data.id = payload.userFound;
+        Cookies.set('token', `${response.data.token}`, { expires: 365 });
+      })
+      .catch((error) => {
+        console.error('Failed to decode token:', error);
+      });
+    console.log('ma response avec le tokenid', response.data);
+
     return response.data;
   }
 );
 
 export type LoginThunk = typeof login;
+
+interface DecodedToken extends JWTPayload {
+  userFound: number;
+}
+
+export const reconnect = createAsyncThunk<
+  DecodedToken,
+  string,
+  AsyncThunkConfig
+>('user/reconnect', async (token: string) => {
+  const response = await verifyAndDecodeToken(token);
+  console.log('ma response avec le tokenid', response);
+  return response as DecodedToken;
+});
+export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
+  'user/takeUser',
+  async (id: number) => {
+    const response = await axios.get(`${url}user/${id}`);
+    console.log('la reponse a takeUser', response.data.data);
+    return response.data.data;
+  }
+);
 
 //Modification d'un utilisateur
 export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
@@ -93,6 +129,17 @@ export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   }
 );
 
+//Suprime un utilisateur
+export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
+  'user/deleteUser',
+  async (idUser: number) => {
+    console.log('je suis dans le reducer de deleteuser');
+    const response = await axios.delete(`${url}user/${idUser}`);
+    console.log('reponse du deleteuser', response.data);
+    return response.data;
+  }
+);
+
 export const userReducer: Reducer<UserState> = createReducer<UserState>(
   initialState,
   (builder) => {
@@ -102,6 +149,7 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       })
       .addCase(logout, (state) => {
         state.isLogged = false;
+        Cookies.remove('token');
       })
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
@@ -152,25 +200,58 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         (state: UserState, action: PayloadAction<User>) => {
           state.loading = false;
           state.isLogged = true;
-          state.pseudo = action.payload.username;
           state.id = action.payload.id;
         }
       )
       .addCase(login.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
+      })
+      .addCase(reconnect.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        reconnect.fulfilled,
+        (state: UserState, action: PayloadAction<DecodedToken>) => {
+          console.log('action sur mon reconnect', action.payload);
+          state.loading = false;
+          state.isLogged = true;
+          state.id = action.payload.userFound;
+        }
+      )
+      .addCase(reconnect.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(takeUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(takeUser.fulfilled, (state: UserState, action) => {
+        state.pseudo = action.payload.username;
+        state.credentials.password = action.payload.password;
+        state.credentials.email = action.payload.email;
+
+        state.loading = false;
+      })
+      .addCase(takeUser.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.pseudo = '';
+        state.id = 0;
+        state.isLogged = false;
+        state.credentials.email = '';
+        state.credentials.password = '';
+        Cookies.remove('token');
+      })
+      .addCase(deleteUser.rejected, (state) => {
+        state.loading = true;
       });
-    // .addCase(updateEmail.pending, (state) => {
-    //   state.loading = true;
-    // })
-    // .addCase(updateEmail.fulfilled, (state, action) => {
-    //   state.data[0].email = action.payload;
-    //   state.loading = false;
-    // })
-    // .addCase(updateEmail.rejected, (state, action) => {
-    //   state.error = action.error.message;
-    //   state.loading = false;
-    // })
     // .addCase(updatePassword.pending, (state) => {
     //   state.loading = true;
     // })

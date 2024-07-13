@@ -7,7 +7,7 @@ import {
   styled,
 } from '@mui/material';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { searchPlace } from '../../../store/reducers/placesReducer';
 import { useDispatch } from 'react-redux';
 
@@ -57,17 +57,49 @@ function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
 
+  //Variable d'etat pour la searchBar
+  const [isSearchOpen, setIsSearchOpen] = useState(true);
+
   //permet de récupérer la chaine de charactere qu'on veut chercher
-  let newValue = '';
-  const handlesearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (search !== '') {
+      dispatch(searchPlace(search));
+    }
+  }, [search, dispatch]);
+
+  // Fonction pour activer la SearchBar lors du click
+  const handleToggleSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //
+
+    const eventKey = {
+      Tab: e.key === 'Tab',
+      Shift: e.key === 'Shift',
+      Control: e.key === 'Control',
+      Alt: e.key === 'Alt',
+      Meta: e.key === 'Meta',
+      Maj: e.key === 'CapsLock',
+    };
+
+    let newValue = search;
     if (e.key === 'Backspace') {
-      const stringLenght = search.length - 1;
-      newValue = search.substring(0, stringLenght);
+      newValue = search.substring(0, search.length - 1);
+    } else if (e.key === 'Enter') {
+      console.log('ok');
+      //Desactivation de la searchbar
+      setIsSearchOpen(false);
+
+      //SUppression des bugs
+    } else if (Object.values(eventKey).some(Boolean)) {
+      console.log('voici la touche maj', eventKey);
+      setSearch(newValue);
     } else {
       newValue = search.concat(e.key);
     }
     setSearch(newValue);
-    dispatch(searchPlace(search));
   };
 
   return (
@@ -76,35 +108,39 @@ function SearchBar() {
         <>
           <BottomNavigationAction
             label="Search"
-            icon={<SearchIcon />}
+            icon={<SearchIcon onClick={handleToggleSearch} />}
             {...bindTrigger(popupState)}
           />
-          <Menu
-            {...bindMenu(popupState)}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-          >
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                value={search}
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'Searchstyle' }}
-                onKeyDown={handlesearch}
-              />
-            </Search>
-          </Menu>
-          <BottomNavigationAction />
+          {/* Desactivation de la searchbar  */}
+
+          {isSearchOpen ? (
+            <Menu
+              {...bindMenu(popupState)}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+            >
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  value={search}
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'Searchstyle' }}
+                  onKeyDown={handleSearch}
+                />
+              </Search>
+            </Menu>
+          ) : null}
         </>
       )}
+      {/*  */}
     </PopupState>
   );
 }
