@@ -15,6 +15,7 @@ type PlaceOnMapsProps = {
 };
 
 function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
+  const apikey = import.meta.env.VITE_API_MAP_KEY;
   const positionMap = { lat: 45, lng: 5 };
   const [positionPlace, setPositionPlace] = useState<Iposition>();
   const [isdisable, setIsDisable] = useState(true);
@@ -55,7 +56,7 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
       component="form"
       onSubmit={handleSubmit}
     >
-      <APIProvider apiKey={'AIzaSyCHGir6dmR_WAy9A4aehjFV32OiGY4aDKw'}>
+      <APIProvider apiKey={apikey}>
         <Map
           defaultCenter={positionMap}
           defaultZoom={5}
