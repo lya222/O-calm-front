@@ -1,21 +1,20 @@
 import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { IGenerateRoute } from '../../../@types/Map';
-import { generateRoute } from '../../../store/reducers/placesReducer';
+import {
+  IGenerateRoute,
+  IGenerateRouteForAPIGoogle,
+} from '../../../@types/Map';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-// import { useEffect } from 'react';
-// import { fetchCityFrance } from '../../../store/selectors/map';
+import {
+  dataForMap,
+  generateRoute,
+  transformNewRoute,
+} from '../../../store/selectors/map';
 
 function RouteSelection() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<IGenerateRoute>();
+  const { register, handleSubmit } = useForm<IGenerateRoute>();
   const [positionLoc, setPositionLoc] = useState({ lat: 0, lng: 0 });
 
   useEffect(() => {
@@ -40,20 +39,17 @@ function RouteSelection() {
   const onSubmit = async (data: IGenerateRoute) => {
     data.latFinal = latPlace;
     data.lngFinal = lngPlace;
-    // if(positionLoc.latitude)
     data.latOrigin = positionLoc.lat;
     data.lngOrigin = positionLoc.lng;
-
-    console.log("mes datas avant l'envoi pour generer la route", data);
     try {
-      const response = await dispatch(generateRoute(data));
-      console.log(
-        'response sur mon composant routeselection',
-        response.payload
+      const dataFromAPI: IGenerateRouteForAPIGoogle = dataForMap(
+        data as IGenerateRoute
       );
+      const response = await generateRoute(dataFromAPI);
+      const dataRoute = transformNewRoute(response);
       navigate(`/${location.state.slug}`, {
         state: {
-          routeGenerate: response.payload,
+          routeGenerate: dataRoute,
         },
       });
     } catch (error) {
@@ -66,16 +62,12 @@ function RouteSelection() {
       sx={{
         border: '2px solid grey',
         p: 2,
-        mb: 10,
-        height: 600,
+        mb: 0,
+        height: '100vh',
         overflowY: 'auto',
       }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <select {...register('depart', { required: true })}>
-          <option value="Toulouse">Toulouse</option>
-          <option value=" paris"> paris</option>
-        </select> */}
         <select {...register('transport', { required: true })}>
           <option value="">Select Mode</option>
           <option value="WALK">A pied</option>
@@ -83,12 +75,6 @@ function RouteSelection() {
           <option value="BICYCLE">A vélo</option>
           <option value="TRANSIT">Transport en commun</option>
         </select>
-        <input
-          type="datetime-local"
-          placeholder="Jour et heure du départ"
-          {...register('datetime', { required: true })}
-        />
-
         <input type="submit" />
       </form>
     </Box>

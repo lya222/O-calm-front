@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   IGenerateRoute,
   IGenerateRouteForAPIGoogle,
@@ -91,9 +92,14 @@ export const transformNewRoute = (data: IResponseGenerateRoute): string[] => {
 
   return newRoute;
 };
-// export const fetchCityFrance = async () => {
-//   const apiKey = import.meta.env.VITE_API_MAP_KEY;
-//   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cities+in+France&key=${apiKey}`;
-//   const response = await axios.get(url);
-//   console.log('récupération de mes ville', response.data);
-// };
+
+export const generateRoute = async (
+  dataEntries: IGenerateRouteForAPIGoogle
+) => {
+  const { url, data, headers } = dataEntries;
+  const response = await axios.post(url, data, {
+    headers,
+  });
+
+  return response.data;
+};

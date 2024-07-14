@@ -4,9 +4,7 @@ export interface Iposition {
 }
 
 export interface IGenerateRoute {
-  depart: string;
   transport: string;
-  datetime: string;
   latFinal: number;
   lngFinal: number;
   latOrigin: number;
