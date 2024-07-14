@@ -6,12 +6,12 @@ import {
   Marker,
   MapMouseEvent,
 } from '@vis.gl/react-google-maps';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Iposition } from '../../../@types/Map';
 
 type PlaceOnMapsProps = {
   setPosition: (position: Iposition) => void;
-  handleClose: () => void;
+  handleClose: (event: SyntheticEvent) => void;
 };
 
 function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
@@ -36,9 +36,11 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
 
   //   // do something with marker instance here
   // }, [marker]);
-  const handleSubmit = () => {
+  const handleSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (positionPlace) setPosition(positionPlace);
-    handleClose();
+    handleClose(event);
   };
 
   return (
@@ -66,7 +68,7 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
         </Map>
       </APIProvider>
       <Button
-        type="submit"
+        onClick={handleSubmit}
         fullWidth
         variant="contained"
         color="primary"
