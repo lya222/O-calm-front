@@ -48,7 +48,6 @@ export const createUser = createAsyncThunk<
   AsyncThunkConfig
 >('user/createUserAsync', async (userData) => {
   const response = await axios.post<CreateUser>(`${url}register`, userData);
-  console.log("renvoie apres l'enregistrement", response.data);
   return response.data;
 });
 
@@ -57,18 +56,15 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
     const response = await axios.post(`${url}login`, credentials);
-    console.log('recuperation du login', response.data.token);
 
     await verifyAndDecodeToken(response.data.token)
       .then((payload) => {
-        console.log('Decoded Payload:', payload);
         response.data.id = payload.userFound;
         Cookies.set('token', `${response.data.token}`, { expires: 365 });
       })
       .catch((error) => {
         console.error('Failed to decode token:', error);
       });
-    console.log('ma response avec le tokenid', response.data);
 
     return response.data;
   }
@@ -86,14 +82,12 @@ export const reconnect = createAsyncThunk<
   AsyncThunkConfig
 >('user/reconnect', async (token: string) => {
   const response = await verifyAndDecodeToken(token);
-  console.log('ma response avec le tokenid', response);
   return response as DecodedToken;
 });
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/takeUser',
   async (id: number) => {
     const response = await axios.get(`${url}user/${id}`);
-    console.log('la reponse a takeUser', response.data.data);
     return response.data.data;
   }
 );
@@ -133,9 +127,7 @@ export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
 export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/deleteUser',
   async (idUser: number) => {
-    console.log('je suis dans le reducer de deleteuser');
     const response = await axios.delete(`${url}user/${idUser}`);
-    console.log('reponse du deleteuser', response.data);
     return response.data;
   }
 );
@@ -214,7 +206,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       .addCase(
         reconnect.fulfilled,
         (state: UserState, action: PayloadAction<DecodedToken>) => {
-          console.log('action sur mon reconnect', action.payload);
           state.loading = false;
           state.isLogged = true;
           state.id = action.payload.userFound;
