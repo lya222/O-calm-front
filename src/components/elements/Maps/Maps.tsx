@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import './Maps.scss';
 import {
   Map,
@@ -41,6 +41,23 @@ function PlaceOnMaps() {
     setPositionMap(center);
     setZoomMap(zoom);
   }, []);
+
+  const handlePosition = () => {
+    if ('geolocation' in navigator) {
+      console.log('Geolocation is available');
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log('Latitude: ' + position.coords.latitude);
+        console.log('Longitude: ' + position.coords.longitude);
+        setPositionMap({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setZoomMap(10);
+      });
+    } else {
+      console.log('Geolocation is not available');
+    }
+  };
 
   return (
     <Box
@@ -89,6 +106,15 @@ function PlaceOnMaps() {
           ))}
         </Map>
       </APIProvider>
+      <Button
+        onClick={handlePosition}
+        fullWidth
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
+      >
+        Voir les lieux prés de ma position actuelle
+      </Button>
     </Box>
   );
 }
