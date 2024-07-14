@@ -18,3 +18,13 @@
 // };
 
 // response();
+
+if ('geolocation' in navigator) {
+  console.log('Geolocation is available');
+  navigator.geolocation.getCurrentPosition(function (position) {
+    console.log('Latitude: ' + position.coords.latitude);
+    console.log('Longitude: ' + position.coords.longitude);
+  });
+} else {
+  console.log('Geolocation is not available');
+}
