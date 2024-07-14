@@ -7,6 +7,12 @@ import {
 import { ICreatePlace, Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
+import {
+  IGenerateRoute,
+  IGenerateRouteForAPIGoogle,
+  IResponseGenerateRoute,
+} from '../../@types/Map';
+import { dataForMap, transformNewRoute } from '../selectors/map';
 
 const url = import.meta.env.VITE_API_URL;
 const urlPicture = import.meta.env.VITE_API_URL_PICTURE;
@@ -76,6 +82,35 @@ export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
 
 export const searchPlace = createAction<string>('places/searchPlace');
 
+// Request for generate a route
+export const generateRoute = createAsyncThunk<
+  string[],
+  IGenerateRoute,
+  AsyncThunkConfig
+>('place/generateRoute', async (dataEntries: IGenerateRoute) => {
+  try {
+    console.log('je rentre dans mon reducer', dataEntries);
+    const { url, data, headers }: IGenerateRouteForAPIGoogle =
+      dataForMap(dataEntries);
+    const response = await axios.post(url, data, {
+      headers,
+    });
+    console.log(
+      "renvoie apres l'enregistrement d'une nouvelle route",
+      response.data
+    );
+    const dataRoute = transformNewRoute(
+      response.data as IResponseGenerateRoute
+    );
+    console.log('ma nouvelle route', dataRoute);
+    return dataRoute;
+  } catch (error) {
+    // Gérer les erreurs de requête ici si nécessaire
+    console.error('Erreur lors de la génération de la route :', error);
+    throw error;
+  }
+});
+
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
   (builder) => {
@@ -126,6 +161,15 @@ const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
         state.loading = true;
       })
       .addCase(deletePlace.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(generateRoute.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(generateRoute.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(generateRoute.rejected, (state) => {
         state.loading = false;
       });
   }
