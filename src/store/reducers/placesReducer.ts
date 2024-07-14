@@ -76,6 +76,8 @@ export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
 
 export const searchPlace = createAction<string>('places/searchPlace');
 
+// Request for generate a route
+
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
   (builder) => {

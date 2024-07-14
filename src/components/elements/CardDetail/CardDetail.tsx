@@ -12,7 +12,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Carousel from 'react-material-ui-carousel';
 // import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
@@ -22,12 +22,24 @@ import { deletePlace } from '../../../store/reducers/placesReducer';
 
 function CardDetail() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const iduser: number = useAppSelector((state) => state.user.id);
   const place: Places | undefined = useAppSelector((state) =>
     findPlace(state.places.list, slug as string)
   );
+  const [routes, setRoutes] = useState(place?.journey);
+  const [routesByUser, setRoutesByUser] = useState(true);
+  // useEffect(() => {
+  // if (location.state.routeGenerate) setRoutes(location.state.routeGenerate);
+  // }, [location.state.routeGenerate]);
+  useEffect(() => {
+    if (location.state && location.state.routeGenerate) {
+      setRoutes(location.state.routeGenerate);
+      setRoutesByUser(false);
+    }
+  }, [location.state]);
   const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -44,6 +56,16 @@ function CardDetail() {
     const newCheckedItems = [...checkedItems];
     newCheckedItems[index] = !newCheckedItems[index];
     setCheckedItems(newCheckedItems);
+  };
+
+  const handleGenerateRoute = () => {
+    navigate(`/${slug}/generateRoute`, {
+      state: {
+        lat: place.gps_location_latitude,
+        lng: place.gps_location_longitude,
+        slug: place.slug,
+      },
+    });
   };
 
   const handleDeletePlace = async () => {
@@ -100,10 +122,12 @@ function CardDetail() {
           aria-controls="panell-content"
           id="panell-header"
         >
-          Chemin a suivre
+          {routesByUser
+            ? 'Chemin proposé par le créateur'
+            : 'Chemin proposé par Google Maps'}
         </AccordionSummary>
         <AccordionDetails>
-          {place.journey.map((etape, i) => (
+          {routes?.map((etape, i) => (
             <div key={i}>
               <Typography
                 variant="h6"
@@ -122,6 +146,15 @@ function CardDetail() {
           ))}
         </AccordionDetails>
       </Accordion>
+      <Button
+        onClick={handleGenerateRoute}
+        fullWidth
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
+      >
+        Créer un trajet avec Google Maps
+      </Button>
 
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
