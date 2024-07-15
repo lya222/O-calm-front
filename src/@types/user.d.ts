@@ -13,6 +13,7 @@ export interface UserState {
   credentials: ICredentials;
   pseudo: string;
   id: number;
+  favorite: number[];
 }
 
 export interface CreateUser {

@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  IconButton,
   Typography,
 } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
@@ -10,6 +11,8 @@ import { Places } from '../../../@types/places';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import '../../../assets/fonts/fonts.css';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useState } from 'react';
 
 interface CardPlaceProp {
   place: Places;
@@ -19,6 +22,8 @@ interface CardPlaceProp {
 function CardPlace({ place, index }: CardPlaceProp) {
   // console.log("state du la petite carte ", place);
   const isLogged = useAppSelector((state) => state.user.isLogged);
+  const listFavorite = useAppSelector((state) => state.user.favorite);
+  const isFavorite = useState(listFavorite.includes(place.id));
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       {!place.picture || !Array.isArray(place.picture) ? (
@@ -59,6 +64,9 @@ function CardPlace({ place, index }: CardPlaceProp) {
             Connectez vous pour voir ce site
           </Button>
         )}
+        <IconButton aria-label="favorite">
+          {isFavorite ? <FavoriteIcon color="error" /> : ''}
+        </IconButton>
       </CardContent>
     </Card>
   );

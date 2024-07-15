@@ -9,11 +9,14 @@ import Loading from '../../elements/Loading/Loading';
 import { Box, Container } from '@mui/material';
 import { AppDispatch } from '../../../store';
 import Cookies from 'js-cookie';
-import { reconnect } from '../../../store/reducers/userReducer';
+import { fetchFavorite, reconnect } from '../../../store/reducers/userReducer';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const idUser = useAppSelector((state) => state.user.id);
+  const favorite = useAppSelector((state) => state.user.favorite);
 
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {
@@ -26,10 +29,15 @@ function Root() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(loadPlaces());
-  }, [dispatch, location]);
+    const init = async () => {
+      await dispatch(loadPlaces());
+      if (isLogged) await dispatch(fetchFavorite(idUser));
+    };
+    init();
+  }, [dispatch, location, isLogged]);
 
   const isLoading = useAppSelector((state) => state.places.loading);
+  console.log('mes favoris', favorite);
 
   return (
     <>

@@ -26,6 +26,7 @@ const initialState: UserState = {
   },
   pseudo: '',
   id: 0,
+  favorite: [0],
 };
 
 export const updatePseudo = createAction<string>('user/updatePseudo');
@@ -86,6 +87,7 @@ export const reconnect = createAsyncThunk<
   AsyncThunkConfig
 >('user/reconnect', async (token: string) => {
   const response = await verifyAndDecodeToken(token);
+  console.log('ma reponse a la reconnection ', response.userFound);
   return response as DecodedToken;
 });
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
@@ -132,6 +134,27 @@ export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/deleteUser',
   async (idUser: number) => {
     const response = await axios.delete(`${url}user/${idUser}`);
+    return response.data;
+  }
+);
+
+//Recherche tous les favoris de l'user
+export const fetchFavorite = createAsyncThunk<
+  number[],
+  number,
+  AsyncThunkConfig
+>('user/fetchFavorite', async (idUser: number) => {
+  const response = await axios.get(`${url}/places/favorite/${idUser}`);
+  console.log('ma reponse pour fetchfavorite dans le redux', response.data);
+  return response.data.data;
+});
+
+//Ajout d'un leu en favoris
+export const addFavoris = createAsyncThunk<number[], number, AsyncThunkConfig>(
+  'user/fetchFavorite',
+  async (idUser: number) => {
+    const response = await axios.post(`${url}/places/favorite/${idUser}`);
+    console.log('ma reponse pour fetchfavorite dans le redux', response.data);
     return response.data;
   }
 );
@@ -246,18 +269,20 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       })
       .addCase(deleteUser.rejected, (state) => {
         state.loading = true;
+      })
+      .addCase(fetchFavorite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchFavorite.fulfilled, (state, action) => {
+        console.log('ma reponse pour addcase dans le redux', action.payload);
+
+        state.favorite = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchFavorite.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
       });
-    // .addCase(updatePassword.pending, (state) => {
-    //   state.loading = true;
-    // })
-    // .addCase(updatePassword.fulfilled, (state, action) => {
-    //   state.data[0].password = action.payload;
-    //   state.loading = false;
-    // })
-    // .addCase(updatePassword.rejected, (state, action) => {
-    //   state.error = action.error.message;
-    //   state.loading = false;
-    // });
   }
 );
 
