@@ -150,14 +150,17 @@ export const fetchFavorite = createAsyncThunk<
 });
 
 //Ajout d'un leu en favoris
-export const addFavoris = createAsyncThunk<number[], number, AsyncThunkConfig>(
-  'user/fetchFavorite',
-  async (idUser: number) => {
-    const response = await axios.post(`${url}/places/favorite/${idUser}`);
-    console.log('ma reponse pour fetchfavorite dans le redux', response.data);
-    return response.data;
-  }
-);
+export const addFavorite = createAsyncThunk<
+  number,
+  AddFavoritePayload,
+  AsyncThunkConfig
+>('user/fetchFavorite', async (data: AddFavoritePayload) => {
+  const response = await axios.post(
+    `${url}/places/favorite/${data.idUser}/${data.idPlace}`
+  );
+  console.log('ma reponse pour addFavorite dans le redux', response.data);
+  return response.data;
+});
 
 export const userReducer: Reducer<UserState> = createReducer<UserState>(
   initialState,
@@ -280,6 +283,19 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.loading = false;
       })
       .addCase(fetchFavorite.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(addFavorite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addFavorite.fulfilled, (state, action) => {
+        console.log('ma reponse pour addcase dans le redux', action.payload);
+
+        state.favorite.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(addFavorite.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
       });

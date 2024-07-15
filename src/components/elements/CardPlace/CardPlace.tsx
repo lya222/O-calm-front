@@ -12,7 +12,10 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/redux';
 import '../../../assets/fonts/fonts.css';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addFavorite } from '../../../store/reducers/userReducer';
+import { AppDispatch } from '../../../store';
 
 interface CardPlaceProp {
   place: Places;
@@ -21,9 +24,21 @@ interface CardPlaceProp {
 
 function CardPlace({ place, index }: CardPlaceProp) {
   // console.log("state du la petite carte ", place);
+  const dispatch = useDispatch<AppDispatch>();
   const isLogged = useAppSelector((state) => state.user.isLogged);
+  const iduser = useAppSelector((state) => state.user.id);
   const listFavorite = useAppSelector((state) => state.user.favorite);
-  const isFavorite = useState(listFavorite.includes(place.id));
+  const [isFavorite, setIsFavorite] = useState(false);
+  useEffect(() => {
+    setIsFavorite(listFavorite.includes(place.id));
+  }, [listFavorite]);
+
+  const handleFavorite = async (idUser: number, idPlace: number) => {
+    const response = await dispatch(addFavorite({ idUser, idPlace }));
+    console.log('ma réponse pour addfavorite', response);
+  };
+
+  console.log('isfavorite', isFavorite);
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       {!place.picture || !Array.isArray(place.picture) ? (
@@ -64,8 +79,11 @@ function CardPlace({ place, index }: CardPlaceProp) {
             Connectez vous pour voir ce site
           </Button>
         )}
-        <IconButton aria-label="favorite">
-          {isFavorite ? <FavoriteIcon color="error" /> : ''}
+        <IconButton
+          aria-label="favorite"
+          onClick={() => handleFavorite(iduser, place.id)}
+        >
+          <FavoriteIcon color={isFavorite ? 'error' : 'inherit'} />
         </IconButton>
       </CardContent>
     </Card>
