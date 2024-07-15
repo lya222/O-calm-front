@@ -1,4 +1,8 @@
 import * as jose from 'jose';
+import { CreateUser, IResponseCreateUser } from '../../@types/user';
+import axios from 'axios';
+
+const url = import.meta.env.VITE_API_URL;
 
 export const verifyAndDecodeToken = async (token: string) => {
   try {
@@ -18,4 +22,14 @@ export const verifyAndDecodeToken = async (token: string) => {
     console.error('Erreur sur la verification du token:', error);
     throw error;
   }
+};
+
+//Création d'un nouvel utilisaeur
+export const createUser = async (userData: CreateUser) => {
+  console.log("mes donnes que je rentre pour l'enregistrement", userData);
+  const response = await axios.post<IResponseCreateUser>(
+    `${url}register`,
+    userData
+  );
+  return response.data;
 };
