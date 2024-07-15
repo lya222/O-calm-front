@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICreatePlace } from '../../../@types/places';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
@@ -31,6 +31,7 @@ import PlaceOnMaps from '../PlaceOnMaps/PlaceOnMaps';
 import { Iposition } from '../../../@types/Map';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
+import DoneIcon from '@mui/icons-material/Done';
 
 // const tags = ['mer', 'montagne'];
 
@@ -81,7 +82,6 @@ function CreatePlace() {
   };
 
   const [position, setPosition] = useState<Iposition>();
-  console.log('ma position pour le lieu', position);
 
   //Propriété en standby pour les tags
   // const places = useAppSelector((state) => state.places.list);
@@ -145,9 +145,6 @@ function CreatePlace() {
       console.log("erreur sur la création d'un lieu", error);
     }
   };
-  useEffect(() => {
-    console.log('mon fichier de photo', pictures);
-  }, [pictures]);
 
   return (
     <Box
@@ -218,7 +215,10 @@ function CreatePlace() {
       </FormControl>
 
       {/* Modal for open map */}
-      <Button onClick={handleOpen}>Sélectionner le lieu sur la carte</Button>
+      <Button onClick={handleOpen}>
+        Sélectionner le lieu sur la carte
+        {position && <DoneIcon color="success" />}
+      </Button>
       <Modal
         open={open}
         onClose={(

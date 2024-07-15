@@ -19,11 +19,8 @@ function Home() {
     const newArray = takePlaces.filter((place) =>
       place.name.toLocaleLowerCase().includes(search.toLowerCase())
     );
-    console.log('mon nouveau tableau', search);
     places = newArray;
   }
-
-  console.log('resultat de ma recherche', takePlaces);
 
   if (loading) {
     return <Loader />;

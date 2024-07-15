@@ -22,3 +22,8 @@ export interface CreateUser {
   passwordConfirm: string;
   id?: string;
 }
+
+export interface IResponseCreateUser {
+  message: string;
+  newUser: number;
+}
