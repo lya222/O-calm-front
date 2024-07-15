@@ -5,7 +5,7 @@ import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
-import { CreateUser, User, UserState } from '../../@types/user';
+import { User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
@@ -41,15 +41,19 @@ export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   }
 );
 
-//Création d'un nouvel utilisaeur
-export const createUser = createAsyncThunk<
-  CreateUser,
-  CreateUser,
-  AsyncThunkConfig
->('user/createUserAsync', async (userData) => {
-  const response = await axios.post<CreateUser>(`${url}register`, userData);
-  return response.data;
-});
+// //Création d'un nouvel utilisaeur
+// export const createUser = createAsyncThunk<
+//   IResponseCreateUser,
+//   CreateUser,
+//   AsyncThunkConfig
+// >('user/createUserAsync', async (userData) => {
+//   console.log("mes donnes que je rentre pour l'enregistrement", userData);
+//   const response = await axios.post<IResponseCreateUser>(
+//     `${url}register`,
+//     userData
+//   );
+//   return response.data;
+// });
 
 //Connexion d'un utilisateur
 export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
@@ -166,23 +170,23 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       //   state.error = action.error.message;
       //   state.loading = false;
       // })
-      .addCase(createUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createUser.fulfilled, (state, action) => {
-        const newUser: ICredentials = {
-          email: action.payload.email,
-          password: action.payload.password,
-        };
-        state.pseudo = action.payload.username;
-        state.credentials = newUser;
-        state.loading = false;
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.error = action.error.message;
-        state.loading = false;
-      })
+      // .addCase(createUser.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(createUser.fulfilled, (state) => {
+      //   // const newUser: ICredentials = {
+      //   //   email: action.payload.email,
+      //   //   password: action.payload.password,
+      //   // };
+      //   // state.pseudo = action.payload.username;
+      //   // state.credentials = newUser;
+      //   state.loading = false;
+      // })
+      // .addCase(createUser.rejected, (state, action) => {
+      //   state.error = action.error.message;
+      //   state.loading = false;
+      // })
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;

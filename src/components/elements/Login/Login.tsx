@@ -35,12 +35,12 @@ const Login = () => {
       console.log('verification de ma reponse', response);
       if (login.fulfilled.match(response)) {
         console.log('le login marche', response.payload.id);
+        navigate('/');
       } else {
         setErrorMessage("L'email ou le mot de passe ne correspondent pas");
         console.log('le login ne marche pas');
+        setStatus('failed');
       }
-
-      navigate('/');
     } catch (error) {
       setStatus('failed');
     }

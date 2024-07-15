@@ -31,6 +31,7 @@ import PlaceOnMaps from '../PlaceOnMaps/PlaceOnMaps';
 import { Iposition } from '../../../@types/Map';
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
+import DoneIcon from '@mui/icons-material/Done';
 
 // const tags = ['mer', 'montagne'];
 
@@ -68,7 +69,7 @@ function CreatePlace() {
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const isLogged = useAppSelector((state) => state.user.isLogged);
+  // const isLogged = useAppSelector((state) => state.user.isLogged);
 
   //Function for modal map
   const [open, setOpen] = useState(false);
@@ -82,7 +83,6 @@ function CreatePlace() {
   };
 
   const [position, setPosition] = useState<Iposition>();
-  console.log('ma position pour le lieu', position);
 
   //Propriété en standby pour les tags
   // const places = useAppSelector((state) => state.places.list);
@@ -146,11 +146,6 @@ function CreatePlace() {
       console.log("erreur sur la création d'un lieu", error);
     }
   };
-
-  //Gestion de la route
-  if (!isLogged) {
-    return null;
-  }
 
   return (
     <Box
@@ -221,7 +216,10 @@ function CreatePlace() {
       </FormControl>
 
       {/* Modal for open map */}
-      <Button onClick={handleOpen}>Sélectionner le lieu sur la carte</Button>
+      <Button onClick={handleOpen}>
+        Sélectionner le lieu sur la carte
+        {position && <DoneIcon color="success" />}
+      </Button>
       <Modal
         open={open}
         onClose={(
