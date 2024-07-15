@@ -21,6 +21,7 @@ import { useEffect, useState } from 'react';
 import { deletePlace } from '../../../store/reducers/placesReducer';
 import RouteSelection from '../RouteSelection/RouteSelection';
 
+
 function CardDetail() {
   const dispatch = useAppDispatch();
   // const location = useLocation();
@@ -33,6 +34,7 @@ function CardDetail() {
   );
   const [routes, setRoutes] = useState(place?.journey);
   const [routesByUser, setRoutesByUser] = useState(true);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
   // useEffect(() => {
   // if (location.state.routeGenerate) setRoutes(location.state.routeGenerate);
   // }, [location.state.routeGenerate]);
@@ -78,7 +80,11 @@ function CardDetail() {
       navigate('/');
     }
   };
-
+  if (!isLogged){
+    navigate('/login');
+    return null;
+  }
+  
   return (
     <Box
       sx={{
