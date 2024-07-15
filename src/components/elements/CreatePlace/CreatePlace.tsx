@@ -68,10 +68,14 @@ function CreatePlace() {
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+
+  
 
   //Function for modal map
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+
 
   // FUnction for close modal and stop propagation
   const handleClose = (event: SyntheticEvent) => {
@@ -149,6 +153,12 @@ function CreatePlace() {
     console.log('mon fichier de photo', pictures);
   }, [pictures]);
 
+
+  //Gestion de la route
+ if (!isLogged) {
+  return null;
+ } 
+  
   return (
     <Box
       component="form"
@@ -275,5 +285,7 @@ function CreatePlace() {
     </Box>
   );
 }
+
+
 
 export default CreatePlace;
