@@ -51,8 +51,13 @@ function CardPlace({ place, index }: CardPlaceProp) {
           {place.description}
         </Typography>
         {isLogged ? (
-          <Button component={Link} to={`/${place.slug}`} variant="contained">
-            VOir le site
+          <Button
+            component={Link}
+            to={`/${place.slug}`}
+            variant="contained"
+            sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32' }}
+          >
+            Voir le site
           </Button>
         ) : (
           <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }}>
@@ -62,6 +67,6 @@ function CardPlace({ place, index }: CardPlaceProp) {
       </CardContent>
     </Card>
   );
-}
+} //#2e7d32
 
 export default CardPlace;
