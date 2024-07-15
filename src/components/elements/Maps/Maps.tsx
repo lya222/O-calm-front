@@ -46,8 +46,6 @@ function PlaceOnMaps() {
     if ('geolocation' in navigator) {
       console.log('Geolocation is available');
       navigator.geolocation.getCurrentPosition(function (position) {
-        console.log('Latitude: ' + position.coords.latitude);
-        console.log('Longitude: ' + position.coords.longitude);
         setPositionMap({
           lat: position.coords.latitude,
           lng: position.coords.longitude,

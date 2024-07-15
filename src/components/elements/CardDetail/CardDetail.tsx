@@ -12,17 +12,19 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Carousel from 'react-material-ui-carousel';
 // import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
 import { Places } from '../../../@types/places';
 import '../../../assets/fonts/fonts.css';
 import { useEffect, useState } from 'react';
 import { deletePlace } from '../../../store/reducers/placesReducer';
+import RouteSelection from '../RouteSelection/RouteSelection';
 
 function CardDetail() {
   const dispatch = useAppDispatch();
-  const location = useLocation();
+  // const location = useLocation();
+  const [toogleGeolocalisation, setToogleGeolocalisation] = useState(false);
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const iduser: number = useAppSelector((state) => state.user.id);
@@ -34,12 +36,12 @@ function CardDetail() {
   // useEffect(() => {
   // if (location.state.routeGenerate) setRoutes(location.state.routeGenerate);
   // }, [location.state.routeGenerate]);
-  useEffect(() => {
-    if (location.state && location.state.routeGenerate) {
-      setRoutes(location.state.routeGenerate);
-      setRoutesByUser(false);
-    }
-  }, [location.state]);
+  // useEffect(() => {
+  //   if (location.state && location.state.routeGenerate) {
+  //     setRoutes(location.state.routeGenerate);
+  //     setRoutesByUser(false);
+  //   }
+  // }, [location.state]);
   const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -59,13 +61,14 @@ function CardDetail() {
   };
 
   const handleGenerateRoute = () => {
-    navigate(`/${slug}/generateRoute`, {
-      state: {
-        lat: place.gps_location_latitude,
-        lng: place.gps_location_longitude,
-        slug: place.slug,
-      },
-    });
+    // navigate(`/${slug}/generateRoute`, {
+    //   state: {
+    //     lat: place.gps_location_latitude,
+    //     lng: place.gps_location_longitude,
+    //     slug: place.slug,
+    //   },
+    // });
+    setToogleGeolocalisation((prev) => !prev);
   };
 
   const handleDeletePlace = async () => {
@@ -155,6 +158,17 @@ function CardDetail() {
       >
         Créer un trajet avec Google Maps
       </Button>
+      {toogleGeolocalisation ? (
+        <RouteSelection
+          latFinal={parseFloat(place.gps_location_latitude)}
+          lngFinal={parseFloat(place.gps_location_longitude)}
+          setRoutes={setRoutes}
+          setRoutesByUser={setRoutesByUser}
+          setToogleGeolocalisation={setToogleGeolocalisation}
+        />
+      ) : (
+        ''
+      )}
 
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
