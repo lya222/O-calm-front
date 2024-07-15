@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICreatePlace } from '../../../@types/places';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
