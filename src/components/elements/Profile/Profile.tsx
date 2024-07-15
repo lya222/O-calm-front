@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 function Profile() {
   const userState = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const isLogged = useAppSelector((state)=> state.user.isLogged);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -48,6 +49,12 @@ function Profile() {
   const onSubmit: SubmitHandler<ICredentials> = (data) =>
     dispatch(login(data as ICredentials));
 
+
+  //Gestion de la route 
+  if (!isLogged) {
+    navigate('/login');
+    return null;
+  }
   return (
     <Box
       sx={{
