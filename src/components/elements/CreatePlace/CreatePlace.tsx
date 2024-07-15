@@ -70,12 +70,9 @@ function CreatePlace() {
   const navigate = useNavigate();
   const isLogged = useAppSelector((state) => state.user.isLogged);
 
-  
-
   //Function for modal map
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-
 
   // FUnction for close modal and stop propagation
   const handleClose = (event: SyntheticEvent) => {
@@ -149,16 +146,12 @@ function CreatePlace() {
       console.log("erreur sur la création d'un lieu", error);
     }
   };
-  useEffect(() => {
-    console.log('mon fichier de photo', pictures);
-  }, [pictures]);
-
 
   //Gestion de la route
- if (!isLogged) {
-  return null;
- } 
-  
+  if (!isLogged) {
+    return null;
+  }
+
   return (
     <Box
       component="form"
@@ -285,7 +278,5 @@ function CreatePlace() {
     </Box>
   );
 }
-
-
 
 export default CreatePlace;
