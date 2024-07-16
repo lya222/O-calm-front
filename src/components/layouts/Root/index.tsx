@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import NavBar from '../../elements/Navbar/NavBar';
 import Header from '../Header/Header';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { loadPlaces } from '../../../store/reducers/placesReducer';
 import { useAppSelector } from '../../../hooks/redux';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -17,6 +17,10 @@ function Root() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const idUser = useAppSelector((state) => state.user.id);
   const favorite = useAppSelector((state) => state.user.favorite);
+  const isLoading = useAppSelector((state) => state.places.loading);
+  const [favoritesLoaded, setFavoritesLoaded] = useState(false);
+  console.log('islogged', isLogged);
+  console.log('isloading', isLoading);
 
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {
@@ -31,12 +35,15 @@ function Root() {
   useEffect(() => {
     const init = async () => {
       await dispatch(loadPlaces());
-      if (isLogged) await dispatch(fetchFavorite(idUser));
+      if (isLogged && !favoritesLoaded) {
+        // Charger les favoris uniquement si non chargés
+        await dispatch(fetchFavorite(idUser));
+        setFavoritesLoaded(true); // Marquer les favoris comme chargés
+      }
     };
     init();
-  }, [dispatch, location, isLogged]);
+  }, [dispatch, location, isLogged, idUser, favoritesLoaded]);
 
-  const isLoading = useAppSelector((state) => state.places.loading);
   console.log('mes favoris', favorite);
 
   return (

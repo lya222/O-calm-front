@@ -1,3 +1,5 @@
+import { IFavorite } from './Favorites';
+
 export interface User {
   id: number;
   username: string;
@@ -13,7 +15,7 @@ export interface UserState {
   credentials: ICredentials;
   pseudo: string;
   id: number;
-  favorite: number[];
+  favorite: IFavorite[];
 }
 
 export interface CreateUser {
