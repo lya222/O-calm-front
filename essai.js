@@ -32,9 +32,9 @@ import axios from 'axios';
 // }
 
 const essai = async () => {
-  const apikey = 'AIzaSyCHGir6dmR_WAy9A4aehjFV32OiGY4aDKw';
+  // const apikey = 'AIzaSyCHGir6dmR_WAy9A4aehjFV32OiGY4aDKw';
   // const url = 'https://routes.googleapis.com/directions/v2:computeRoutes';
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cities+in+France&key=${apikey}`;
+  const url = `https://api.o-calm.fr/`;
   // const data = {
   //   origin: {
   //     location: {
@@ -69,10 +69,26 @@ const essai = async () => {
   //   'Content-Type': 'application/json',
   //   'X-Goog-Api-Key': apikey,
   //   'X-Goog-FieldMask': 'routes.legs.steps',
-  // };
+  // };export interface ICreatePlace {
+  const data = {
+    name: 'dddddd',
+    journey: ['daa'],
+    description: 'daa',
+    user_id: 2,
+    picture: [],
+    slug: 'ddd',
+    gps_location_latitude: 12,
+    gps_location_longitude: 23,
+  };
 
   try {
-    const response = await axios.post(url);
+    // const response = await axios.post(url);
+
+    const response = await axios.post(`${url}places`, data);
+    console.log(
+      "renvoie apres l'enregistrement d'un nouveau lieu",
+      response.data
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching route:', error);
