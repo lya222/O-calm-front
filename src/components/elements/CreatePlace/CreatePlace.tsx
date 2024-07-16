@@ -161,6 +161,7 @@ function CreatePlace() {
 
   //Gestion de la route
  if (!isLogged) {
+  navigate('/login');
   return null;
  } 
   
