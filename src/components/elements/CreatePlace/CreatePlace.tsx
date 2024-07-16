@@ -60,7 +60,12 @@ const styleModal = {
 };
 
 function CreatePlace() {
-  const { register, handleSubmit } = useForm<ICreatePlace>();
+  // const { register, handleSubmit } = useForm<ICreatePlace>();
+  //Sécurisation de useForm 
+  const { register, handleSubmit } = useForm<ICreatePlace>({
+    mode: 'onTouched',
+  });
+
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [pictures, setPictures] = useState<IPictureDownload[]>([]);
   const statePicture = useAppSelector((state) => state.places.picture);

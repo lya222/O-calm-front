@@ -44,19 +44,19 @@ function RegisterForm() {
     //Verification pseudo
     if (name === 'username') {
       if (!/^.{2,}$/.test(formData.username))
-        setPseudoError('Le pseudo doit contenir 2 caracteres au moins');
+        setPseudoError('Le pseudo doit contenir 2 caracteres minimum ');
       else setPseudoError('');
     }
     //Verification password
     if (name === 'password') {
       if (!/^([a-zA-Z0-9._-]+){8,}$/.test(formData.password))
-        setPasswordError('mot de passe invalide');
+        setPasswordError('Le mot de passe doit contenir 8 caractères minimum');
       else setPasswordError('');
     }
     //Verification email
     if (name === 'email') {
       if (!/^[a-zA-Z0-9._-]+@[a-zA-Z.-]+.[a-zA-Z]{2,4}$/.test(formData.email))
-        setEmailError('Adresse invalide');
+        setEmailError('Adresse email invalide');
       else setEmailError('');
     }
   };
@@ -75,7 +75,7 @@ function RegisterForm() {
       try {
         const result = await dispatch(createUser(formData));
         console.log('le resultat de mon enregistrement', result);
-        alert('Bravo vous etes enregistré. Connectez-vous');
+        alert('Bravo vous êtes enregistré. Connectez-vous');
         navigate('/');
       } catch (error) {
         console.log("Erreur sur l'envoie du formulaire");
