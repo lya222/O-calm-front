@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import { ICreatePlace } from '../../../../@types/places';
 import { UseFormRegister } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
