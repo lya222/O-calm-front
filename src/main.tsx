@@ -29,7 +29,7 @@ interface IUserData {
   name: string;
   uuid: string;
 }
-
+//authentification
 const authStore = createStore<IUserData>({
   authName: '_auth',
   authType: 'cookie',
