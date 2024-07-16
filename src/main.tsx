@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Route,
@@ -29,7 +28,7 @@ interface IUserData {
   name: string;
   uuid: string;
 }
-
+//authentification
 const authStore = createStore<IUserData>({
   authName: '_auth',
   authType: 'cookie',
@@ -58,11 +57,11 @@ const router = createBrowserRouter(
 );
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <AuthProvider store={authStore}>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <AuthProvider store={authStore}>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </Provider>
+  // </React.StrictMode>
 );

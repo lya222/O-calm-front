@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICreatePlace } from '../../../@types/places';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import InputRoute from './InputRoute/InputRoute';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAppSelector } from '../../../hooks/redux';
@@ -29,8 +29,11 @@ import { createSlug } from '../../../store/selectors/places';
 import { IPictureDownload } from '../../../@types/Files';
 import PlaceOnMaps from '../PlaceOnMaps/PlaceOnMaps';
 import { Iposition } from '../../../@types/Map';
+import '../../../assets/fonts/fonts.css';
+
 // import { useAppSelector } from '../../../hooks/redux';
 // import { sortTag } from '../../../store/selectors/places';
+import DoneIcon from '@mui/icons-material/Done';
 
 // const tags = ['mer', 'montagne'];
 
@@ -73,14 +76,11 @@ function CreatePlace() {
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const isLogged = useAppSelector((state) => state.user.isLogged);
-
-  
+  // const isLogged = useAppSelector((state) => state.user.isLogged);
 
   //Function for modal map
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-
 
   // FUnction for close modal and stop propagation
   const handleClose = (event: SyntheticEvent) => {
@@ -90,7 +90,6 @@ function CreatePlace() {
   };
 
   const [position, setPosition] = useState<Iposition>();
-  console.log('ma position pour le lieu', position);
 
   //Propriété en standby pour les tags
   // const places = useAppSelector((state) => state.places.list);
@@ -154,17 +153,7 @@ function CreatePlace() {
       console.log("erreur sur la création d'un lieu", error);
     }
   };
-  useEffect(() => {
-    console.log('mon fichier de photo', pictures);
-  }, [pictures]);
 
-
-  //Gestion de la route
- if (!isLogged) {
-  navigate('/login');
-  return null;
- } 
-  
   return (
     <Box
       component="form"
@@ -177,9 +166,14 @@ function CreatePlace() {
         p: 2,
         bgcolor: 'white',
         color: 'black',
+        paddingTop: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '10px',
+        gap: 2,
       }}
     >
-      <Typography variant="h5" component="h5" gutterBottom>
+      <Typography variant="h5" component="h5" gutterBottom fontFamily="bion">
         Ajouter un nouveau lieu
       </Typography>
       <TextField
@@ -189,6 +183,16 @@ function CreatePlace() {
         {...register('name', {
           required: 'Le nom du lieu est obligatoire',
         })}
+        InputProps={{
+          sx: {
+            fontFamily: 'bion',
+          },
+        }}
+        InputLabelProps={{
+          sx: {
+            fontFamily: 'bion',
+          },
+        }}
       />
       <TextField
         fullWidth
@@ -198,6 +202,16 @@ function CreatePlace() {
         {...register('description', {
           required: 'Il faut drécrire le lieu',
         })}
+        InputProps={{
+          sx: {
+            fontFamily: 'bion',
+          },
+        }}
+        InputLabelProps={{
+          sx: {
+            fontFamily: 'bion',
+          },
+        }}
       />
       {/* <FormControl component="fieldset">
         <FormGroup aria-label="position" row>
@@ -216,9 +230,12 @@ function CreatePlace() {
           ))}
         </FormGroup>
       </FormControl> */}
-      <FormControl component="fieldset">
-        <FormLabel component="legend">
-          Entrer les étapes a suivre pour acceder au lieu
+      <FormControl component="fieldset" sx={{ width: '100%', mt: 2 }}>
+        <FormLabel
+          component="legend"
+          sx={{ fontFamily: 'bion', fontWeight: 'bold' }}
+        >
+          Entrez les étapes à suivre pour accéder au lieu :
         </FormLabel>
         {listRoute.map((journey, index) => (
           <InputRoute
@@ -228,13 +245,17 @@ function CreatePlace() {
             handleRemove={() => deleteRoute(journey.id)}
           />
         ))}
+
         <Button onClick={addRoute}>
           <AddCircleOutlineIcon />
         </Button>
       </FormControl>
 
       {/* Modal for open map */}
-      <Button onClick={handleOpen}>Sélectionner le lieu sur la carte</Button>
+      <Button onClick={handleOpen}>
+        Sélectionner le lieu sur la carte
+        {position && <DoneIcon color="success" />}
+      </Button>
       <Modal
         open={open}
         onClose={(
@@ -291,7 +312,5 @@ function CreatePlace() {
     </Box>
   );
 }
-
-
 
 export default CreatePlace;

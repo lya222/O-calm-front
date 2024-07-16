@@ -5,13 +5,14 @@ import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
-import { CreateUser, User, UserState } from '../../@types/user';
+import { User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 import { verifyAndDecodeToken } from '../selectors/users';
 import Cookies from 'js-cookie';
 import { JWTPayload } from 'jose';
+import { IFavorite, IFavoritePayload } from '../../@types/Favorites';
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -26,6 +27,7 @@ const initialState: UserState = {
   },
   pseudo: '',
   id: 0,
+  favorite: [],
 };
 
 export const updatePseudo = createAction<string>('user/updatePseudo');
@@ -41,15 +43,19 @@ export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   }
 );
 
-//Création d'un nouvel utilisaeur
-export const createUser = createAsyncThunk<
-  CreateUser,
-  CreateUser,
-  AsyncThunkConfig
->('user/createUserAsync', async (userData) => {
-  const response = await axios.post<CreateUser>(`${url}register`, userData);
-  return response.data;
-});
+// //Création d'un nouvel utilisaeur
+// export const createUser = createAsyncThunk<
+//   IResponseCreateUser,
+//   CreateUser,
+//   AsyncThunkConfig
+// >('user/createUserAsync', async (userData) => {
+//   console.log("mes donnes que je rentre pour l'enregistrement", userData);
+//   const response = await axios.post<IResponseCreateUser>(
+//     `${url}register`,
+//     userData
+//   );
+//   return response.data;
+// });
 
 //Connexion d'un utilisateur
 export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
@@ -82,6 +88,7 @@ export const reconnect = createAsyncThunk<
   AsyncThunkConfig
 >('user/reconnect', async (token: string) => {
   const response = await verifyAndDecodeToken(token);
+  console.log('ma reponse a la reconnection ', response.userFound);
   return response as DecodedToken;
 });
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
@@ -132,6 +139,49 @@ export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   }
 );
 
+//Recherche tous les favoris de l'user
+export const fetchFavorite = createAsyncThunk<
+  IFavorite[],
+  number,
+  AsyncThunkConfig
+>('user/fetchFavorite', async (idUser: number) => {
+  const response = await axios.get(`${url}/places/favorite/${idUser}`);
+  console.log(
+    'ma reponse pour fetchfavorite dans le redux',
+    response.data.data
+  );
+  return response.data.data;
+});
+
+//Ajout d'un leu en favoris
+export const addFavorite = createAsyncThunk<
+  IFavorite,
+  IFavoritePayload,
+  AsyncThunkConfig
+>('user/addFavorite', async (data: IFavoritePayload) => {
+  console.log('data pour add favorite', data.idUser, data.idPlace);
+  const response = await axios.post(`${url}/places/favorite/${data.idUser}`, {
+    place_id: data.idPlace,
+  });
+  console.log('ma reponse pour addFavorite dans le redux', response.data);
+  return response.data.data;
+});
+
+//Ajout d'un leu en favoris
+export const deleteFavorite = createAsyncThunk<
+  IFavorite,
+  IFavoritePayload,
+  AsyncThunkConfig
+>('user/deleteFavorite', async (data: IFavoritePayload) => {
+  console.log('data pour delete favorite', data.idUser, data.fav_id);
+  const response = await axios.delete(
+    `${url}/places/favorite/${data.idUser}/${data.fav_id}`,
+    {}
+  );
+  console.log('ma reponse pour addFavorite dans le redux', response.data);
+  return response.data.data;
+});
+
 export const userReducer: Reducer<UserState> = createReducer<UserState>(
   initialState,
   (builder) => {
@@ -166,23 +216,23 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       //   state.error = action.error.message;
       //   state.loading = false;
       // })
-      .addCase(createUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createUser.fulfilled, (state, action) => {
-        const newUser: ICredentials = {
-          email: action.payload.email,
-          password: action.payload.password,
-        };
-        state.pseudo = action.payload.username;
-        state.credentials = newUser;
-        state.loading = false;
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.error = action.error.message;
-        state.loading = false;
-      })
+      // .addCase(createUser.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(createUser.fulfilled, (state) => {
+      //   // const newUser: ICredentials = {
+      //   //   email: action.payload.email,
+      //   //   password: action.payload.password,
+      //   // };
+      //   // state.pseudo = action.payload.username;
+      //   // state.credentials = newUser;
+      //   state.loading = false;
+      // })
+      // .addCase(createUser.rejected, (state, action) => {
+      //   state.error = action.error.message;
+      //   state.loading = false;
+      // })
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -242,18 +292,48 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       })
       .addCase(deleteUser.rejected, (state) => {
         state.loading = true;
+      })
+      .addCase(fetchFavorite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchFavorite.fulfilled, (state, action) => {
+        console.log('ma reponse pour addcase dans le redux', action.payload);
+
+        state.favorite = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchFavorite.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(addFavorite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addFavorite.fulfilled, (state, action) => {
+        console.log('ma reponse pour addcase dans le redux', action.payload);
+
+        state.favorite.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(addFavorite.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(deleteFavorite.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteFavorite.fulfilled, (state, action) => {
+        console.log('ma reponse pour addcase dans le redux', action.payload);
+
+        state.favorite = state.favorite.filter(
+          (fav) => fav.fav_id !== action.payload.fav_id
+        );
+        state.loading = false;
+      })
+      .addCase(deleteFavorite.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
       });
-    // .addCase(updatePassword.pending, (state) => {
-    //   state.loading = true;
-    // })
-    // .addCase(updatePassword.fulfilled, (state, action) => {
-    //   state.data[0].password = action.payload;
-    //   state.loading = false;
-    // })
-    // .addCase(updatePassword.rejected, (state, action) => {
-    //   state.error = action.error.message;
-    //   state.loading = false;
-    // });
   }
 );
 
