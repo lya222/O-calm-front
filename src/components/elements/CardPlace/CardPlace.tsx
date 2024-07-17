@@ -111,12 +111,12 @@ function CardPlace({ place, index }: CardPlaceProp) {
             to={`/${place.slug}`}
             variant="contained"
             sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32'}}
-            aria-label="Bouton pour acceder au lieu"
+            aria-label="Acceder au lieu"
           >
             Voir le site
           </Button>
         ) : (
-          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }} aria-label="Bouton de connexion afin de voir le lieu">
+          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }} aria-label="Connexion afin de voir le lieu">
             Connectez vous pour voir ce site
           </Button>
         )}
