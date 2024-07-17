@@ -38,6 +38,7 @@ function NavBar() {
             label="Home"
             icon={<HomeIcon />}
             onClick={displaySearchBar}
+            aria-label="Home"
           />
         </Link>
 
@@ -47,6 +48,7 @@ function NavBar() {
             label="Maps"
             icon={<MapIcon />}
             onClick={displayMaps}
+            aria-label="Carte"
           />
         </Link>
         {isLogged ? (
@@ -58,6 +60,7 @@ function NavBar() {
             label="Account"
             icon={<AccountCircleIcon sx={{ fontSize: '2rem' }} />}
             showLabel={true}
+            aria-label="Compte"
           />
         )}
       </BottomNavigation>

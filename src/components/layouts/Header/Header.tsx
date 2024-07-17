@@ -89,8 +89,7 @@ const Header = () => {
   }));
   const classes = useStyles();
 
-  // const desktopHeaderImageUrl =
-  //   '../../../images/public/image/flowers-7790227_1280.jpg';
+  const desktopHeaderImageUrl = '../../../image/flowers-7790227_1280.jpg';
   const mobileHeaderImageUrl = '../../../image/headermobile.png';
 
   return (

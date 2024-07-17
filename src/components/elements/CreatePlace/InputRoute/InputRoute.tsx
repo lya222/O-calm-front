@@ -40,7 +40,7 @@ function InputRoute({ register, index, handleRemove }: IInputRoute) {
         }}
       />
       {index !== 0 && (
-        <IconButton onClick={handleRemove} aria-label="delete">
+        <IconButton onClick={handleRemove} aria-label="Suppression ">
           <DeleteIcon />
         </IconButton>
       )}

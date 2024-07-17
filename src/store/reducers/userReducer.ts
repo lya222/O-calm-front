@@ -7,14 +7,12 @@ import {
 } from '@reduxjs/toolkit';
 import { User, UserState } from '../../@types/user';
 import { ICredentials } from '../../@types/Icredentials';
-import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
 import { verifyAndDecodeToken } from '../selectors/users';
 import Cookies from 'js-cookie';
 import { JWTPayload } from 'jose';
 import { IFavorite, IFavoritePayload } from '../../@types/Favorites';
-
-const url = import.meta.env.VITE_API_URL;
+import apiClient from '../../api/apiClient';
 
 const initialState: UserState = {
   isLogged: false,
@@ -37,31 +35,17 @@ export const logout = createAction('user/logout');
 export const fetchUser = createAsyncThunk<User[], void, AsyncThunkConfig>(
   'user/fetchUser',
   async () => {
-    const response = await axios.get<User[]>(`${url}user`);
+    const response = await apiClient.get<User[]>(`/user`);
 
     return response.data;
   }
 );
 
-// //Création d'un nouvel utilisaeur
-// export const createUser = createAsyncThunk<
-//   IResponseCreateUser,
-//   CreateUser,
-//   AsyncThunkConfig
-// >('user/createUserAsync', async (userData) => {
-//   console.log("mes donnes que je rentre pour l'enregistrement", userData);
-//   const response = await axios.post<IResponseCreateUser>(
-//     `${url}register`,
-//     userData
-//   );
-//   return response.data;
-// });
-
 //Connexion d'un utilisateur
 export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
   'user/login',
   async (credentials: ICredentials) => {
-    const response = await axios.post(`${url}login`, credentials);
+    const response = await apiClient.post(`/login`, credentials);
 
     await verifyAndDecodeToken(response.data.token)
       .then((payload) => {
@@ -71,7 +55,7 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
       .catch((error) => {
         console.error('Failed to decode token:', error);
       });
-
+    console.log('ma reponse a login', response.data);
     return response.data;
   }
 );
@@ -88,13 +72,14 @@ export const reconnect = createAsyncThunk<
   AsyncThunkConfig
 >('user/reconnect', async (token: string) => {
   const response = await verifyAndDecodeToken(token);
-  console.log('ma reponse a la reconnection ', response.userFound);
+  console.log('ma reponse a la reconnection ', response);
   return response as DecodedToken;
 });
+
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/takeUser',
   async (id: number) => {
-    const response = await axios.get(`${url}user/${id}`);
+    const response = await apiClient.get(`/user/${id}`);
     return response.data.data;
   }
 );
@@ -103,7 +88,7 @@ export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
 export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateUserAsync',
   async (userData: string) => {
-    const response = await axios.put(`${url}login/`, userData);
+    const response = await apiClient.put(`/login/`, userData);
     return response.data;
   }
 );
@@ -112,7 +97,7 @@ export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
 export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateEmail',
   async (email: string) => {
-    const response = await axios.put(`${url}login/email`, {
+    const response = await apiClient.put(`/login/email`, {
       email,
     });
     return response.data;
@@ -123,7 +108,7 @@ export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
 export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   'user/updatePassword',
   async (password: User) => {
-    const response = await axios.put(`${url}login/password`, {
+    const response = await apiClient.put(`/login/password`, {
       password,
     });
     return response.data;
@@ -134,7 +119,7 @@ export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
 export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/deleteUser',
   async (idUser: number) => {
-    const response = await axios.delete(`${url}user/${idUser}`);
+    const response = await apiClient.delete(`/user/${idUser}`);
     return response.data;
   }
 );
@@ -145,7 +130,7 @@ export const fetchFavorite = createAsyncThunk<
   number,
   AsyncThunkConfig
 >('user/fetchFavorite', async (idUser: number) => {
-  const response = await axios.get(`${url}/places/favorite/${idUser}`);
+  const response = await apiClient.get(`/places/favorite/${idUser}`);
   console.log(
     'ma reponse pour fetchfavorite dans le redux',
     response.data.data
@@ -160,7 +145,7 @@ export const addFavorite = createAsyncThunk<
   AsyncThunkConfig
 >('user/addFavorite', async (data: IFavoritePayload) => {
   console.log('data pour add favorite', data.idUser, data.idPlace);
-  const response = await axios.post(`${url}/places/favorite/${data.idUser}`, {
+  const response = await apiClient.post(`/places/favorite/${data.idUser}`, {
     place_id: data.idPlace,
   });
   console.log('ma reponse pour addFavorite dans le redux', response.data);
@@ -174,8 +159,8 @@ export const deleteFavorite = createAsyncThunk<
   AsyncThunkConfig
 >('user/deleteFavorite', async (data: IFavoritePayload) => {
   console.log('data pour delete favorite', data.idUser, data.fav_id);
-  const response = await axios.delete(
-    `${url}/places/favorite/${data.idUser}/${data.fav_id}`,
+  const response = await apiClient.delete(
+    `/places/favorite/${data.idUser}/${data.fav_id}`,
     {}
   );
   console.log('ma reponse pour addFavorite dans le redux', response.data);
@@ -191,6 +176,7 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       })
       .addCase(logout, (state) => {
         state.isLogged = false;
+        state.id = 0;
         Cookies.remove('token');
       })
       .addCase(fetchUser.pending, (state) => {
@@ -237,14 +223,11 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        login.fulfilled,
-        (state: UserState, action: PayloadAction<User>) => {
-          state.loading = false;
-          state.isLogged = true;
-          state.id = action.payload.id;
-        }
-      )
+      .addCase(login.fulfilled, (state: UserState, action) => {
+        state.loading = false;
+        state.isLogged = true;
+        state.id = action.payload.id;
+      })
       .addCase(login.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
