@@ -111,6 +111,7 @@ const Login = () => {
           color="primary"
           sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
           disabled={status === 'loading'}
+          aria-label="Connexion"
         >
           Enregistrer
         </Button>

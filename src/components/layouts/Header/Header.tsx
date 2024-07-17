@@ -77,6 +77,7 @@ const Header = () => {
           sx={{
             minHeight: '100px',
             backgroundImage: `url(${mobileHeaderImageUrl})`,
+            alt="Image de fleurs"
             backgroundSize: 'contain',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
