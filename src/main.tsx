@@ -12,7 +12,6 @@ import createStore from 'react-auth-kit/createStore';
 import { Provider } from 'react-redux';
 import store from './store';
 import Root from './components/layouts/Root/index.tsx';
-import Home from './components/pages/Home/Home.tsx';
 import Error from './components/pages/Error/Error.tsx';
 import CardDetail from './components/elements/CardDetail/CardDetail.tsx';
 // Test du composant login 04.07.2024
@@ -21,6 +20,7 @@ import Registration from './components/pages/Registration/Registration.tsx';
 import CreatePlace from './components/elements/CreatePlace/CreatePlace.tsx';
 import Maps from './components/elements/Maps/Maps.tsx';
 import PrivateRoute from './components/rooting/PrivateRoute.tsx';
+import Home from './components/pages/Home/Home.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
