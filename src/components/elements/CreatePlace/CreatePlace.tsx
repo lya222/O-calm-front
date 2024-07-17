@@ -289,7 +289,6 @@ function CreatePlace() {
         {...register('picture')}
         tabIndex={-1}
         startIcon={<CloudUploadIcon />}
-        aria-label="Téléchargement de l'image"
       >
         Télécharger une image
         <VisuallyHiddenInput type="file" onChange={uploadImage} />
@@ -307,7 +306,6 @@ function CreatePlace() {
         variant="contained"
         color="primary"
         sx={{ mt: 3, mb: 2 }}
-        aria-label="Enregistrement"
       >
         Enregistrer
       </Button>
