@@ -7,8 +7,8 @@ import {
 import { ICreatePlace, Places, PlacesState } from '../../@types/places';
 import axios from 'axios';
 import { AsyncThunkConfig } from '../../@types/types';
+import apiClient from '../../api/apiClient';
 
-const url = import.meta.env.VITE_API_URL;
 const urlPicture = import.meta.env.VITE_API_URL_PICTURE;
 
 export const initialState: PlacesState = {
@@ -28,7 +28,7 @@ export const initialState: PlacesState = {
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
-    const response = await axios.get<{ data: Places[] }>(`${url}places`);
+    const response = await apiClient.get<{ data: Places[] }>(`/places`);
     const list = Object.values(response.data)[0];
     return list;
   }
@@ -40,7 +40,7 @@ export const createPlace = createAsyncThunk<
   ICreatePlace,
   AsyncThunkConfig
 >('place/createPlace', async (placeData) => {
-  const response = await axios.post<ICreatePlace>(`${url}places`, placeData);
+  const response = await apiClient.post<ICreatePlace>(`/places`, placeData);
   console.log(
     "renvoie apres l'enregistrement d'un nouveau lieu",
     response.data
@@ -68,7 +68,7 @@ export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
   'place/deletePlace',
   async (idUser: number) => {
     console.log('je suis dans le reducer de deletePlace');
-    const response = await axios.delete(`${url}places/${idUser}`);
+    const response = await apiClient.delete(`/places/${idUser}`);
     console.log('reponse du deletePlace', response.data);
     return response.data;
   }

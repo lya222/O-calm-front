@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 function Profile() {
   const userState = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -48,6 +49,11 @@ function Profile() {
   const onSubmit: SubmitHandler<ICredentials> = (data) =>
     dispatch(login(data as ICredentials));
 
+  //Gestion de la route
+  if (!isLogged) {
+    navigate('/login');
+    return null;
+  }
   return (
     <Box
       sx={{
@@ -57,9 +63,10 @@ function Profile() {
         mb: 10,
         bgcolor: 'white',
         color: 'black',
+        borderRadius: '10px',
       }}
     >
-      <Typography variant="h5" component="h5" gutterBottom>
+      <Typography variant="h5" component="h5" fontFamily="bion" gutterBottom>
         Mon profil
       </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
@@ -67,7 +74,7 @@ function Profile() {
           fullWidth
           label={userState.pseudo}
           type="pseudo"
-          //pour mettre licone du petit stylo
+          //pour mettre l'icone du petit stylo
           // {...register('username', { required: true })}
           // endAdornment={
           //   <InputAdornment position="end">
@@ -76,12 +83,14 @@ function Profile() {
           //     </IconButton>
           //   </InputAdornment>
           // }
+          sx={{ mt: 3 }}
         />
         <TextField
           fullWidth
           label={userState.credentials.email}
           type="email"
           {...register('email', { required: true })}
+          sx={{ mt: 3 }}
         />
 
         <TextField
@@ -89,6 +98,7 @@ function Profile() {
           label="Password"
           type="password"
           {...register('password', { required: true })}
+          sx={{ mt: 3 }}
         />
 
         <Button
@@ -96,7 +106,7 @@ function Profile() {
           fullWidth
           variant="contained"
           color="primary"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2, backgroundColor: '#2e7d32' }}
           disabled={status === 'loading'}
         >
           Modifier
@@ -107,7 +117,7 @@ function Profile() {
         fullWidth
         variant="contained"
         color="error"
-        sx={{ mt: 3, mb: 2 }}
+        sx={{ mt: 3, mb: 2, backgroundColor: '#d38b8b' }}
         disabled={status === 'loading'}
         onClick={deleteCount}
       >

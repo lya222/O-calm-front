@@ -1,3 +1,5 @@
+import { IFavorite } from './Favorites';
+
 export interface User {
   id: number;
   username: string;
@@ -13,6 +15,7 @@ export interface UserState {
   credentials: ICredentials;
   pseudo: string;
   id: number;
+  favorite: IFavorite[];
 }
 
 export interface CreateUser {
@@ -21,4 +24,9 @@ export interface CreateUser {
   password: string;
   passwordConfirm: string;
   id?: string;
+}
+
+export interface IResponseCreateUser {
+  message: string;
+  newUser: number;
 }

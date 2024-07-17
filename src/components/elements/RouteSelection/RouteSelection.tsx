@@ -1,10 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
   IGenerateRoute,
   IGenerateRouteForAPIGoogle,
 } from '../../../@types/Map';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
   dataForMap,
@@ -12,18 +11,30 @@ import {
   transformNewRoute,
 } from '../../../store/selectors/map';
 
-function RouteSelection() {
-  const navigate = useNavigate();
+interface IRouteSelectionProps {
+  latFinal: number;
+  lngFinal: number;
+  setRoutes: (data: string[]) => void;
+  setRoutesByUser: (toogleRoutes: boolean) => void;
+  setToogleGeolocalisation: (toogleDIsplay: boolean) => void;
+}
+
+function RouteSelection({
+  latFinal,
+  lngFinal,
+  setRoutes,
+  setRoutesByUser,
+  setToogleGeolocalisation,
+}: IRouteSelectionProps) {
+  // const navigate = useNavigate();
   const { register, handleSubmit } = useForm<IGenerateRoute>();
   const [positionLoc, setPositionLoc] = useState({ lat: 0, lng: 0 });
-
+  const [errorMessage, setErrorMessage] = useState('');
   useEffect(() => {
     //Search your localisation
     if ('geolocation' in navigator) {
       console.log('Geolocation is available');
       navigator.geolocation.getCurrentPosition(function (position) {
-        console.log('Latitude: ' + position.coords.latitude);
-        console.log('Longitude: ' + position.coords.longitude);
         setPositionLoc({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -32,13 +43,9 @@ function RouteSelection() {
     }
   }, []);
 
-  const location = useLocation();
-  const latPlace = parseFloat(location.state.lat);
-  const lngPlace = parseFloat(location.state.lng);
-
   const onSubmit = async (data: IGenerateRoute) => {
-    data.latFinal = latPlace;
-    data.lngFinal = lngPlace;
+    data.latFinal = latFinal;
+    data.lngFinal = lngFinal;
     data.latOrigin = positionLoc.lat;
     data.lngOrigin = positionLoc.lng;
     try {
@@ -47,13 +54,17 @@ function RouteSelection() {
       );
       const response = await generateRoute(dataFromAPI);
       const dataRoute = transformNewRoute(response);
-      navigate(`/${location.state.slug}`, {
-        state: {
-          routeGenerate: dataRoute,
-        },
-      });
+
+      if (dataRoute) {
+        setRoutes(dataRoute);
+        setRoutesByUser(false);
+        setToogleGeolocalisation(false);
+      } else {
+        setErrorMessage("Aucune Route n'a était trouvé");
+      }
     } catch (error) {
       console.error('Erreur lors de la génération de la route :', error);
+      setErrorMessage("Aucune Route n'a était trouvé");
     }
   };
 
@@ -63,7 +74,6 @@ function RouteSelection() {
         border: '2px solid grey',
         p: 2,
         mb: 0,
-        height: '100vh',
         overflowY: 'auto',
       }}
     >
@@ -77,6 +87,7 @@ function RouteSelection() {
         </select>
         <input type="submit" />
       </form>
+      <Typography color="red">{errorMessage}</Typography>
     </Box>
   );
 }

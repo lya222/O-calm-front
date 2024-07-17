@@ -11,7 +11,6 @@ export const dataForMap = (
   const apikey = import.meta.env.VITE_API_MAP_KEY;
   const url = 'https://routes.googleapis.com/directions/v2:computeRoutes';
   const { latFinal, latOrigin, lngFinal, lngOrigin } = dataEntries;
-  console.log('latorigin', latOrigin, lngOrigin);
   const data = {
     origin: {
       location: {
@@ -39,7 +38,6 @@ export const dataForMap = (
     'X-Goog-Api-Key': apikey,
     'X-Goog-FieldMask': 'routes.legs.steps',
   };
-  console.log('les donnes que je rentre pour axios', data, dataEntries);
   return { url, data, headers };
 };
 
