@@ -10,6 +10,7 @@ import { Box, Container } from '@mui/material';
 import { AppDispatch } from '../../../store';
 import Cookies from 'js-cookie';
 import { fetchFavorite, reconnect } from '../../../store/reducers/userReducer';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,8 +20,14 @@ function Root() {
   const favorite = useAppSelector((state) => state.user.favorite);
   const isLoading = useAppSelector((state) => state.places.loading);
   const [favoritesLoaded, setFavoritesLoaded] = useState(false);
+  const auth = useAuthUser();
+  console.log('état du auth', auth);
   console.log('islogged', isLogged);
   console.log('isloading', isLoading);
+  console.log("l'id de l'user", idUser);
+  useEffect(() => {
+    console.log('Auth mis à jour :', auth);
+  }, [auth]);
 
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {

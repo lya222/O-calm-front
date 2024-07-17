@@ -30,7 +30,6 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import customIconImage from '../../../../public/image/ONOFF.png';
-import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 
 const Header = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -66,8 +65,7 @@ const Header = () => {
   }));
   const classes = useStyles();
 
-  // const desktopHeaderImageUrl =
-  //   '../../../images/public/image/flowers-7790227_1280.jpg';
+  const desktopHeaderImageUrl = '../../../image/flowers-7790227_1280.jpg';
   const mobileHeaderImageUrl = '../../../image/headermobile.png';
 
   return (
