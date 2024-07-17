@@ -41,6 +41,7 @@ const theme = createTheme({
 });
 
 const Header = () => {
+  console.log('test');
   const isMobile = useMediaQuery('(max-width:600px)');
   const useStyles = makeStyles(() => ({
     headerImage: {
