@@ -30,7 +30,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import customIconImage from '../../../../public/image/ONOFF2.png';
-import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
+// import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
 

@@ -42,11 +42,13 @@ function CardPlace({ place, index }: CardPlaceProp) {
       const takeFavorite = listFavorite.find(
         (fav: IFavorite) => fav.place_id === place.id
       );
-      setFavorite(takeFavorite);
-      setIsFavorite(true);
-    } else {
-      setFavorite(undefined); // Réinitialiser isFavorite si listFavorite est vide ou non défini
-      setIsFavorite(false);
+      if (takeFavorite) {
+        setIsFavorite(true);
+        setFavorite(takeFavorite);
+      } else {
+        setFavorite(undefined);
+        setIsFavorite(false);
+      }
     }
   }, [listFavorite, place.id, favorite]);
 
@@ -68,10 +70,10 @@ function CardPlace({ place, index }: CardPlaceProp) {
       console.log('Réponse pour deletefavorite', response);
     }
 
-    console.log('isFavorite après mise à jour :', isFavorite);
+    console.log('isFavorite après mise à jour :', place.name, isFavorite);
   };
   console.log('la liste des favoris sur la place', listFavorite);
-  console.log('isfavorite', isFavorite, favorite);
+  console.log('isfavorite', place.name, isFavorite, favorite);
   return (
     <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
       {!place.picture || !Array.isArray(place.picture) ? (
@@ -79,8 +81,12 @@ function CardPlace({ place, index }: CardPlaceProp) {
       ) : (
         <Carousel>
           {place.picture.map((picture, index) => (
-            <CardMedia key={index} component="img" height="200" src={picture} 
-            aria-label={`Image ${index + 1} sur ${place.picture.length}`}
+            <CardMedia
+              key={index}
+              component="img"
+              height="200"
+              src={picture}
+              aria-label={`Image ${index + 1} sur ${place.picture.length}`}
             />
           ))}
         </Carousel>
@@ -110,13 +116,18 @@ function CardPlace({ place, index }: CardPlaceProp) {
             component={Link}
             to={`/${place.slug}`}
             variant="contained"
-            sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32'}}
+            sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32' }}
             aria-label="Acceder au lieu"
           >
             Voir le site
           </Button>
         ) : (
-          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }} aria-label="Connexion afin de voir le lieu">
+          <Button
+            disabled
+            variant="contained"
+            sx={{ fontFamily: 'Bion' }}
+            aria-label="Connexion afin de voir le lieu"
+          >
             Connectez vous pour voir ce site
           </Button>
         )}
