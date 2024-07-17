@@ -79,7 +79,9 @@ function CardPlace({ place, index }: CardPlaceProp) {
       ) : (
         <Carousel>
           {place.picture.map((picture, index) => (
-            <CardMedia key={index} component="img" height="200" src={picture} />
+            <CardMedia key={index} component="img" height="200" src={picture} 
+            aria-label={`Image ${index + 1} sur ${place.picture.length}`}
+            />
           ))}
         </Carousel>
       )}
@@ -108,12 +110,13 @@ function CardPlace({ place, index }: CardPlaceProp) {
             component={Link}
             to={`/${place.slug}`}
             variant="contained"
-            sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32' }}
+            sx={{ fontFamily: 'Bion', backgroundColor: '#2e7d32'}}
+            aria-label="Bouton pour acceder au lieu"
           >
             Voir le site
           </Button>
         ) : (
-          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }}>
+          <Button disabled variant="contained" sx={{ fontFamily: 'Bion' }} aria-label="Bouton pour se connecter afin de voir le lieu">
             Connectez vous pour voir ce site
           </Button>
         )}
