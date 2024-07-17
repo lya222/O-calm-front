@@ -114,7 +114,8 @@ function CardDetail() {
               component="img"
               height="200"
               image={image}
-              alt="photo lieu"
+              alt={`Photo du lieu ${place.name} - ${index + 1} sur ${place.picture.length}`}
+
             />
           ))}
         </Carousel>
@@ -160,6 +161,7 @@ function CardDetail() {
         fullWidth
         variant="contained"
         color="primary"
+        aria-label="Bouton pour générer l'itinéraire"
         sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
       >
         Créer un trajet avec Google Maps
@@ -179,12 +181,13 @@ function CardDetail() {
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
           <>
-            <Button color="success">Modifier</Button>
+            <Button color="success" aria-label="Bouton pour modifier l'itinéraire">Modifier</Button>
             <Button
               variant="outlined"
               color="error"
               onClick={handleDeletePlace}
-            >
+              aria-label="Bouton pour supprimer l'itinéraire"
+              >
               Supprimer
             </Button>
           </>
