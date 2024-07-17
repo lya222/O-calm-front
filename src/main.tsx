@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Route,
@@ -21,7 +20,7 @@ import Profile from './components/elements/Profile/Profile.tsx';
 import Registration from './components/pages/Registration/Registration.tsx';
 import CreatePlace from './components/elements/CreatePlace/CreatePlace.tsx';
 import Maps from './components/elements/Maps/Maps.tsx';
-import RouteSelection from './components/elements/RouteSelection/RouteSelection.tsx';
+import PrivateRoute from './components/rooting/PrivateRoute.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -30,7 +29,7 @@ interface IUserData {
   name: string;
   uuid: string;
 }
-
+//authentification
 const authStore = createStore<IUserData>({
   authName: '_auth',
   authType: 'cookie',
@@ -43,15 +42,15 @@ const router = createBrowserRouter(
     <Route path="/" element={<Root />} errorElement={<Error />}>
       <Route index element={<Home />} />
 
-      {/* essaie du composant login 04.07.2024 */}
+      <Route path="/maps" element={<Maps />} />
       <Route path="/login" element={<Registration />} />
 
       {/* <Route path="/login" element={<Registration />} /> */}
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/:slug" element={<CardDetail />} />
-      <Route path="/createplace" element={<CreatePlace />} />
-      <Route path="/maps" element={<Maps />} />
-      <Route path="/:slug/generateRoute" element={<RouteSelection />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/:slug" element={<CardDetail />} />
+        <Route path="/createplace" element={<CreatePlace />} />
+      </Route>
       <Route path="/404" element={<Error />} />
 
       <Route path="*" element={<Error />} />
@@ -60,11 +59,11 @@ const router = createBrowserRouter(
 );
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <AuthProvider store={authStore}>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <AuthProvider store={authStore}>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </Provider>
+  // </React.StrictMode>
 );

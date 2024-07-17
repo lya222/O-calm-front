@@ -46,8 +46,6 @@ function PlaceOnMaps() {
     if ('geolocation' in navigator) {
       console.log('Geolocation is available');
       navigator.geolocation.getCurrentPosition(function (position) {
-        console.log('Latitude: ' + position.coords.latitude);
-        console.log('Longitude: ' + position.coords.longitude);
         setPositionMap({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -111,9 +109,14 @@ function PlaceOnMaps() {
         fullWidth
         variant="contained"
         color="primary"
-        sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
+        sx={{
+          mt: 3,
+          mb: 2,
+          fontFamily: 'Bion, Arial, sans-serif',
+          backgroundColor: '#2e7d32',
+        }}
       >
-        Voir les lieux prés de ma position actuelle
+        Voir les lieux à proximité
       </Button>
     </Box>
   );
