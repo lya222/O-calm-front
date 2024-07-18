@@ -81,7 +81,6 @@ function RouteSelection({
         <select {...register('transport', { required: true })}>
           <option value="">Select Mode</option>
           <option value="WALK">A pied</option>
-          <option value="DRIVE">En voiture</option>
           <option value="BICYCLE">A vélo</option>
           <option value="TRANSIT">Transport en commun</option>
         </select>

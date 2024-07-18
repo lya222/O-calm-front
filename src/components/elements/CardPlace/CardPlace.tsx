@@ -123,12 +123,14 @@ function CardPlace({ place, index }: CardPlaceProp) {
             Connectez vous pour voir ce site
           </Button>
         )}
-        <IconButton
-          aria-label="favorite"
-          onClick={() => handleFavorite(iduser, place.id)}
-        >
-          <FavoriteIcon color={isFavorite ? 'error' : 'inherit'} />
-        </IconButton>
+        {isLogged && (
+          <IconButton
+            aria-label="favorite"
+            onClick={() => handleFavorite(iduser, place.id)}
+          >
+            <FavoriteIcon color={isFavorite ? 'error' : 'inherit'} />
+          </IconButton>
+        )}
       </CardContent>
     </Card>
   );

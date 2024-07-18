@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase, alpha, styled } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { searchPlace } from '../../../store/reducers/placesReducer';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,6 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (search !== '') {
@@ -66,6 +66,8 @@ function SearchBar() {
       newValue = search.substring(0, search.length - 1);
     } else if (e.key === 'Enter') {
       setSearch('');
+
+      navigate('/');
     } else if (
       !['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab'].includes(e.key)
     ) {
