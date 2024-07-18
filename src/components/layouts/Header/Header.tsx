@@ -38,7 +38,7 @@ import customIconImage from '../../../../public/image/ONOFF2.png';
 // import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 import { logout } from '../../../store/reducers/userReducer';
 import { useNavigate } from 'react-router-dom';
 
