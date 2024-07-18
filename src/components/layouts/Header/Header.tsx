@@ -65,7 +65,8 @@ const Header = () => {
     headerImage: {
       backgroundImage:
         'url(../../../image/public/image/flowers-7790227_1280.jpg)',
-      height: '50vh',
+      // height: '50vh',
+      height: '38vh',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       position: 'relative',
@@ -134,6 +135,7 @@ const Header = () => {
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               position: 'static',
+              mt: '-4vh'
             }}
           />
         )}
