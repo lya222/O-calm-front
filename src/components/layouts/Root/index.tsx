@@ -64,6 +64,7 @@ function Root() {
           margin: 0,
           height: '100vh',
           width: '100vw',
+        
         }}
       >
         <Header />
@@ -74,6 +75,8 @@ function Root() {
             display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
+            mt: '5vh'
+
           }}
         >
           {isLoading ? <Loading /> : <Outlet />}

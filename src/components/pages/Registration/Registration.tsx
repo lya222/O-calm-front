@@ -48,6 +48,7 @@ function Registration() {
             variant="contained"
             color="success"
             sx={{
+              ml: '2vh',
               fontFamily: 'Bion',
               bgcolor: '#567d4e', // Exemple de couleur verte
               '&:hover': {
