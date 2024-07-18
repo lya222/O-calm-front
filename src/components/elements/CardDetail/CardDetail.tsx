@@ -21,7 +21,6 @@ import { useEffect, useState } from 'react';
 import { deletePlace } from '../../../store/reducers/placesReducer';
 import RouteSelection from '../RouteSelection/RouteSelection';
 
-
 function CardDetail() {
   const dispatch = useAppDispatch();
   // const location = useLocation();
@@ -80,11 +79,11 @@ function CardDetail() {
       navigate('/');
     }
   };
-  if (!isLogged){
+  if (!isLogged) {
     navigate('/login');
     return null;
   }
-  
+
   return (
     <Box
       sx={{
@@ -115,8 +114,9 @@ function CardDetail() {
               component="img"
               height="200"
               image={image}
-              alt={`Photo du lieu ${place.name} - ${index + 1} sur ${place.picture.length}`}
-
+              alt={`Photo du lieu ${place.name} - ${index + 1} sur ${
+                place.picture.length
+              }`}
             />
           ))}
         </Carousel>
@@ -182,17 +182,19 @@ function CardDetail() {
 
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
+
           <Button className='ButtonContainer' sx={{
-            
+       
             pt: '7vh',
           }}>
-            <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button>
+    
+           <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button
             <Button
               variant="outlined"
               color="error"
               onClick={handleDeletePlace}
               aria-label="Suppression de l'itinéraire"
-              >
+            >
               Supprimer
             </Button>
           </Button>

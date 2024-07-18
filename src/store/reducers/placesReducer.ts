@@ -25,6 +25,7 @@ export const initialState: PlacesState = {
   },
 };
 
+//récupère toute les lieux
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
@@ -54,6 +55,7 @@ interface UploadResponse {
   original_extension: string;
 }
 
+//envoie des images vers un serveur sur cloudinary.com
 export const uploadPicture = createAsyncThunk<
   UploadResponse,
   FormData,

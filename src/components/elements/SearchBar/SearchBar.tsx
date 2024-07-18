@@ -10,6 +10,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useEffect, useState } from 'react';
 import { searchPlace } from '../../../store/reducers/placesReducer';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,6 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //Variable d'état pour la searchBar
   const [isSearchOpen, setIsSearchOpen] = useState(true);
@@ -91,7 +93,7 @@ function SearchBar() {
       console.log('ok');
       //Desactivation de la searchbar
       setIsSearchOpen(false);
-
+      navigate('/');
       //SUppression des bugs
     } else if (Object.values(eventKey).some(Boolean)) {
       console.log('voici la touche maj', eventKey);
