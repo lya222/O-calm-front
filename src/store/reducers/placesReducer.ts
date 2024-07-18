@@ -42,10 +42,6 @@ export const createPlace = createAsyncThunk<
   AsyncThunkConfig
 >('place/createPlace', async (placeData) => {
   const response = await apiClient.post<ICreatePlace>(`/places`, placeData);
-  console.log(
-    "renvoie apres l'enregistrement d'un nouveau lieu",
-    response.data
-  );
   return response.data;
 });
 
@@ -69,9 +65,7 @@ export const uploadPicture = createAsyncThunk<
 export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
   'place/deletePlace',
   async (idUser: number) => {
-    console.log('je suis dans le reducer de deletePlace');
     const response = await apiClient.delete(`/places/${idUser}`);
-    console.log('reponse du deletePlace', response.data);
     return response.data;
   }
 );

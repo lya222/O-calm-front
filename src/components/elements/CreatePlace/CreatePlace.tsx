@@ -63,20 +63,18 @@ const styleModal = {
 };
 
 function CreatePlace() {
-  // const { register, handleSubmit } = useForm<ICreatePlace>();
-  //Sécurisation de useForm 
+  //Sécurisation de useForm
   const { register, handleSubmit } = useForm<ICreatePlace>({
     mode: 'onTouched',
   });
 
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [pictures, setPictures] = useState<IPictureDownload[]>([]);
-  const statePicture = useAppSelector((state) => state.places.picture);
+  // const statePicture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // const isLogged = useAppSelector((state) => state.user.isLogged);
 
   //Function for modal map
   const [open, setOpen] = useState(false);
@@ -127,7 +125,6 @@ function CreatePlace() {
             isloading: false,
           },
         ]);
-        console.log('mon state de photo', statePicture);
       } else {
         console.error("Erreur lors du téléchargement de l'image", response);
       }
@@ -144,10 +141,9 @@ function CreatePlace() {
       data.gps_location_longitude = position?.lng;
     }
 
-    console.log('Le resultat de ma création', data);
     try {
-      const response = await dispatch(createPlace(data as ICreatePlace));
-      console.log("création d'un lieu réussi", response);
+      await dispatch(createPlace(data as ICreatePlace));
+      console.log("création d'un lieu réussi");
       navigate('/');
     } catch (error) {
       console.log("erreur sur la création d'un lieu", error);
