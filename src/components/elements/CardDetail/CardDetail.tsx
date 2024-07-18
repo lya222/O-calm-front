@@ -188,7 +188,7 @@ function CardDetail() {
             pt: '7vh',
           }}>
     
-           <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button
+           <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button>
             <Button
               variant="outlined"
               color="error"
