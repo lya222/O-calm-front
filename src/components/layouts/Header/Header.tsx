@@ -41,6 +41,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { logout } from '../../../store/reducers/userReducer';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme({
   typography: {
@@ -49,6 +50,9 @@ const theme = createTheme({
 });
 
 const Header = () => {
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   
   const handleLogout = () => {
@@ -166,7 +170,7 @@ const Header = () => {
               alt="Custom Icon"
               className={classes.customIcon}
             /> */}
-            <IconButton onClick={handleLogout}>
+            <IconButton onClick={isLogged ? handleLogout : () => navigate('/login')} >
                 <CardMedia
                   sx={{ width: '20px' }}
                   component="img"
