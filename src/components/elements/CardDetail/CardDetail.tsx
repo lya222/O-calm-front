@@ -91,6 +91,7 @@ function CardDetail() {
         p: 2,
         mb: 10,
         overflowY: 'auto',
+        height: '50vh'
       }}
     >
       <Typography variant="h3" gutterBottom>
@@ -142,6 +143,7 @@ function CardDetail() {
               <Typography
                 variant="h6"
                 sx={{
+                
                   textDecoration: checkedItems[i] ? 'line-through' : 'none',
                 }}
               >
@@ -180,8 +182,13 @@ function CardDetail() {
 
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
-          <>
-            {/* <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button> */}
+
+          <Button className='ButtonContainer' sx={{
+       
+            pt: '7vh',
+          }}>
+    
+           <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button
             <Button
               variant="outlined"
               color="error"
@@ -190,7 +197,7 @@ function CardDetail() {
             >
               Supprimer
             </Button>
-          </>
+          </Button>
         ) : (
           ''
         )}
