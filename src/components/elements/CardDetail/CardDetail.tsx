@@ -183,8 +183,7 @@ function CardDetail() {
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
           <Button className='ButtonContainer' sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
+            
             pt: '7vh',
           }}>
             <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button>
