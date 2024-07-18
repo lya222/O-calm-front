@@ -53,11 +53,7 @@ function CardPlace({ place, index }: CardPlaceProp) {
   }, [listFavorite, place.id, favorite]);
 
   const handleFavorite = async (idUser: number, idPlace: number) => {
-    console.log('Clic sur le bouton Favori');
-    console.log('isFavorite avant mise à jour :', isFavorite);
-
     if (!isFavorite) {
-      console.log('Ajout aux favoris');
       const response = await dispatch(addFavorite({ idUser, idPlace }));
       setIsFavorite(true);
       console.log('Réponse pour addfavorite', response);
@@ -69,13 +65,9 @@ function CardPlace({ place, index }: CardPlaceProp) {
       setIsFavorite(false);
       console.log('Réponse pour deletefavorite', response);
     }
-
-    console.log('isFavorite après mise à jour :', place.name, isFavorite);
   };
-  console.log('la liste des favoris sur la place', listFavorite);
-  console.log('isfavorite', place.name, isFavorite, favorite);
   return (
-    <Card sx={{ borderRadius: 5, padding: 5, margin: 5 }} key={index}>
+    <Card sx={{ borderRadius: 5, padding: 5, margin: 0 }} key={index}>
       {!place.picture || !Array.isArray(place.picture) ? (
         <CardMedia />
       ) : (

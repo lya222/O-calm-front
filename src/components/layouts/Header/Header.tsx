@@ -32,14 +32,13 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 // import {Link} from 'react-router-dom';
-import { BrowserRouter as Router, Link } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 
 import customIconImage from '../../../../public/image/ONOFF2.png';
 // import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../hooks/redux';
 import { logout } from '../../../store/reducers/userReducer';
 
 const theme = createTheme({
@@ -50,12 +49,10 @@ const theme = createTheme({
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  
+
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logout());
   };
-
-
 
   console.log('test');
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -136,29 +133,44 @@ const Header = () => {
               style={{ backgroundImage: `url(${desktopHeaderImageUrl})` }}
             >
               <Toolbar className={classes.toolbar}>
-
-              <Button component={Link} to="/" style={{textTransform: 'none'}}>
-                <Typography variant="h6" className={classes.navLinks}>
-                  Home
-                </Typography>
-                </Button>
-                
-                <Button component={Link} to="/profile" style={{textTransform: 'none'}}>
-                <Typography variant="h6" className={classes.navLinks}>
-                Profil
-                </Typography>
+                <Button
+                  component={Link}
+                  to="/"
+                  style={{ textTransform: 'none' }}
+                >
+                  <Typography variant="h6" className={classes.navLinks}>
+                    Home
+                  </Typography>
                 </Button>
 
-                <Button component={Link} to="/createplace" style={{textTransform: 'none'}}>
-                <Typography variant="h6" className={classes.navLinks}>
-                  Créer un lieu
-                </Typography>
+                <Button
+                  component={Link}
+                  to="/profile"
+                  style={{ textTransform: 'none' }}
+                >
+                  <Typography variant="h6" className={classes.navLinks}>
+                    Profil
+                  </Typography>
                 </Button>
 
-                <Button component={Link} to="/maps" style={{textTransform: 'none'}}>
-                <Typography variant="h6" className={classes.navLinks}>
-                  Carte
-                </Typography>
+                <Button
+                  component={Link}
+                  to="/createplace"
+                  style={{ textTransform: 'none' }}
+                >
+                  <Typography variant="h6" className={classes.navLinks}>
+                    Créer un lieu
+                  </Typography>
+                </Button>
+
+                <Button
+                  component={Link}
+                  to="/maps"
+                  style={{ textTransform: 'none' }}
+                >
+                  <Typography variant="h6" className={classes.navLinks}>
+                    Carte
+                  </Typography>
                 </Button>
 
                 {/* <img
@@ -166,13 +178,13 @@ const Header = () => {
               alt="Custom Icon"
               className={classes.customIcon}
             /> */}
-            <IconButton onClick={handleLogout}>
-                <CardMedia
-                  sx={{ width: '20px' }}
-                  component="img"
-                  image={customIconImage}
-                  className={classes.customIcon}
-                />
+                <IconButton onClick={handleLogout}>
+                  <CardMedia
+                    sx={{ width: '20px' }}
+                    component="img"
+                    image={customIconImage}
+                    className={classes.customIcon}
+                  />
                 </IconButton>
               </Toolbar>
             </AppBar>
