@@ -57,24 +57,21 @@ function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  //Variable d'état pour la searchBar
   const [isSearchOpen, setIsSearchOpen] = useState(true);
 
-  //permet de récupérer la chaine de caractères qu'on veut chercher
   useEffect(() => {
     if (search !== '') {
       dispatch(searchPlace(search));
     }
   }, [search, dispatch]);
 
-  // Fonction pour activer la SearchBar lors du click
+  // Fonction pour activer la SearchBar lors d'un clique dessus
   const handleToggleSearch = () => {
     setIsSearchOpen(true);
   };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //
+  
 
     const eventKey = {
       Tab: e.key === 'Tab',
