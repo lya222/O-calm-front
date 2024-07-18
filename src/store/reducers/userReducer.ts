@@ -66,6 +66,7 @@ interface DecodedToken extends JWTPayload {
   userFound: number;
 }
 
+//Fonction pour reconnecter un utilisateur grace au token
 export const reconnect = createAsyncThunk<
   DecodedToken,
   string,
@@ -76,6 +77,7 @@ export const reconnect = createAsyncThunk<
   return response as DecodedToken;
 });
 
+//Récupere les données de l'utilisateur
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/takeUser',
   async (id: number) => {
