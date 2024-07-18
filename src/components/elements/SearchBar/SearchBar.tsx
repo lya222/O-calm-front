@@ -42,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
@@ -91,10 +90,8 @@ function SearchBar() {
       newValue = search.substring(0, search.length - 1);
     } else if (e.key === 'Enter') {
       console.log('ok');
-      //Desactivation de la searchbar
       setIsSearchOpen(false);
       navigate('/');
-      //SUppression des bugs
     } else if (Object.values(eventKey).some(Boolean)) {
       console.log('voici la touche maj', eventKey);
       setSearch(newValue);

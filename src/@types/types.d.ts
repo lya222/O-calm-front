@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from './store'; // assurez-vous que le chemin est correct
+import { AppDispatch, RootState } from './store'; 
 
 export interface AsyncThunkConfig {
   state?: RootState;
