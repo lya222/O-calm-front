@@ -50,7 +50,7 @@ function MenuLog() {
               horizontal: 'center',
             }}
           >
-            <MenuItem onClick={handleProfile}>Profile</MenuItem>
+            <MenuItem onClick={handleProfile}>Profil</MenuItem>
             <MenuItem onClick={handleCreatePlace}>
               Ajouter un nouveau lieu
             </MenuItem>
