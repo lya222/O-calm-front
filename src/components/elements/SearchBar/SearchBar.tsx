@@ -57,10 +57,10 @@ function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
 
-  //Variable d'etat pour la searchBar
+  //Variable d'état pour la searchBar
   const [isSearchOpen, setIsSearchOpen] = useState(true);
 
-  //permet de récupérer la chaine de charactere qu'on veut chercher
+  //permet de récupérer la chaine de caractères qu'on veut chercher
   useEffect(() => {
     if (search !== '') {
       dispatch(searchPlace(search));
