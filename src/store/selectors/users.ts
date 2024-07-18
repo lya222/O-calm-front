@@ -28,7 +28,7 @@ export const verifyAndDecodeToken = async (token: string) => {
 export const createUser = async (userData: CreateUser) => {
   console.log("mes donnes que je rentre pour l'enregistrement", userData);
   const response = await axios.post<IResponseCreateUser>(
-    `${url}register`,
+    `${url}/register`,
     userData
   );
   return response.data;
