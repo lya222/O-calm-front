@@ -10,6 +10,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useEffect, useState } from 'react';
 import { searchPlace } from '../../../store/reducers/placesReducer';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -41,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
@@ -56,11 +56,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  //Variable d'etat pour la searchBar
+  //Variable d'état pour la searchBar
   const [isSearchOpen, setIsSearchOpen] = useState(true);
 
-  //permet de récupérer la chaine de charactere qu'on veut chercher
+  //permet de récupérer la chaine de caractères qu'on veut chercher
   useEffect(() => {
     if (search !== '') {
       dispatch(searchPlace(search));
@@ -89,10 +90,8 @@ function SearchBar() {
       newValue = search.substring(0, search.length - 1);
     } else if (e.key === 'Enter') {
       console.log('ok');
-      //Desactivation de la searchbar
       setIsSearchOpen(false);
-
-      //SUppression des bugs
+      navigate('/');
     } else if (Object.values(eventKey).some(Boolean)) {
       console.log('voici la touche maj', eventKey);
       setSearch(newValue);

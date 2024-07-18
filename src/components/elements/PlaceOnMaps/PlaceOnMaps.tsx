@@ -26,16 +26,7 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
       setIsDisable(false);
     }
   };
-
-  // const [markerRef, marker] = useMarkerRef();
-
-  // useEffect(() => {
-  //   if (!marker) {
-  //     return;
-  //   }
-
-  //   // do something with marker instance here
-  // }, [marker]);
+  
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();

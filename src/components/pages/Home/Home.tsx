@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import ButtonFilter from './ButtonFilter/ButtonFilter';
 
 function Home() {
-  // const isMobile = useMediaQuery('(max-width:600px)');
   const takePlaces = useAppSelector((state) => state.places.list);
   const search = useAppSelector((state) => state.places.search);
   const loading = useAppSelector((state) => state.places.loading);
@@ -75,13 +74,6 @@ function Home() {
             <motion.div
               key={place.id}
               layout
-              // initial={{ opacity: 0, scale: 0.5 }}
-              // animate={{ opacity: 1, scale: 1 }}
-              // transition={{
-              //   duration: 0.8,
-              //   delay: 0.5,
-              //   ease: [0, 0.71, 0.2, 1.01],
-              // }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

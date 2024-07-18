@@ -41,15 +41,6 @@ export const dataForMap = (
   return { url, data, headers };
 };
 
-// export const transformNewRoute = (data: IResponseGenerateRoute): string[] => {
-//   const newRoute: string[] = data.routes.flatMap((route) =>
-//     route.legs.flatMap((leg) =>
-//       leg.steps.map((step) => step.navigationInstruction.instructions)
-//     )
-//   );
-//   return newRoute;
-// };
-
 export const transformNewRoute = (data: IResponseGenerateRoute): string[] => {
   if (!data.routes || !Array.isArray(data.routes)) {
     throw new Error(

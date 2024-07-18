@@ -27,7 +27,6 @@ interface CardPlaceProp {
 }
 
 function CardPlace({ place, index }: CardPlaceProp) {
-  // console.log("state du la petite carte ", place);
   const dispatch = useDispatch<AppDispatch>();
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const iduser = useAppSelector((state) => state.user.id);
@@ -123,15 +122,17 @@ function CardPlace({ place, index }: CardPlaceProp) {
             Connectez vous pour voir ce site
           </Button>
         )}
-        <IconButton
-          aria-label="favorite"
-          onClick={() => handleFavorite(iduser, place.id)}
-        >
-          <FavoriteIcon color={isFavorite ? 'error' : 'inherit'} />
-        </IconButton>
+        {isLogged && (
+          <IconButton
+            aria-label="favorite"
+            onClick={() => handleFavorite(iduser, place.id)}
+          >
+            <FavoriteIcon color={isFavorite ? 'error' : 'inherit'} />
+          </IconButton>
+        )}
       </CardContent>
     </Card>
   );
-} //#2e7d32
+} 
 
 export default CardPlace;

@@ -13,14 +13,16 @@ function NavBar() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const displaySearchBar = () => {
     dispatch(searchPlace(''));
     navigate('/');
-    // return <SearchBar />;
   };
+
   const displayMaps = () => {
     navigate('/maps');
   };
+  
   return (
     <Box
       sx={{

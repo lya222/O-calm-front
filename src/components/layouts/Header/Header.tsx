@@ -1,23 +1,3 @@
-// import { Box } from '@mui/material';
-// // import image from '../../../image/flowers-7790227_1280.jpg'
-
-// function Header() {
-//   return (
-//     <Box
-//       sx={{
-//         minHeight: '100px',
-//         backgroundImage: 'url(../../../image/headermobile.png)',
-//         backgroundSize: 'contain',
-//         backgroundPosition: 'center',
-//         backgroundRepeat: 'no-repeat',
-//         position: 'static',
-//       }}
-//     ></Box>
-//   );
-// }
-
-// export default Header;
-
 import {
   AppBar,
   Toolbar,
@@ -31,16 +11,14 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-// import {Link} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 import customIconImage from '../../../../public/image/ONOFF2.png';
-// import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 import { logout } from '../../../store/reducers/userReducer';
 import { useNavigate } from 'react-router-dom';
+import SearchBardesktop from '../../elements/SearchBar/Searchbardesktop';
 
 const theme = createTheme({
   typography: {
@@ -64,7 +42,7 @@ const Header = () => {
     headerImage: {
       backgroundImage:
         'url(../../../image/public/image/flowers-7790227_1280.jpg)',
-      height: '50vh',
+      height: '38vh',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       position: 'relative',
@@ -90,19 +68,28 @@ const Header = () => {
       color: '#fff',
     },
     customIcon: {
-      width: '20px', // Ajustez la taille de l'image personnalisée selon vos besoins
+      width: '20px',
       height: '20px',
     },
     textBox: {
-      background: 'rgba(0, 0, 0, 0)', // Fond semi-transparent
-      color: '#fff', // Couleur du texte blanche
-      padding: theme.spacing(4), // Ajout de la marge intérieure
-      position: 'absolute', // Positionnement absolu
-      top: '64px', // Positionné juste en dessous de la toolbar (ajustez si nécessaire)
-      width: '40%', // Largeur complète
-      textAlign: 'left', // Texte centré
-      zIndex: 3, // Assurez-vous que la zone de texte est au-dessus de l'image et de la toolbar
+      background: 'rgba(0, 0, 0, 0)',
+      color: '#fff',
+      padding: theme.spacing(4),
+      position: 'absolute',
+      top: '64px',
+      width: '40%',
+      textAlign: 'left',
+      zIndex: 3,
       fontFamily: 'anurati',
+    },
+    searchDesktop: {
+      position: 'absolute',
+      top: 280,
+      left: 0,
+      zIndex: 10,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
     },
   }));
   const classes = useStyles();
@@ -124,6 +111,7 @@ const Header = () => {
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               position: 'static',
+              mt: '-4vh'
             }}
           />
         )}
@@ -146,27 +134,29 @@ const Header = () => {
                     Home
                   </Typography>
                 </Button>
+                {isLogged && (
+                  <>
+                    <Button
+                      component={Link}
+                      to="/profile"
+                      style={{ textTransform: 'none' }}
+                    >
+                      <Typography variant="h6" className={classes.navLinks}>
+                        Profil
+                      </Typography>
+                    </Button>
 
-                <Button
-                  component={Link}
-                  to="/profile"
-                  style={{ textTransform: 'none' }}
-                >
-                  <Typography variant="h6" className={classes.navLinks}>
-                    Profil
-                  </Typography>
-                </Button>
-
-                <Button
-                  component={Link}
-                  to="/createplace"
-                  style={{ textTransform: 'none' }}
-                >
-                  <Typography variant="h6" className={classes.navLinks}>
-                    Créer un lieu
-                  </Typography>
-                </Button>
-
+                    <Button
+                      component={Link}
+                      to="/createplace"
+                      style={{ textTransform: 'none' }}
+                    >
+                      <Typography variant="h6" className={classes.navLinks}>
+                        Créer un lieu
+                      </Typography>
+                    </Button>
+                  </>
+                )}
                 <Button
                   component={Link}
                   to="/maps"
@@ -177,19 +167,15 @@ const Header = () => {
                   </Typography>
                 </Button>
 
-                {/* <img
-              src={customIconsImage}
-              alt="Custom Icon"
-              className={classes.customIcon}
-            /> */}
-            <IconButton onClick={isLogged ? handleLogout : () => navigate('/login')} >
-                <CardMedia
-                  sx={{ width: '20px' }}
-                  component="img"
-                  image={customIconImage}
-                  className={classes.customIcon}
-                />
-
+                <IconButton
+                  onClick={isLogged ? handleLogout : () => navigate('/login')}
+                >
+                  <CardMedia
+                    sx={{ width: '20px' }}
+                    component="img"
+                    image={customIconImage}
+                    className={classes.customIcon}
+                  />
                 </IconButton>
               </Toolbar>
             </AppBar>
@@ -200,6 +186,9 @@ const Header = () => {
               >
                 O CALM
               </Typography>
+            </Box>
+            <Box className={classes.searchDesktop}>
+              <SearchBardesktop />
             </Box>
           </Box>
         )}

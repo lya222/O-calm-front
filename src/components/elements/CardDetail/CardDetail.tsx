@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Carousel from 'react-material-ui-carousel';
-// import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { findPlace } from '../../../store/selectors/places';
@@ -21,10 +20,8 @@ import { useEffect, useState } from 'react';
 import { deletePlace } from '../../../store/reducers/placesReducer';
 import RouteSelection from '../RouteSelection/RouteSelection';
 
-
 function CardDetail() {
   const dispatch = useAppDispatch();
-  // const location = useLocation();
   const [toogleGeolocalisation, setToogleGeolocalisation] = useState(false);
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -35,15 +32,6 @@ function CardDetail() {
   const [routes, setRoutes] = useState(place?.journey);
   const [routesByUser, setRoutesByUser] = useState(true);
   const isLogged = useAppSelector((state) => state.user.isLogged);
-  // useEffect(() => {
-  // if (location.state.routeGenerate) setRoutes(location.state.routeGenerate);
-  // }, [location.state.routeGenerate]);
-  // useEffect(() => {
-  //   if (location.state && location.state.routeGenerate) {
-  //     setRoutes(location.state.routeGenerate);
-  //     setRoutesByUser(false);
-  //   }
-  // }, [location.state]);
   const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -63,13 +51,6 @@ function CardDetail() {
   };
 
   const handleGenerateRoute = () => {
-    // navigate(`/${slug}/generateRoute`, {
-    //   state: {
-    //     lat: place.gps_location_latitude,
-    //     lng: place.gps_location_longitude,
-    //     slug: place.slug,
-    //   },
-    // });
     setToogleGeolocalisation((prev) => !prev);
   };
 
@@ -80,11 +61,11 @@ function CardDetail() {
       navigate('/');
     }
   };
-  if (!isLogged){
+  if (!isLogged) {
     navigate('/login');
     return null;
   }
-  
+
   return (
     <Box
       sx={{
@@ -92,19 +73,13 @@ function CardDetail() {
         p: 2,
         mb: 10,
         overflowY: 'auto',
+        height: '50vh'
       }}
     >
       <Typography variant="h3" gutterBottom>
         {place.name}
       </Typography>
       <Stack direction="row" spacing={1}>
-        {/* {place.tag.map((t) => (
-          <Chip
-            key={t.id}
-            label={t.name}
-            sx={{ background: t.color, color: 'white' }}
-          />
-        ))} */}
       </Stack>
       {place.picture ? (
         <Carousel>
@@ -114,8 +89,9 @@ function CardDetail() {
               component="img"
               height="200"
               image={image}
-              alt={`Photo du lieu ${place.name} - ${index + 1} sur ${place.picture.length}`}
-
+              alt={`Photo du lieu ${place.name} - ${index + 1} sur ${
+                place.picture.length
+              }`}
             />
           ))}
         </Carousel>
@@ -142,6 +118,7 @@ function CardDetail() {
               <Typography
                 variant="h6"
                 sx={{
+                
                   textDecoration: checkedItems[i] ? 'line-through' : 'none',
                 }}
               >
@@ -180,17 +157,22 @@ function CardDetail() {
 
       <Stack direction="row" spacing={4} justifyContent="center">
         {iduser === place.user_id ? (
-          <>
-            <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button>
+
+          <Button className='ButtonContainer' sx={{
+       
+            pt: '7vh',
+          }}>
+    
+           <Button color="success" aria-label="Modification de l'itinéraire">Modifier</Button>
             <Button
               variant="outlined"
               color="error"
               onClick={handleDeletePlace}
               aria-label="Suppression de l'itinéraire"
-              >
+            >
               Supprimer
             </Button>
-          </>
+          </Button>
         ) : (
           ''
         )}
