@@ -40,6 +40,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
 import { useAppDispatch } from '../../../hooks/redux';
 import { logout } from '../../../store/reducers/userReducer';
+import SearchBardesktop from '../../elements/SearchBar/Searchbardesktop';
 
 const theme = createTheme({
   typography: {
@@ -86,19 +87,28 @@ const Header = () => {
       color: '#fff',
     },
     customIcon: {
-      width: '20px', // Ajustez la taille de l'image personnalisée selon vos besoins
+      width: '20px',
       height: '20px',
     },
     textBox: {
-      background: 'rgba(0, 0, 0, 0)', // Fond semi-transparent
-      color: '#fff', // Couleur du texte blanche
-      padding: theme.spacing(4), // Ajout de la marge intérieure
-      position: 'absolute', // Positionnement absolu
-      top: '64px', // Positionné juste en dessous de la toolbar (ajustez si nécessaire)
-      width: '40%', // Largeur complète
-      textAlign: 'left', // Texte centré
-      zIndex: 3, // Assurez-vous que la zone de texte est au-dessus de l'image et de la toolbar
+      background: 'rgba(0, 0, 0, 0)',
+      color: '#fff',
+      padding: theme.spacing(4),
+      position: 'absolute',
+      top: '64px',
+      width: '40%',
+      textAlign: 'left',
+      zIndex: 3,
       fontFamily: 'anurati',
+    },
+    searchDesktop: {
+      position: 'absolute',
+      top: 280,
+      left: 0,
+      zIndex: 10,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
     },
   }));
   const classes = useStyles();
@@ -195,6 +205,9 @@ const Header = () => {
               >
                 O CALM
               </Typography>
+            </Box>
+            <Box className={classes.searchDesktop}>
+              <SearchBardesktop />
             </Box>
           </Box>
         )}

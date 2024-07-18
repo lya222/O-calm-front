@@ -6,7 +6,7 @@ import { loadPlaces } from '../../../store/reducers/placesReducer';
 import { useAppSelector } from '../../../hooks/redux';
 import { Outlet, useLocation } from 'react-router-dom';
 import Loading from '../../elements/Loading/Loading';
-import { Box, Container } from '@mui/material';
+import { Box, Container, useMediaQuery } from '@mui/material';
 import { AppDispatch } from '../../../store';
 import Cookies from 'js-cookie';
 import { fetchFavorite, reconnect } from '../../../store/reducers/userReducer';
@@ -19,6 +19,7 @@ function Root() {
   const idUser = useAppSelector((state) => state.user.id);
   const favorite = useAppSelector((state) => state.user.favorite);
   const isLoading = useAppSelector((state) => state.places.loading);
+  const isMobile = useMediaQuery('(max-width:600px)');
   const [favoritesLoaded, setFavoritesLoaded] = useState(false);
   const auth = useAuthUser();
   console.log('état du auth', auth);
@@ -77,7 +78,7 @@ function Root() {
         >
           {isLoading ? <Loading /> : <Outlet />}
         </Container>
-        <NavBar />
+        {isMobile && <NavBar />}
       </Box>
     </>
   );
