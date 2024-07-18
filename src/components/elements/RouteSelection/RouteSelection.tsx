@@ -26,12 +26,11 @@ function RouteSelection({
   setRoutesByUser,
   setToogleGeolocalisation,
 }: IRouteSelectionProps) {
-  // const navigate = useNavigate();
   const { register, handleSubmit } = useForm<IGenerateRoute>();
   const [positionLoc, setPositionLoc] = useState({ lat: 0, lng: 0 });
   const [errorMessage, setErrorMessage] = useState('');
+  
   useEffect(() => {
-    //Search your localisation
     if ('geolocation' in navigator) {
       console.log('Geolocation is available');
       navigator.geolocation.getCurrentPosition(function (position) {

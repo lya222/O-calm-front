@@ -8,7 +8,6 @@ import { login } from '../../../store/reducers/userReducer';
 import { ICredentials } from '../../../@types/Icredentials';
 import { AppDispatch } from '../../../store';
 import '../../../assets/fonts/fonts.css';
-// import useAuthUser from '../../../hooks/useAuth';
 
 const useStyles = makeStyles({
   root: {

@@ -44,27 +44,3 @@ describe('createSlug', () => {
     expect(result).toBe(expectedSlug);
   });
 });
-
-// const placeTest1: Places = {
-//   id: 1,
-//   name: 'Toulouse',
-//   gps_location_latitude: '23',
-//   gps_location_longitude: '24',
-//   user_id: 1,
-//   journey: ['à gauche', 'à droite'],
-//   slug: 'toulouse',
-//   description: 'La description de Toulouse',
-//   picture: [],
-// };
-
-// const placeTest2: Places = {
-//   id: 2,
-//   name: 'Nantes',
-//   gps_location_latitude: '23',
-//   gps_location_longitude: '24',
-//   user_id: 2,
-//   journey: ['à gauche', 'à droite'],
-//   slug: 'nantes',
-//   description: 'La description de Nantes',
-//   picture: [],
-// };

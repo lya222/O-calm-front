@@ -11,18 +11,6 @@ export function findPlace(places: Places[], searchSlug: string) {
   } else return result;
 }
 
-// Implementer pour trier les tags
-// export function sortTag(places: Places[]) {
-//   const newObject = new Set();
-//   places.forEach((obj) => {
-//     obj.tag.forEach((tag) => {
-//       newObject.add(tag.name);
-//     });
-//   });
-//   const result = Array.from(newObject);
-//   return result as string[];
-// }
-
 export function createSlug(placeName: string): string {
   return placeName
     .toLowerCase() // Convertit en minuscules

@@ -27,7 +27,6 @@ interface CardPlaceProp {
 }
 
 function CardPlace({ place, index }: CardPlaceProp) {
-  // console.log("state du la petite carte ", place);
   const dispatch = useDispatch<AppDispatch>();
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const iduser = useAppSelector((state) => state.user.id);
@@ -134,6 +133,6 @@ function CardPlace({ place, index }: CardPlaceProp) {
       </CardContent>
     </Card>
   );
-} //#2e7d32
+} 
 
 export default CardPlace;

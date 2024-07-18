@@ -192,35 +192,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.error = action.error.message;
         state.loading = false;
       })
-      // .addCase(updateUser.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(updateUser.fulfilled, (state, action) => {
-      //   state.data = action.payload;
-      //   state.loading = false;
-      // })
-      // .addCase(updateUser.rejected, (state, action) => {
-      //   state.error = action.error.message;
-      //   state.loading = false;
-      // })
-      // .addCase(createUser.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(createUser.fulfilled, (state) => {
-      //   // const newUser: ICredentials = {
-      //   //   email: action.payload.email,
-      //   //   password: action.payload.password,
-      //   // };
-      //   // state.pseudo = action.payload.username;
-      //   // state.credentials = newUser;
-      //   state.loading = false;
-      // })
-      // .addCase(createUser.rejected, (state, action) => {
-      //   state.error = action.error.message;
-      //   state.loading = false;
-      // })
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
