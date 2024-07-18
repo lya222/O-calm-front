@@ -52,8 +52,8 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
         response.data.id = payload.userFound;
         Cookies.set('token', `${response.data.token}`, { expires: 365 });
       })
-      .catch((error) => {
-        console.error('Failed to decode token:', error);
+      .catch((err) => {
+        console.error('Failed to decode token:', err);
       });
     console.log('ma reponse a login', response.data);
     return response.data;

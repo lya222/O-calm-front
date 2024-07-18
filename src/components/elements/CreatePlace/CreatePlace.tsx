@@ -132,8 +132,8 @@ function CreatePlace() {
       const response = await dispatch(createPlace(data as ICreatePlace));
       console.log("création d'un lieu réussi", response);
       navigate('/');
-    } catch (error) {
-      console.log("erreur sur la création d'un lieu", error);
+    } catch (err) {
+      console.log("erreur sur la création d'un lieu", err);
     }
   };
 

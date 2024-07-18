@@ -26,7 +26,7 @@ const Login = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const classes = useStyles();
-  
+
 
   const onSubmit: SubmitHandler<ICredentials> = async (data) => {
     setStatus('loading');
@@ -43,7 +43,7 @@ const Login = () => {
         console.log('le login ne marche pas');
         setStatus('failed');
       }
-    } catch (error) {
+    } catch (err) {
       setStatus('failed');
     }
   };
