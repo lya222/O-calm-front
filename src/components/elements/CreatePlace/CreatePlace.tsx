@@ -217,7 +217,7 @@ function CreatePlace() {
         </Button>
       </FormControl>
 
-      {/* Modal for open map */}
+      {/* Modal pour ouvrir carte */}
       <Button onClick={handleOpen}>
         Sélectionner le lieu sur la carte
         {position && <DoneIcon color="success" />}
@@ -246,8 +246,6 @@ function CreatePlace() {
           <PlaceOnMaps setPosition={setPosition} handleClose={handleClose} />
         </Box>
       </Modal>
-
-      {/* Button for upload a pictures */}
       <Button
         component="label"
         role={undefined}

@@ -65,8 +65,7 @@ export type LoginThunk = typeof login;
 interface DecodedToken extends JWTPayload {
   userFound: number;
 }
-
-//Fonction pour reconnecter un utilisateur grace au token
+//Reconnexion d'un utilisateur grace au token
 export const reconnect = createAsyncThunk<
   DecodedToken,
   string,
@@ -77,7 +76,7 @@ export const reconnect = createAsyncThunk<
   return response as DecodedToken;
 });
 
-//Récupere les données de l'utilisateur
+//Récupération des données d'un utilisateur
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/takeUser',
   async (id: number) => {
@@ -95,7 +94,7 @@ export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
   }
 );
 
-//Modification du mail utilisateur
+//Modification de l'email d'un utilisateur
 export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateEmail',
   async (email: string) => {
@@ -106,7 +105,7 @@ export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   }
 );
 
-//Modification du password utilisateur
+//Modification du password d'un utilisateur
 export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   'user/updatePassword',
   async (password: User) => {
@@ -117,7 +116,7 @@ export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   }
 );
 
-//Suprime un utilisateur
+//Suppression d'un utilisateur
 export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/deleteUser',
   async (idUser: number) => {
@@ -126,7 +125,7 @@ export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   }
 );
 
-//Recherche tous les favoris de l'user
+//Recherche des favoris de l'utilisateur
 export const fetchFavorite = createAsyncThunk<
   IFavorite[],
   number,
@@ -140,7 +139,7 @@ export const fetchFavorite = createAsyncThunk<
   return response.data.data;
 });
 
-//Ajout d'un leu en favoris
+//Ajout d'un lieu en favoris
 export const addFavorite = createAsyncThunk<
   IFavorite,
   IFavoritePayload,
@@ -154,7 +153,7 @@ export const addFavorite = createAsyncThunk<
   return response.data.data;
 });
 
-//Ajout d'un leu en favoris
+//Suppression d'un lieu des favoris
 export const deleteFavorite = createAsyncThunk<
   IFavorite,
   IFavoritePayload,
