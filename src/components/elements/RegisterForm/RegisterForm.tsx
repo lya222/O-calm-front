@@ -120,7 +120,7 @@ function RegisterForm() {
         console.log("l'enregistrement ne marche pas", response.message);
         setStatus('failed');
       }
-    } catch (error) {
+    } catch (err) {
       setStatus('failed');
     }
   };

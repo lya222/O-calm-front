@@ -61,7 +61,7 @@ function RouteSelection({
       } else {
         setErrorMessage("Aucune Route n'a était trouvé");
       }
-    } catch (error) {
+    } catch (err) {
       console.error('Erreur lors de la génération de la route :', error);
       setErrorMessage("Aucune Route n'a était trouvé");
     }

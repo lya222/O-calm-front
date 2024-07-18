@@ -18,9 +18,9 @@ export const verifyAndDecodeToken = async (token: string) => {
     console.log('Payload:', payload);
 
     return payload;
-  } catch (error) {
-    console.error('Erreur sur la verification du token:', error);
-    throw error;
+  } catch (err) {
+    console.error('Erreur sur la verification du token:', err);
+    throw err;
   }
 };
 
