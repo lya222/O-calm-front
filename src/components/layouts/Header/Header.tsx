@@ -156,27 +156,29 @@ const Header = () => {
                     Home
                   </Typography>
                 </Button>
+                {isLogged && (
+                  <>
+                    <Button
+                      component={Link}
+                      to="/profile"
+                      style={{ textTransform: 'none' }}
+                    >
+                      <Typography variant="h6" className={classes.navLinks}>
+                        Profil
+                      </Typography>
+                    </Button>
 
-                <Button
-                  component={Link}
-                  to="/profile"
-                  style={{ textTransform: 'none' }}
-                >
-                  <Typography variant="h6" className={classes.navLinks}>
-                    Profil
-                  </Typography>
-                </Button>
-
-                <Button
-                  component={Link}
-                  to="/createplace"
-                  style={{ textTransform: 'none' }}
-                >
-                  <Typography variant="h6" className={classes.navLinks}>
-                    Créer un lieu
-                  </Typography>
-                </Button>
-
+                    <Button
+                      component={Link}
+                      to="/createplace"
+                      style={{ textTransform: 'none' }}
+                    >
+                      <Typography variant="h6" className={classes.navLinks}>
+                        Créer un lieu
+                      </Typography>
+                    </Button>
+                  </>
+                )}
                 <Button
                   component={Link}
                   to="/maps"
@@ -187,11 +189,6 @@ const Header = () => {
                   </Typography>
                 </Button>
 
-                {/* <img
-              src={customIconsImage}
-              alt="Custom Icon"
-              className={classes.customIcon}
-            /> */}
                 <IconButton
                   onClick={isLogged ? handleLogout : () => navigate('/login')}
                 >
