@@ -64,13 +64,11 @@ function CreatePlace() {
 
   const [listRoute, setListRoute] = useState([{ id: 0 }]);
   const [pictures, setPictures] = useState<IPictureDownload[]>([]);
-  // const statePicture = useAppSelector((state) => state.places.picture);
   const [count, setCount] = useState(1);
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  //Function for modal map
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
