@@ -31,7 +31,6 @@ import { Iposition } from '../../../@types/Map';
 import '../../../assets/fonts/fonts.css';
 import DoneIcon from '@mui/icons-material/Done';
 
-
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -58,10 +57,7 @@ const styleModal = {
 };
 
 function CreatePlace() {
-<<<<<<< HEAD
   //Sécurisation de useForm
-=======
->>>>>>> developement
   const { register, handleSubmit } = useForm<ICreatePlace>({
     mode: 'onTouched',
   });
@@ -73,11 +69,8 @@ function CreatePlace() {
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-<<<<<<< HEAD
 
   //Function for modal map
-=======
->>>>>>> developement
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 

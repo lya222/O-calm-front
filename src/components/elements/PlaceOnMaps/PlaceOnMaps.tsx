@@ -25,11 +25,7 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
       setIsDisable(false);
     }
   };
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> developement
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
