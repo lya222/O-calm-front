@@ -53,16 +53,11 @@ function CardPlace({ place, index }: CardPlaceProp) {
 
   const handleFavorite = async (idUser: number, idPlace: number) => {
     if (!isFavorite) {
-      const response = await dispatch(addFavorite({ idUser, idPlace }));
+      await dispatch(addFavorite({ idUser, idPlace }));
       setIsFavorite(true);
-      console.log('Réponse pour addfavorite', response);
     } else {
-      console.log('Suppression des favoris');
-      const response = await dispatch(
-        deleteFavorite({ idUser, fav_id: favorite?.fav_id })
-      );
+      await dispatch(deleteFavorite({ idUser, fav_id: favorite?.fav_id }));
       setIsFavorite(false);
-      console.log('Réponse pour deletefavorite', response);
     }
   };
   return (
@@ -133,6 +128,6 @@ function CardPlace({ place, index }: CardPlaceProp) {
       </CardContent>
     </Card>
   );
-} 
+}
 
 export default CardPlace;

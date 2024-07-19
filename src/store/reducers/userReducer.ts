@@ -55,7 +55,6 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
       .catch((err) => {
         console.error('Failed to decode token:', err);
       });
-    console.log('ma reponse a login', response.data);
     return response.data;
   }
 );
@@ -170,6 +169,8 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
       .addCase(logout, (state) => {
         state.isLogged = false;
         state.id = 0;
+        state.favorite = [];
+        state.pseudo = '';
         Cookies.remove('token');
       })
       .addCase(fetchUser.pending, (state) => {

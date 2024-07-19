@@ -94,12 +94,10 @@ function CreatePlace() {
   const uploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault;
     if (e.target.files) {
-      console.log('mon image', e.target.files[0]);
       const formData = new FormData();
       formData.append('file', e.target.files[0]);
       formData.append('upload_preset', import.meta.env.VITE_API_UPLOAD_PRESET);
       const response = await dispatch(uploadPicture(formData));
-      console.log("ma réponse a l'envoie de l'image", response);
       if (uploadPicture.fulfilled.match(response)) {
         const newPicture = response.payload;
         setPictures((prev) => [
@@ -112,8 +110,6 @@ function CreatePlace() {
             isloading: false,
           },
         ]);
-      } else {
-        console.error("Erreur lors du téléchargement de l'image", response);
       }
     }
   };
@@ -123,7 +119,6 @@ function CreatePlace() {
     data.picture = pictures.map((pict) => pict.url);
     data.slug = createSlug(data.name);
     if (position) {
-      console.log("ma position pour l'envoi", position);
       data.gps_location_latitude = position?.lat;
       data.gps_location_longitude = position?.lng;
     }
@@ -154,6 +149,7 @@ function CreatePlace() {
         flexDirection: 'column',
         borderRadius: '10px',
         gap: 2,
+        overflowY: 'scroll',
       }}
     >
       <Typography variant="h5" component="h5" gutterBottom fontFamily="bion">

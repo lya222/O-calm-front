@@ -35,7 +35,6 @@ function RegisterForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const password = watch('password');
-  const confirmPassword = watch('passwordConfirm');
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [errorPassword, setErrorPassword] = useState<IErrorPassaword>({
@@ -101,30 +100,26 @@ function RegisterForm() {
 
   const handleValidatePassword = (value: string) => {
     validatePassword(value);
-    console.log('mes erruer sur le password', errorPassword);
   };
 
   const onSubmit: SubmitHandler<CreateUser> = async (data) => {
     setStatus('loading');
     setErrorMessage(null);
-    console.log(data);
     try {
       const response = await createUser(data as CreateUser);
-      console.log('Verification de ma réponse pour le createuser', response);
       if (response.newUser) {
-        console.log('le login marche', response);
+        console.log('le login marche');
         // navigate('/');
         setOpen(true);
       } else {
         setErrorMessage('Il y a eu une erreur lors de votre enregistrement');
-        console.log("l'enregistrement ne marche pas", response.message);
+        console.log("l'enregistrement ne marche pas");
         setStatus('failed');
       }
     } catch (err) {
       setStatus('failed');
     }
   };
-  console.log('essai', password, confirmPassword);
   return (
     <Box
       sx={{
