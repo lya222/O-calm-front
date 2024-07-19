@@ -120,7 +120,7 @@ function RegisterForm() {
         console.log("l'enregistrement ne marche pas", response.message);
         setStatus('failed');
       }
-    } catch (error) {
+    } catch (err) {
       setStatus('failed');
     }
   };
@@ -189,10 +189,8 @@ function RegisterForm() {
           placeholder="Mot de passe"
           {...register('password', {
             required: 'Le mot de passe est requis',
-            // validate: {errorPassword.validateAllContraint},
           })}
           onChange={(e) => handleValidatePassword(e.target.value)}
-          // helperText={errors.password ? errors.password.message : ''}
           error={!validateAllContraints}
           className={classes.root}
           InputProps={{
@@ -266,7 +264,6 @@ function RegisterForm() {
       </Box>
       <Modal
         open={open}
-        // onClose={!open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{
@@ -274,7 +271,6 @@ function RegisterForm() {
           marginT: '-50px',
           left: 0,
           m: 'auto',
-          // transform: 'translate(-50%, -50%)',
           height: '20%',
           width: '50%',
           bgcolor: 'background.paper',

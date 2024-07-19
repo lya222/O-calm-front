@@ -77,7 +77,7 @@ function SearchBar() {
   };
 
   return (
-    <Search>
+    <Search sx={{mt: '-25vh'}}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
@@ -96,7 +96,7 @@ export default function SearchBardesktop() {
     <Box sx={{ flexGrow: 1 }}>
       <Toolbar
         variant="dense"
-        sx={{ justifyContent: 'center', alignItems: 'center' }}
+        sx={{ justifyContent: 'center', alignItems: 'center'}}
       >
         <SearchBar />
       </Toolbar>

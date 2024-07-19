@@ -23,19 +23,14 @@ import {
 } from '../../../store/reducers/placesReducer';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-// import { IPictureDownload } from '../../../@types/Files';
 import CheckIcon from '@mui/icons-material/Check';
 import { createSlug } from '../../../store/selectors/places';
 import { IPictureDownload } from '../../../@types/Files';
 import PlaceOnMaps from '../PlaceOnMaps/PlaceOnMaps';
 import { Iposition } from '../../../@types/Map';
 import '../../../assets/fonts/fonts.css';
-
-// import { useAppSelector } from '../../../hooks/redux';
-// import { sortTag } from '../../../store/selectors/places';
 import DoneIcon from '@mui/icons-material/Done';
 
-// const tags = ['mer', 'montagne'];
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -63,7 +58,10 @@ const styleModal = {
 };
 
 function CreatePlace() {
+<<<<<<< HEAD
   //Sécurisation de useForm
+=======
+>>>>>>> developement
   const { register, handleSubmit } = useForm<ICreatePlace>({
     mode: 'onTouched',
   });
@@ -75,12 +73,14 @@ function CreatePlace() {
   const idUser = useAppSelector((state) => state.user.id);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+<<<<<<< HEAD
 
   //Function for modal map
+=======
+>>>>>>> developement
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
-  // FUnction for close modal and stop propagation
   const handleClose = (event: SyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -89,12 +89,6 @@ function CreatePlace() {
 
   const [position, setPosition] = useState<Iposition>();
 
-  //Propriété en standby pour les tags
-  // const places = useAppSelector((state) => state.places.list);
-
-  // const tags: string[] = sortTag(places);
-
-  // console.log('recherche des tags : ', tags);
   const addRoute = () => {
     setListRoute((prev) => [...prev, { id: count }]);
     setCount((prev) => prev + 1);
@@ -145,8 +139,8 @@ function CreatePlace() {
       await dispatch(createPlace(data as ICreatePlace));
       console.log("création d'un lieu réussi");
       navigate('/');
-    } catch (error) {
-      console.log("erreur sur la création d'un lieu", error);
+    } catch (err) {
+      console.log("erreur sur la création d'un lieu", err);
     }
   };
 
@@ -209,23 +203,6 @@ function CreatePlace() {
           },
         }}
       />
-      {/* <FormControl component="fieldset">
-        <FormGroup aria-label="position" row>
-          <FormLabel component="legend">
-            Sélectionner le type de votre lieu
-          </FormLabel>
-          {tags.map((tag: string, index) => (
-            <FormControlLabel
-              key={index}
-              value={tag}
-              control={<Checkbox />}
-              {...register('tag')}
-              label={tag}
-              labelPlacement="start"
-            />
-          ))}
-        </FormGroup>
-      </FormControl> */}
       <FormControl component="fieldset" sx={{ width: '100%', mt: 2 }}>
         <FormLabel
           component="legend"
@@ -247,7 +224,7 @@ function CreatePlace() {
         </Button>
       </FormControl>
 
-      {/* Modal for open map */}
+      {/* Modal pour ouvrir carte */}
       <Button onClick={handleOpen}>
         Sélectionner le lieu sur la carte
         {position && <DoneIcon color="success" />}
@@ -276,8 +253,6 @@ function CreatePlace() {
           <PlaceOnMaps setPosition={setPosition} handleClose={handleClose} />
         </Box>
       </Modal>
-
-      {/* Button for upload a pictures */}
       <Button
         component="label"
         role={undefined}

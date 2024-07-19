@@ -42,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
@@ -58,24 +57,21 @@ function SearchBar() {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  //Variable d'état pour la searchBar
   const [isSearchOpen, setIsSearchOpen] = useState(true);
 
-  //permet de récupérer la chaine de caractères qu'on veut chercher
   useEffect(() => {
     if (search !== '') {
       dispatch(searchPlace(search));
     }
   }, [search, dispatch]);
 
-  // Fonction pour activer la SearchBar lors du click
+  // Fonction pour activer la SearchBar lors d'un clique dessus
   const handleToggleSearch = () => {
     setIsSearchOpen(true);
   };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //
+  
 
     const eventKey = {
       Tab: e.key === 'Tab',
@@ -90,10 +86,13 @@ function SearchBar() {
     if (e.key === 'Backspace') {
       newValue = search.substring(0, search.length - 1);
     } else if (e.key === 'Enter') {
+<<<<<<< HEAD
       //Desactivation de la searchbar
+=======
+      console.log('ok');
+>>>>>>> developement
       setIsSearchOpen(false);
       navigate('/');
-      //SUppression des bugs
     } else if (Object.values(eventKey).some(Boolean)) {
       console.log('voici la touche maj', eventKey);
       setSearch(newValue);

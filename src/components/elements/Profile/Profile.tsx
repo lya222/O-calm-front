@@ -1,9 +1,6 @@
 import {
   Box,
   Button,
-  // IconButton,
-  // InputAdornment,
-  // OutlinedInput,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,7 +17,6 @@ import { AppDispatch } from '../../../store';
 import { User } from '../../../@types/user';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import CreateIcon from '@mui/icons-material/Create';
 
 function Profile() {
   const userState = useAppSelector((state) => state.user);
@@ -49,7 +45,6 @@ function Profile() {
   const onSubmit: SubmitHandler<ICredentials> = (data) =>
     dispatch(login(data as ICredentials));
 
-  //Gestion de la route
   if (!isLogged) {
     navigate('/login');
     return null;
@@ -74,15 +69,6 @@ function Profile() {
           fullWidth
           label={userState.pseudo}
           type="pseudo"
-          //pour mettre l'icone du petit stylo
-          // {...register('username', { required: true })}
-          // endAdornment={
-          //   <InputAdornment position="end">
-          //     <IconButton edge="end" aria-label="button change username">
-          //       <CreateIcon />
-          //     </IconButton>
-          //   </InputAdornment>
-          // }
           sx={{ mt: 3 }}
         />
         <TextField

@@ -8,7 +8,6 @@ import { login } from '../../../store/reducers/userReducer';
 import { ICredentials } from '../../../@types/Icredentials';
 import { AppDispatch } from '../../../store';
 import '../../../assets/fonts/fonts.css';
-// import useAuthUser from '../../../hooks/useAuth';
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +27,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const classes = useStyles();
 
+
   const onSubmit: SubmitHandler<ICredentials> = async (data) => {
     setStatus('loading');
     setErrorMessage(null);
@@ -43,7 +43,7 @@ const Login = () => {
         console.log('le login ne marche pas');
         setStatus('failed');
       }
-    } catch (error) {
+    } catch (err) {
       setStatus('failed');
     }
   };
@@ -112,7 +112,7 @@ const Login = () => {
           sx={{ mt: 3, mb: 2, fontFamily: 'Bion, Arial, sans-serif' }}
           disabled={status === 'loading'}
           aria-label="Connexion"
-        
+
         >
           Enregistrer
         </Button>

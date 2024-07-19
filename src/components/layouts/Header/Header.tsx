@@ -1,23 +1,3 @@
-// import { Box } from '@mui/material';
-// // import image from '../../../image/flowers-7790227_1280.jpg'
-
-// function Header() {
-//   return (
-//     <Box
-//       sx={{
-//         minHeight: '100px',
-//         backgroundImage: 'url(../../../image/headermobile.png)',
-//         backgroundSize: 'contain',
-//         backgroundPosition: 'center',
-//         backgroundRepeat: 'no-repeat',
-//         position: 'static',
-//       }}
-//     ></Box>
-//   );
-// }
-
-// export default Header;
-
 import {
   AppBar,
   Toolbar,
@@ -31,11 +11,8 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-// import {Link} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 import customIconImage from '../../../../public/image/ONOFF2.png';
-// import desktopHeaderImageUrl from '../../../../public/image/flowers-7790227_1280.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../../assets/fonts/fonts.css';
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
@@ -64,7 +41,7 @@ const Header = () => {
     headerImage: {
       backgroundImage:
         'url(../../../image/public/image/flowers-7790227_1280.jpg)',
-      height: '50vh',
+      height: '38vh',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       position: 'relative',
@@ -133,6 +110,7 @@ const Header = () => {
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               position: 'static',
+              mt: '-4vh'
             }}
           />
         )}
