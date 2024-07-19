@@ -86,7 +86,11 @@ function SearchBar() {
     if (e.key === 'Backspace') {
       newValue = search.substring(0, search.length - 1);
     } else if (e.key === 'Enter') {
+<<<<<<< HEAD
+      //Desactivation de la searchbar
+=======
       console.log('ok');
+>>>>>>> developement
       setIsSearchOpen(false);
       navigate('/');
     } else if (Object.values(eventKey).some(Boolean)) {

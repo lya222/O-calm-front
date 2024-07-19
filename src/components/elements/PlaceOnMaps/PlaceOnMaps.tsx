@@ -20,13 +20,16 @@ function PlaceOnMaps({ setPosition, handleClose }: PlaceOnMapsProps) {
   const [positionPlace, setPositionPlace] = useState<Iposition>();
   const [isdisable, setIsDisable] = useState(true);
   const handleposition = (e: MapMouseEvent) => {
-    console.log('ma position', e.detail.latLng);
     if (e.detail.latLng) {
       setPositionPlace(e.detail.latLng);
       setIsDisable(false);
     }
   };
+<<<<<<< HEAD
+
+=======
   
+>>>>>>> developement
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
