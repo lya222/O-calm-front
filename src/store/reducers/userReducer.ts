@@ -52,8 +52,8 @@ export const login = createAsyncThunk<User, ICredentials, AsyncThunkConfig>(
         response.data.id = payload.userFound;
         Cookies.set('token', `${response.data.token}`, { expires: 365 });
       })
-      .catch((error) => {
-        console.error('Failed to decode token:', error);
+      .catch((err) => {
+        console.error('Failed to decode token:', err);
       });
     console.log('ma reponse a login', response.data);
     return response.data;
@@ -65,19 +65,17 @@ export type LoginThunk = typeof login;
 interface DecodedToken extends JWTPayload {
   userFound: number;
 }
-
-//Fonction pour reconnecter un utilisateur grace au token
+//Reconnexion d'un utilisateur grace au token
 export const reconnect = createAsyncThunk<
   DecodedToken,
   string,
   AsyncThunkConfig
 >('user/reconnect', async (token: string) => {
   const response = await verifyAndDecodeToken(token);
-  console.log('ma reponse a la reconnection ', response);
   return response as DecodedToken;
 });
 
-//Récupere les données de l'utilisateur
+//Récupération des données d'un utilisateur
 export const takeUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/takeUser',
   async (id: number) => {
@@ -95,7 +93,7 @@ export const updateUser = createAsyncThunk<User, string, AsyncThunkConfig>(
   }
 );
 
-//Modification du mail utilisateur
+//Modification de l'email d'un utilisateur
 export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   'user/updateEmail',
   async (email: string) => {
@@ -106,7 +104,7 @@ export const updateEmail = createAsyncThunk<User, string, AsyncThunkConfig>(
   }
 );
 
-//Modification du password utilisateur
+//Modification du password d'un utilisateur
 export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   'user/updatePassword',
   async (password: User) => {
@@ -117,7 +115,7 @@ export const updatePassword = createAsyncThunk<User, User, AsyncThunkConfig>(
   }
 );
 
-//Suprime un utilisateur
+//Suppression d'un utilisateur
 export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   'user/deleteUser',
   async (idUser: number) => {
@@ -126,46 +124,39 @@ export const deleteUser = createAsyncThunk<User, number, AsyncThunkConfig>(
   }
 );
 
-//Recherche tous les favoris de l'user
+//Recherche des favoris de l'utilisateur
 export const fetchFavorite = createAsyncThunk<
   IFavorite[],
   number,
   AsyncThunkConfig
 >('user/fetchFavorite', async (idUser: number) => {
   const response = await apiClient.get(`/places/favorite/${idUser}`);
-  console.log(
-    'ma reponse pour fetchfavorite dans le redux',
-    response.data.data
-  );
+
   return response.data.data;
 });
 
-//Ajout d'un leu en favoris
+//Ajout d'un lieu en favoris
 export const addFavorite = createAsyncThunk<
   IFavorite,
   IFavoritePayload,
   AsyncThunkConfig
 >('user/addFavorite', async (data: IFavoritePayload) => {
-  console.log('data pour add favorite', data.idUser, data.idPlace);
   const response = await apiClient.post(`/places/favorite/${data.idUser}`, {
     place_id: data.idPlace,
   });
-  console.log('ma reponse pour addFavorite dans le redux', response.data);
   return response.data.data;
 });
 
-//Ajout d'un leu en favoris
+//Suppression d'un lieu des favoris
 export const deleteFavorite = createAsyncThunk<
   IFavorite,
   IFavoritePayload,
   AsyncThunkConfig
 >('user/deleteFavorite', async (data: IFavoritePayload) => {
-  console.log('data pour delete favorite', data.idUser, data.fav_id);
   const response = await apiClient.delete(
     `/places/favorite/${data.idUser}/${data.fav_id}`,
     {}
   );
-  console.log('ma reponse pour addFavorite dans le redux', response.data);
   return response.data.data;
 });
 
@@ -253,8 +244,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.loading = true;
       })
       .addCase(fetchFavorite.fulfilled, (state, action) => {
-        console.log('ma reponse pour addcase dans le redux', action.payload);
-
         state.favorite = action.payload;
         state.loading = false;
       })
@@ -266,8 +255,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.loading = true;
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
-        console.log('ma reponse pour addcase dans le redux', action.payload);
-
         state.favorite.push(action.payload);
         state.loading = false;
       })
@@ -279,8 +266,6 @@ export const userReducer: Reducer<UserState> = createReducer<UserState>(
         state.loading = true;
       })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
-        console.log('ma reponse pour addcase dans le redux', action.payload);
-
         state.favorite = state.favorite.filter(
           (fav) => fav.fav_id !== action.payload.fav_id
         );

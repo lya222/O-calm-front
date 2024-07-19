@@ -10,25 +10,15 @@ import { Box, Container, useMediaQuery } from '@mui/material';
 import { AppDispatch } from '../../../store';
 import Cookies from 'js-cookie';
 import { fetchFavorite, reconnect } from '../../../store/reducers/userReducer';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const idUser = useAppSelector((state) => state.user.id);
-  const favorite = useAppSelector((state) => state.user.favorite);
   const isLoading = useAppSelector((state) => state.places.loading);
   const isMobile = useMediaQuery('(max-width:600px)');
   const [favoritesLoaded, setFavoritesLoaded] = useState(false);
-  const auth = useAuthUser();
-  console.log('état du auth', auth);
-  console.log('islogged', isLogged);
-  console.log('isloading', isLoading);
-  console.log("l'id de l'user", idUser);
-  useEffect(() => {
-    console.log('Auth mis à jour :', auth);
-  }, [auth]);
 
   useEffect(() => {
     if (Cookies.get('token')?.length != 0) {
@@ -52,8 +42,6 @@ function Root() {
     init();
   }, [dispatch, location, isLogged, idUser, favoritesLoaded]);
 
-  console.log('mes favoris', favorite);
-
   return (
     <>
       <Box
@@ -64,7 +52,6 @@ function Root() {
           margin: 0,
           height: '100vh',
           width: '100vw',
-        
         }}
       >
         <Header />
@@ -75,8 +62,7 @@ function Root() {
             display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
-            mt: '5vh'
-
+            mt: '5vh',
           }}
         >
           {isLoading ? <Loading /> : <Outlet />}

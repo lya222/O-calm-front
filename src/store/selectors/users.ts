@@ -9,24 +9,19 @@ export const verifyAndDecodeToken = async (token: string) => {
     const secretKey = import.meta.env.VITE_API_SECRETKEYTOKEN;
     const secret = new TextEncoder().encode(secretKey);
 
-    const { payload, protectedHeader } = await jose.jwtVerify(token, secret, {
+    const { payload } = await jose.jwtVerify(token, secret, {
       algorithms: ['HS256'],
     });
 
-    console.log('Vérification réussi');
-    console.log('Protected Header:', protectedHeader);
-    console.log('Payload:', payload);
-
     return payload;
-  } catch (error) {
-    console.error('Erreur sur la verification du token:', error);
-    throw error;
+  } catch (err) {
+    console.error('Erreur sur la verification du token:', err);
+    throw err;
   }
 };
 
 //Création d'un nouvel utilisaeur
 export const createUser = async (userData: CreateUser) => {
-  console.log("mes donnes que je rentre pour l'enregistrement", userData);
   const response = await axios.post<IResponseCreateUser>(
     `${url}/register`,
     userData

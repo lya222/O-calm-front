@@ -41,6 +41,7 @@ export const dataForMap = (
   return { url, data, headers };
 };
 
+// Fonction pour generer une nouvelle route
 export const transformNewRoute = (data: IResponseGenerateRoute): string[] => {
   if (!data.routes || !Array.isArray(data.routes)) {
     throw new Error(

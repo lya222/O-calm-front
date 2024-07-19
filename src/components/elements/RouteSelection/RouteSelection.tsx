@@ -29,7 +29,7 @@ function RouteSelection({
   const { register, handleSubmit } = useForm<IGenerateRoute>();
   const [positionLoc, setPositionLoc] = useState({ lat: 0, lng: 0 });
   const [errorMessage, setErrorMessage] = useState('');
-  
+
   useEffect(() => {
     if ('geolocation' in navigator) {
       console.log('Geolocation is available');
@@ -61,8 +61,8 @@ function RouteSelection({
       } else {
         setErrorMessage("Aucune Route n'a était trouvé");
       }
-    } catch (error) {
-      console.error('Erreur lors de la génération de la route :', error);
+    } catch (err) {
+      console.error('Erreur lors de la génération de la route :', err);
       setErrorMessage("Aucune Route n'a était trouvé");
     }
   };

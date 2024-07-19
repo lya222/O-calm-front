@@ -25,7 +25,7 @@ export const initialState: PlacesState = {
   },
 };
 
-//récupère toute les lieux
+//Récupération des lieux
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
@@ -42,10 +42,6 @@ export const createPlace = createAsyncThunk<
   AsyncThunkConfig
 >('place/createPlace', async (placeData) => {
   const response = await apiClient.post<ICreatePlace>(`/places`, placeData);
-  console.log(
-    "renvoie apres l'enregistrement d'un nouveau lieu",
-    response.data
-  );
   return response.data;
 });
 
@@ -55,7 +51,7 @@ interface UploadResponse {
   original_extension: string;
 }
 
-//envoie des images vers un serveur sur cloudinary.com
+//Envoie des images sur le serveur de cloudinary.com
 export const uploadPicture = createAsyncThunk<
   UploadResponse,
   FormData,
@@ -65,20 +61,17 @@ export const uploadPicture = createAsyncThunk<
   return response.data;
 });
 
-//Pour supprimer une route
+//Suppression d'une route
 export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
   'place/deletePlace',
   async (idUser: number) => {
-    console.log('je suis dans le reducer de deletePlace');
     const response = await apiClient.delete(`/places/${idUser}`);
-    console.log('reponse du deletePlace', response.data);
     return response.data;
   }
 );
 
 export const searchPlace = createAction<string>('places/searchPlace');
 
-// Request for generate a route
 
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
