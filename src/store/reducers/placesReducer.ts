@@ -25,7 +25,7 @@ export const initialState: PlacesState = {
   },
 };
 
-//Récupération des lieux
+//récupère toute les lieux
 export const loadPlaces = createAsyncThunk<Places[], void, AsyncThunkConfig>(
   'places/loadPlaces',
   async () => {
@@ -51,7 +51,7 @@ interface UploadResponse {
   original_extension: string;
 }
 
-//Envoie des images sur le serveur de cloudinary.com
+//envoie des images vers un serveur sur cloudinary.com
 export const uploadPicture = createAsyncThunk<
   UploadResponse,
   FormData,
@@ -61,7 +61,7 @@ export const uploadPicture = createAsyncThunk<
   return response.data;
 });
 
-//Suppression d'une route
+//Pour supprimer une route
 export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
   'place/deletePlace',
   async (idUser: number) => {
@@ -71,7 +71,6 @@ export const deletePlace = createAsyncThunk<string, number, AsyncThunkConfig>(
 );
 
 export const searchPlace = createAction<string>('places/searchPlace');
-
 
 const placesReducer: Reducer<PlacesState> = createReducer<PlacesState>(
   initialState,
