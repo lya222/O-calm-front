@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ICredentials } from '../../../@types/Icredentials';
 import { useDispatch } from 'react-redux';
@@ -33,7 +28,6 @@ function Profile() {
   }, []);
 
   const deleteCount = async () => {
-    console.log('je rentre dans mon boutton suprimer compte');
     const response = await dispatch(deleteUser(userState.id));
     if (deleteUser.fulfilled.match(response)) {
       alert('Votre compte a bien était suprimer');
@@ -86,17 +80,6 @@ function Profile() {
           {...register('password', { required: true })}
           sx={{ mt: 3 }}
         />
-
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          sx={{ mt: 3, mb: 2, backgroundColor: '#2e7d32' }}
-          disabled={status === 'loading'}
-        >
-          Modifier
-        </Button>
       </Box>
       <Button
         type="submit"
