@@ -19,6 +19,7 @@ import CreatePlace from './components/elements/CreatePlace/CreatePlace.tsx';
 import Maps from './components/elements/Maps/Maps.tsx';
 import PrivateRoute from './components/rooting/PrivateRoute.tsx';
 import Home from './components/pages/Home/Home.tsx';
+import Contact from './components/pages/Contact/contact.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -42,6 +43,12 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="/maps" element={<Maps />} />
       <Route path="/login" element={<Registration />} />
+      {/* Ajout d'une page contact pour TP */} 
+      <Route path="/contact" element={<Contact />} />
+
+      <Route path="/login" element={<Registration />} />
+
+
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
         <Route path="/:slug" element={<CardDetail />} />
