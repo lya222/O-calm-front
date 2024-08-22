@@ -8,7 +8,6 @@ import { Loader } from '../../elements/Loader/Loader';
 import '../../elements/Loader/Loader.scss';
 import { useEffect, useState } from 'react';
 import ButtonFilter from './ButtonFilter/ButtonFilter';
-import Footer from '../Footer/Footer';
 
 function Home() {
   const takePlaces = useAppSelector((state) => state.places.list);

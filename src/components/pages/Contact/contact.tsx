@@ -3,6 +3,14 @@ import './style.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+interface PostData {
+  name: string;
+  email: string;
+  message: string;
+
+}
+
 function Contact () {
     //Etat 
     const [name, setName] = useState<string>('');
@@ -21,7 +29,7 @@ function Contact () {
 
      // Fonction pour poster les données
 
-     const postData = async (postData) => {
+     const postData = async (postData: PostData) => {
       const response = await axios.post(
         `${url}/contact`,
         postData
