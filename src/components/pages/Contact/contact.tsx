@@ -1,142 +1,124 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import './style.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Contact = () => {
-  // Etat
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+function Contact () {
+    //Etat 
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const url = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
 
-    event.preventDefault();
 
-    if (!name || !email || !message) {
+    // Comportement
 
-      setError('Veuillez remplir tous les champs');
+//Code fonctionnel juste les état ne change pas 
 
-      return;
+     // Fonction pour poster les données
 
+     const postData = async (postData) => {
+      const response = await axios.post(
+        `${url}/contact`,
+        postData
+      );
+      console.log(response.data, '+', response.status);
+      return response;
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!name || !email || !message) {
+
+            setError('Veuillez remplir tous les champs');
+      
+            return;
+      
     }
-    // a changer avec mon api 
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, message }),
 
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setSuccess(true);
-          setError(null);
-        } else {
-          setError(data.error);
-        }
-      })
+    const donnéesÀEnvoyer = { name, email, message };
 
-      .catch((error) => {
-        setError(error.message);
-      });
+      const response = await postData(donnéesÀEnvoyer);
+      console.log(response.status);
+
+      if (response.status>=200) {
+
+        setSuccess(true);
+
+        setError(null);
+
+        //Replace pour ne pas revenir en arrière
+
+        setTimeout(()=> {
+          navigate('/', { replace: true}); 
+        }, 2000);
+
+      } else {
+
+        setError(response.statusText);
+
+      }
+
 
   };
 
+    //Affichage 
 
-  return (
-    <div className='Container'>
+    return (
+        <div className="Container">
 
+            <div className="contact-page">
 
-    <div className="contact-page">
-    <h1>Contactez-nous</h1>
+            <h1>Contactez-nous</h1>
 
+            <form onSubmit={handleSubmit}>
 
+            <div className="form-group"> 
 
+            <label htmlFor="name" className='name'></label>
 
-      <form onSubmit={handleSubmit}>
+            <input type="text" name="name" id="name" placeholder="Votre nom" value={name} onChange={(event) => setName(event.target.value)} aria-label="Nom requis" required/>
+           
+           </div>
 
-        <div className="form-group">
+            <div className="form-group"> 
 
-          <label htmlFor="name" className='name'></label>
+            <label htmlFor="email" className='email'></label>
 
-          <input
+            <input type="email" name="email" id="email" placeholder="Votre email" value={email} onChange={(event) => setEmail(event.target.value)} aria-label="Email requis" required />
 
-            type="text"
+            </div>
 
-            id="name"
+            <div className="form-group"> 
 
-            placeholder="Votre nom"
+            <label htmlFor="message" className='message'></label>
 
-            value={name}
-
-            onChange={(event) => setName(event.target.value)}
-
-            required
-
-          />
-
-        </div>
-
-        <div className="form-group">
-
-          <label htmlFor="email" className='email'></label>
-
-          <input
-
-            type="email"
-
-            id="email"
+            <textarea id="message" placeholder="Votre message" value={message} onChange={(event) => setMessage(event.target.value)} aria-label="Message requis" required/>
             
-            placeholder="Votre email"
+            </div>
 
-            value={email}
+            {error && <p className="error">{error}</p>}
 
-            onChange={(event) => setEmail(event.target.value)}
+            {success && <div><p className="success"> Merci de nous avoir contacté !</p></div>}
 
-            required
+            <button type="submit">
 
-          />
+            <img width="100" height="100" src="https://img.icons8.com/bubbles/100/button2.png" alt="button2"/> 
+ 
 
-        </div>
+            </button>
 
-        <div className="form-group">
+            </form>
 
-          <label htmlFor="message" className='message'></label>
-
-          <textarea
-
-            id="message"
-
-            placeholder="Votre message"
-
-            value={message}
-
-            onChange={(event) => setMessage(event.target.value)}
-
-            required
-
-          />
+            </div>
+            
 
         </div>
-
-        {error && <p className="error">{error}</p>}
-
-        {success && <p className="success">Merci de nous avoir contacté !</p>}
-
-        <button type="submit">Envoyer</button>
-
-      </form>
-
-    </div>
-    </div>
-
-  );
-
+    )
 };
-
-
 
 export default Contact;

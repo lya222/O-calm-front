@@ -8,6 +8,7 @@ import { Loader } from '../../elements/Loader/Loader';
 import '../../elements/Loader/Loader.scss';
 import { useEffect, useState } from 'react';
 import ButtonFilter from './ButtonFilter/ButtonFilter';
+import Footer from '../Footer/Footer';
 
 function Home() {
   const takePlaces = useAppSelector((state) => state.places.list);
@@ -43,7 +44,7 @@ function Home() {
   if (loading) {
     return <Loader />;
   }
-
+// 22 aout changement text align suppression center, et ajout display valeur flex, et suppression des deux ligne typo pour utiliser br a la place
   return (
     <Box>
       {isLogged ? (
@@ -51,21 +52,19 @@ function Home() {
       ) : (
         <>
           <Typography
-            variant="h6"
-            gutterBottom
-            sx={{ fontFamily: 'Bion', textAlign: 'center' }}
-          >
-            Bienvenue sur le site O'calm.
-          </Typography>
-          <Typography gutterBottom sx={{ fontFamily: 'Bion' }}>
-            {' '}
-            Ici, vous pourrez trouver des lieux reposants à côté de chez vous.
-          </Typography>
-          <Typography gutterBottom sx={{ fontFamily: 'Bion' }}>
-            {' '}
-            Partagez vos endroits et découvrez les sites proposés par la
-            communauté en vous connectant.
-          </Typography>
+  variant="h6"
+  gutterBottom
+  sx={{
+    fontFamily: 'Bion',
+    textAlign: '',
+  }}
+>
+  Bienvenue sur le site O'calm.<br />
+  Ici, vous pourrez trouver des lieux reposants à côté de chez vous.<br />
+  Partagez vos endroits et découvrez les sites proposés par la
+  communauté en vous connectant.
+</Typography>
+         
         </>
       )}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>

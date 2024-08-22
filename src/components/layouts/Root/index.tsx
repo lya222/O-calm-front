@@ -10,6 +10,8 @@ import { Box, Container, useMediaQuery } from '@mui/material';
 import { AppDispatch } from '../../../store';
 import Cookies from 'js-cookie';
 import { fetchFavorite, reconnect } from '../../../store/reducers/userReducer';
+//Importation du footer 
+import Footer from '../../pages/Footer/Footer';
 
 function Root() {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,7 +35,7 @@ function Root() {
   useEffect(() => {
     const init = async () => {
       await dispatch(loadPlaces());
-      if (isLogged && !favoritesLoaded) {
+      if (isLogged && !favoritesLoaded) { 
         // Charger les favoris uniquement si non chargés
         await dispatch(fetchFavorite(idUser));
         setFavoritesLoaded(true); // Marquer les favoris comme chargés
@@ -50,12 +52,11 @@ function Root() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           margin: 0,
-          height: '100vh',
+          heigh: '100vh',
           width: '100vw',
         }}
       >
         <Header />
-
         <Container
           sx={{
             overflowY: 'auto',
@@ -68,7 +69,10 @@ function Root() {
           {isLoading ? <Loading /> : <Outlet />}
         </Container>
         {isMobile && <NavBar />}
+        
       </Box>
+      <Footer/>
+
     </>
   );
 }

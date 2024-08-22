@@ -20,6 +20,9 @@ export const verifyAndDecodeToken = async (token: string) => {
   }
 };
 
+
+
+
 //Création d'un nouvel utilisaeur
 export const createUser = async (userData: CreateUser) => {
   const response = await axios.post<IResponseCreateUser>(
