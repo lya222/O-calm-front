@@ -78,6 +78,13 @@ function SearchBar() {
       Alt: e.key === 'Alt',
       Meta: e.key === 'Meta',
       Maj: e.key === 'CapsLock',
+      Process: e.key === 'Dead',
+      Enter: e.key === 'Enter',
+      Escape: e.key === 'Escape',
+      ArrowUp: e.key === 'ArrowUp',
+      ArrowDown: e.key === 'ArrowDown',
+      ArrowLeft: e.key === 'ArrowLeft',
+      ArrowRight: e.key === 'ArrowRight'
     };
 
     let newValue = search;

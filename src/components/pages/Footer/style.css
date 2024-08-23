@@ -1,6 +1,6 @@
 /* ne plus toucher mais penser a faire responsive */
 footer {
-    margin-top: 34vh;
+    margin-top: 41vh;
     position: relative;
     width: 100%;
     height: 50px; /* ajustez la hauteur à votre convenance */
@@ -8,3 +8,15 @@ footer {
     color: #fff;
     text-align: center;
   }
+
+
+
+  @media screen and (min-width: 320px) and (max-width: 720px) {
+    footer {
+      position: relative;
+      
+      
+    }
+}
+
+    
