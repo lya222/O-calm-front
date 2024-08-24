@@ -69,9 +69,10 @@ function Root() {
           {isLoading ? <Loading /> : <Outlet />}
         </Container>
         {isMobile && <NavBar />}
-        <Footer/>
 
       </Box>
+      <Footer/>
+
 
     </>
   );
