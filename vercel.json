@@ -1,17 +1,3 @@
-// {
-//   "headers": [
-//     {
-//       "source": "/(.*)",
-//       "headers": [
-//         {
-//           "key": "Access-Control-Allow-Origin",
-//           "value": "http://157.245.209.200:4000"
-//         }
-//       ]
-//     }
-//   ]
-// }
-
 {
   "version": 2,
   "builds": [
