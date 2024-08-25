@@ -1,13 +1,32 @@
+// {
+//   "headers": [
+//     {
+//       "source": "/(.*)",
+//       "headers": [
+//         {
+//           "key": "Access-Control-Allow-Origin",
+//           "value": "http://157.245.209.200:4000"
+//         }
+//       ]
+//     }
+//   ]
+// }
+
 {
-  "headers": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "http://157.245.209.200:4000"
-        }
-      ]
+      "src": "src/main.tsx",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "http://157.245.209.200:4000"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
