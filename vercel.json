@@ -16,8 +16,14 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Accept, Accept-Language, Accept-Encoding"
-        }
+        },
+        {
+
+        "key": "Content-Security-Policy",
+        "value": "connect-src 'self' http://157.245.209.200:4000"
+      }
       ]
     }
   ]
 }
+
