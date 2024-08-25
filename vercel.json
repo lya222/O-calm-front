@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "builds": [{ "src": "./main.tsx", "use": "@vercel/vite" }],
+  "routes": [{ "src": "/(.*)", "dest": "/" }]
+}
