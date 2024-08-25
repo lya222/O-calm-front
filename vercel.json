@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/*",
-      "destination": "http://157.245.209.200:4000"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
