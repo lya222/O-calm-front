@@ -1,5 +1,20 @@
 {
   "version": 2,
-  "builds": [{ "src": "./main.tsx", "use": "@vercel/vite" }],
-  "routes": [{ "src": "/(.*)", "dest": "/" }]
+  "rewrites": [
+    {
+      "source": "/api/*",
+      "destination": "http://157.245.209.200:4000"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "http://157.245.209.200:4000"
+        }
+      ]
+    }
+  ]
 }
