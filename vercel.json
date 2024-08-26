@@ -1,1 +1,8 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "http://157.245.209.200:4000" }] }
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "http://157.245.209.200:4000"
+    }
+  ]
+}
