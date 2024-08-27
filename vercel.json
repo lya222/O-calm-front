@@ -8,7 +8,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "http://157.245.209.200:4000"
+          "value": "https://www.o-calm.eu"
         }
       ]
     }
