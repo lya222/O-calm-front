@@ -1,8 +1,16 @@
+
+
+
 {
-  "redirects": [
+  "headers": [
     {
       "source": "/(.*)",
-      "destination": "http://157.245.209.200:4000"
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "http://157.245.209.200:4000"
+        }
+      ]
     }
   ]
 }
