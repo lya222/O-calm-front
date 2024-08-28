@@ -78,7 +78,7 @@ function SearchBar() {
       Alt: e.key === 'Alt',
       Meta: e.key === 'Meta',
       Maj: e.key === 'CapsLock',
-      Process: e.key === 'Dead',
+      Process: e.key === 'à',
       Enter: e.key === 'Enter',
       Escape: e.key === 'Escape',
       ArrowUp: e.key === 'ArrowUp',

@@ -25,8 +25,6 @@ function Contact () {
 
     // Comportement
 
-//Code fonctionnel juste les état ne change pas 
-
      // Fonction pour poster les données
 
      const postData = async (postData: PostData) => {
